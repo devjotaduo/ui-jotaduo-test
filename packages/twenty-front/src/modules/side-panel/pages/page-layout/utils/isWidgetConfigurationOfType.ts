@@ -6,6 +6,11 @@ import {
   type CallRecordingSummaryConfiguration,
   type CallRecordingTranscriptConfiguration,
   type ChatConfiguration,
+  type WhatsappConnectionConfiguration,
+  type WhatsappConversationConfiguration,
+  type PixChargeConfiguration,
+  type WhatsappChatsConfiguration,
+  type ObjectListConfiguration,
   type ChatThreadsConfiguration,
   type EmailThreadConfiguration,
   type EmailsConfiguration,
@@ -77,6 +82,33 @@ type WidgetConfigurationTypenameMap = {
   };
   ChatConfiguration: Omit<ChatConfiguration, 'configurationType'> & {
     configurationType: WidgetConfigurationType.CHAT;
+  };
+  WhatsappConnectionConfiguration: Omit<
+    WhatsappConnectionConfiguration,
+    'configurationType'
+  > & {
+    configurationType: WidgetConfigurationType.WHATSAPP_CONNECTION;
+  };
+  WhatsappConversationConfiguration: Omit<
+    WhatsappConversationConfiguration,
+    'configurationType'
+  > & {
+    configurationType: WidgetConfigurationType.WHATSAPP_CONVERSATION;
+  };
+  PixChargeConfiguration: Omit<PixChargeConfiguration, 'configurationType'> & {
+    configurationType: WidgetConfigurationType.PIX_CHARGE;
+  };
+  WhatsappChatsConfiguration: Omit<
+    WhatsappChatsConfiguration,
+    'configurationType'
+  > & {
+    configurationType: WidgetConfigurationType.WHATSAPP_CHATS;
+  };
+  ObjectListConfiguration: Omit<
+    ObjectListConfiguration,
+    'configurationType'
+  > & {
+    configurationType: WidgetConfigurationType.OBJECT_LIST;
   };
   MessageCampaignBodyConfiguration: Omit<
     MessageCampaignBodyConfiguration,

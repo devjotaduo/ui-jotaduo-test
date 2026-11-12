@@ -433,6 +433,11 @@ export const fromPageLayoutWidgetConfigurationToUniversalConfiguration = ({
     case WidgetConfigurationType.CALL_RECORDING_TRANSCRIPT:
     case WidgetConfigurationType.CHAT_THREADS:
     case WidgetConfigurationType.CHAT:
+    case WidgetConfigurationType.WHATSAPP_CONNECTION:
+    case WidgetConfigurationType.WHATSAPP_CONVERSATION:
+    case WidgetConfigurationType.PIX_CHARGE:
+    case WidgetConfigurationType.WHATSAPP_CHATS:
+    case WidgetConfigurationType.OBJECT_LIST:
     case WidgetConfigurationType.MESSAGE_CAMPAIGN_BODY:
     case WidgetConfigurationType.MESSAGE_CAMPAIGN_DETAILS:
       return configuration;

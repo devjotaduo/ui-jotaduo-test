@@ -35,6 +35,9 @@ import { SidePanelPages } from 'twenty-shared/types';
 import { isDefined } from 'twenty-shared/utils';
 import {
   IconApps,
+  IconBrandWhatsapp,
+  IconTable,
+  IconCreditCard,
   IconListDetails,
   IconListSearch,
   IconNotes,
@@ -295,8 +298,12 @@ export const SidePanelPageLayoutRecordPageWidgetTypeSelect = () => {
     insertCreatedWidgetAtContext({ newWidgetId: newWidget.id });
   };
 
-  const handleCreateFrontComponentWidget = useCallback(
-    (frontComponent: FrontComponent) => {
+  const insertSimpleRecordPageWidget = useCallback(
+    ({
+      title,
+      type,
+      configuration,
+    }: Pick<PageLayoutWidget, 'title' | 'type' | 'configuration'>) => {
       const replacePositionIndex = getExistingWidgetPositionIndex();
       removeExistingWidgetIfReplacing();
 
@@ -314,13 +321,9 @@ export const SidePanelPageLayoutRecordPageWidgetTypeSelect = () => {
         isSystemSideEffect: false,
         isActive: true,
         pageLayoutTabId: tabId,
-        title: frontComponent.name,
-        type: WidgetType.FRONT_COMPONENT,
-        configuration: {
-          __typename: 'FrontComponentConfiguration',
-          configurationType: WidgetConfigurationType.FRONT_COMPONENT,
-          frontComponentId: frontComponent.id,
-        },
+        title,
+        type,
+        configuration,
         position: {
           __typename: 'PageLayoutWidgetVerticalListPosition',
           layoutMode: PageLayoutTabLayoutMode.VERTICAL_LIST,
@@ -354,10 +357,76 @@ export const SidePanelPageLayoutRecordPageWidgetTypeSelect = () => {
     ],
   );
 
+  const handleCreateFrontComponentWidget = (frontComponent: FrontComponent) =>
+    insertSimpleRecordPageWidget({
+      title: frontComponent.name,
+      type: WidgetType.FRONT_COMPONENT,
+      configuration: {
+        __typename: 'FrontComponentConfiguration',
+        configurationType: WidgetConfigurationType.FRONT_COMPONENT,
+        frontComponentId: frontComponent.id,
+      },
+    });
+
+  const handleCreateObjectListWidget = () =>
+    insertSimpleRecordPageWidget({
+      title: t`Records`,
+      type: WidgetType.OBJECT_LIST,
+      configuration: {
+        __typename: 'ObjectListConfiguration',
+        configurationType: WidgetConfigurationType.OBJECT_LIST,
+      },
+    });
+
+  const handleCreateWhatsappChatsWidget = () =>
+    insertSimpleRecordPageWidget({
+      title: t`WhatsApp chats`,
+      type: WidgetType.WHATSAPP_CHATS,
+      configuration: {
+        __typename: 'WhatsappChatsConfiguration',
+        configurationType: WidgetConfigurationType.WHATSAPP_CHATS,
+      },
+    });
+
+  const handleCreatePixChargeWidget = () =>
+    insertSimpleRecordPageWidget({
+      title: t`Pix charge`,
+      type: WidgetType.PIX_CHARGE,
+      configuration: {
+        __typename: 'PixChargeConfiguration',
+        configurationType: WidgetConfigurationType.PIX_CHARGE,
+      },
+    });
+
+  const handleCreateWhatsappConversationWidget = () =>
+    insertSimpleRecordPageWidget({
+      title: t`WhatsApp conversation`,
+      type: WidgetType.WHATSAPP_CONVERSATION,
+      configuration: {
+        __typename: 'WhatsappConversationConfiguration',
+        configurationType: WidgetConfigurationType.WHATSAPP_CONVERSATION,
+      },
+    });
+
+  const handleCreateWhatsappConnectionWidget = () =>
+    insertSimpleRecordPageWidget({
+      title: t`WhatsApp connection`,
+      type: WidgetType.WHATSAPP_CONNECTION,
+      configuration: {
+        __typename: 'WhatsappConnectionConfiguration',
+        configurationType: WidgetConfigurationType.WHATSAPP_CONNECTION,
+      },
+    });
+
   const selectableItemIds = [
     'fields',
     'field',
     'note',
+    'whatsapp-connection',
+    'whatsapp-conversation',
+    'pix-charge',
+    'whatsapp-chats',
+    'object-list',
     ...frontComponentsWithSelectItemId.map(({ selectItemId }) => selectItemId),
   ];
 
@@ -387,6 +456,66 @@ export const SidePanelPageLayoutRecordPageWidgetTypeSelect = () => {
             description={t`Static text shared across all record pages`}
             id="note"
             onClick={handleCreateNoteWidget}
+          />
+        </SelectableListItem>
+        <SelectableListItem
+          itemId="whatsapp-connection"
+          onEnter={handleCreateWhatsappConnectionWidget}
+        >
+          <CommandMenuItem
+            Icon={IconBrandWhatsapp}
+            label={t`WhatsApp connection`}
+            description={t`QR code or pairing code to link a number`}
+            id="whatsapp-connection"
+            onClick={handleCreateWhatsappConnectionWidget}
+          />
+        </SelectableListItem>
+        <SelectableListItem
+          itemId="whatsapp-conversation"
+          onEnter={handleCreateWhatsappConversationWidget}
+        >
+          <CommandMenuItem
+            Icon={IconBrandWhatsapp}
+            label={t`WhatsApp conversation`}
+            description={t`Messages with this record's phone number`}
+            id="whatsapp-conversation"
+            onClick={handleCreateWhatsappConversationWidget}
+          />
+        </SelectableListItem>
+        <SelectableListItem
+          itemId="pix-charge"
+          onEnter={handleCreatePixChargeWidget}
+        >
+          <CommandMenuItem
+            Icon={IconCreditCard}
+            label={t`Pix charge`}
+            description={t`Pix QR code for this record's amount`}
+            id="pix-charge"
+            onClick={handleCreatePixChargeWidget}
+          />
+        </SelectableListItem>
+        <SelectableListItem
+          itemId="whatsapp-chats"
+          onEnter={handleCreateWhatsappChatsWidget}
+        >
+          <CommandMenuItem
+            Icon={IconBrandWhatsapp}
+            label={t`WhatsApp chats`}
+            description={t`Latest conversations of the linked number`}
+            id="whatsapp-chats"
+            onClick={handleCreateWhatsappChatsWidget}
+          />
+        </SelectableListItem>
+        <SelectableListItem
+          itemId="object-list"
+          onEnter={handleCreateObjectListWidget}
+        >
+          <CommandMenuItem
+            Icon={IconTable}
+            label={t`Records list`}
+            description={t`Records of any object as a list or a table`}
+            id="object-list"
+            onClick={handleCreateObjectListWidget}
           />
         </SelectableListItem>
       </SidePanelGroup>

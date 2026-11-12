@@ -4,6 +4,7 @@ import { RouteContextStoreProviderEffect } from '@/context-store/components/Rout
 import { metadataStoreState } from '@/metadata-store/states/metadataStoreState';
 import { useIsSettingsPage } from '@/navigation/hooks/useIsSettingsPage';
 import { useLastVisitedView } from '@/navigation/hooks/useLastVisitedView';
+import { matchRecordShowPagePathname } from '@/object-record/record-show/utils/matchRecordShowPagePathname';
 import { objectMetadataItemsSelector } from '@/object-metadata/states/objectMetadataItemsSelector';
 import { useAtomFamilyStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomFamilyStateValue';
 import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
@@ -67,10 +68,14 @@ export const RouteContextStoreProvider = () => {
   const isAiChatPage =
     isMatchingLocation(location, AppPath.AiChat) ||
     isMatchingLocation(location, AppPath.AiChatInbox);
+  const recordShowPagePathMatch = matchRecordShowPagePathname(
+    location.pathname,
+  );
+  const isStandaloneRecordPage = recordShowPagePathMatch?.isStandalone ?? false;
   const isRecordShowPage =
     isCoreWorkflowShowPage ||
     isAiChatPage ||
-    isMatchingLocation(location, AppPath.RecordShowPage);
+    isDefined(recordShowPagePathMatch);
   const isStandalonePage = isMatchingLocation(location, AppPath.PageLayoutPage);
   const isCoreAgentPage =
     isMatchingLocation(location, AppPath.AgentIndexPage) ||
@@ -156,6 +161,7 @@ export const RouteContextStoreProvider = () => {
           objectMetadataItem={objectMetadataItem}
           isRecordIndexPage={isRecordIndexPage}
           isRecordShowPage={isRecordShowPage}
+          isStandaloneRecordPage={isStandaloneRecordPage}
           isStandalonePage={isStandalonePage}
           isSettingsPage={isSettingsPage}
         />

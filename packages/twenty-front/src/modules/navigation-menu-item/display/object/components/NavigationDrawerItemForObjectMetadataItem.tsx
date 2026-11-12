@@ -2,6 +2,7 @@ import { isNonEmptyString } from '@sniptt/guards';
 import { Fragment, type ReactNode } from 'react';
 
 import { isLayoutCustomizationModeEnabledState } from '@/layout-customization/states/isLayoutCustomizationModeEnabledState';
+import { getNavigationMenuItemBehavior } from '@/navigation-menu-item/common/utils/getNavigationMenuItemBehavior';
 import { lastClickedNavigationMenuItemIdState } from '@/navigation-menu-item/common/states/lastClickedNavigationMenuItemIdState';
 import { recordIdentifierToObjectRecordIdentifier } from '@/navigation-menu-item/common/utils/recordIdentifierToObjectRecordIdentifier';
 import { useIdentifyActiveNavigationMenuItems } from '@/navigation-menu-item/display/hooks/useIdentifyActiveNavigationMenuItems';
@@ -166,7 +167,9 @@ export const NavigationDrawerItemForObjectMetadataItem = ({
 
   const secondaryLabel = isViewWithResolvedView
     ? objectMetadataItem.labelPlural
-    : isRecord
+    : isRecord &&
+        (isLayoutCustomizationModeEnabled ||
+          getNavigationMenuItemBehavior(navigationMenuItem!).showsObjectLabel)
       ? objectMetadataItem.labelSingular
       : undefined;
 

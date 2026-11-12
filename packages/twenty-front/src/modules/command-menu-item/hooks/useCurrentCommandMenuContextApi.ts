@@ -7,6 +7,7 @@ import { EMPTY_COMMAND_MENU_CONTEXT_API } from '@/command-menu-item/constants/Em
 import { commandMenuTargetObjectPermissionsSelector } from '@/command-menu-item/states/commandMenuTargetObjectPermissionsSelector';
 import { getCommandMenuContextApiObjectPermissions } from '@/command-menu-item/utils/getCommandMenuContextApiObjectPermissions';
 import { contextStoreCurrentCoreObjectNameComponentState } from '@/context-store/states/contextStoreCurrentCoreObjectNameComponentState';
+import { contextStoreIsStandaloneRecordPageComponentState } from '@/context-store/states/contextStoreIsStandaloneRecordPageComponentState';
 import { contextStoreCurrentObjectMetadataItemIdComponentState } from '@/context-store/states/contextStoreCurrentObjectMetadataItemIdComponentState';
 import { MAIN_CONTEXT_STORE_INSTANCE_ID } from '@/context-store/constants/MainContextStoreInstanceId';
 import { useContextStoreInstanceId } from '@/context-store/hooks/useContextStoreInstanceId';
@@ -53,6 +54,10 @@ export const useCurrentCommandMenuContextApi = (): CommandMenuContextApi => {
 
   const contextStoreCurrentObjectMetadataItemId = useAtomComponentStateValue(
     contextStoreCurrentObjectMetadataItemIdComponentState,
+  );
+
+  const contextStoreIsStandaloneRecordPage = useAtomComponentStateValue(
+    contextStoreIsStandaloneRecordPageComponentState,
   );
 
   const contextStoreCurrentCoreObjectName = useAtomComponentStateValue(
@@ -226,6 +231,7 @@ export const useCurrentCommandMenuContextApi = (): CommandMenuContextApi => {
   return {
     pageType,
     isInSidePanel,
+    isStandaloneRecordPage: contextStoreIsStandaloneRecordPage,
     isDashboardPageLayoutInEditMode: isDashboardInEditMode,
     isLayoutCustomizationModeEnabled,
     favoriteRecordIds,

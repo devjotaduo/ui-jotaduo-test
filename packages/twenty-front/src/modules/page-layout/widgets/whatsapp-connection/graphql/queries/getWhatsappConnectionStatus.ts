@@ -1,0 +1,14 @@
+import { gql } from '@apollo/client';
+
+export const GET_WHATSAPP_CONNECTION_STATUS = gql`
+  query GetWhatsappConnectionStatus {
+    whatsappConnectionStatus {
+      isConfigured
+      isConnected
+      devices {
+        name
+        jid
+      }
+    }
+  }
+`;

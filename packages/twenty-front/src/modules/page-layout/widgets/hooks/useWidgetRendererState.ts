@@ -9,6 +9,7 @@ import { pageLayoutResizingWidgetIdComponentState } from '@/page-layout/states/p
 import { type PageLayoutWidget } from '@/page-layout/types/PageLayoutWidget';
 import { useWidgetPermissions } from '@/page-layout/widgets/hooks/useWidgetPermissions';
 import { widgetCardHoveredComponentFamilyState } from '@/page-layout/widgets/states/widgetCardHoveredComponentFamilyState';
+import { isFieldWidgetWithOwnTitle } from '@/page-layout/widgets/field/utils/isFieldWidgetWithOwnTitle';
 import { getWidgetCardVariant } from '@/page-layout/widgets/utils/getWidgetCardVariant';
 import { getWidgetHeaderActionDefinition } from '@/page-layout/widgets/utils/getWidgetHeaderActionDefinition';
 import { useOpenWidgetSettingsInSidePanel } from '@/side-panel/hooks/useOpenWidgetSettingsInSidePanel';
@@ -56,7 +57,8 @@ export const useWidgetRendererState = (widget: PageLayoutWidget) => {
     widget.type === WidgetType.WORKFLOW ||
     widget.type === WidgetType.WORKFLOW_VERSION ||
     widget.type === WidgetType.WORKFLOW_RUN ||
-    widget.type === WidgetType.CHAT;
+    widget.type === WidgetType.CHAT ||
+    isFieldWidgetWithOwnTitle(widget);
   const hideHeaderInViewMode =
     isHeaderHiddenInViewMode && !isPageLayoutInEditMode;
 

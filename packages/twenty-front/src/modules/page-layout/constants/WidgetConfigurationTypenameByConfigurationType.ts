@@ -38,6 +38,13 @@ export const WIDGET_CONFIGURATION_TYPENAME_BY_CONFIGURATION_TYPE = {
   [WidgetConfigurationType.WORKFLOW]: 'WorkflowConfiguration',
   [WidgetConfigurationType.WORKFLOW_RUN]: 'WorkflowRunConfiguration',
   [WidgetConfigurationType.WORKFLOW_VERSION]: 'WorkflowVersionConfiguration',
+  [WidgetConfigurationType.WHATSAPP_CONNECTION]:
+    'WhatsappConnectionConfiguration',
+  [WidgetConfigurationType.WHATSAPP_CONVERSATION]:
+    'WhatsappConversationConfiguration',
+  [WidgetConfigurationType.PIX_CHARGE]: 'PixChargeConfiguration',
+  [WidgetConfigurationType.WHATSAPP_CHATS]: 'WhatsappChatsConfiguration',
+  [WidgetConfigurationType.OBJECT_LIST]: 'ObjectListConfiguration',
 } as const satisfies Record<
   WidgetConfigurationType,
   NonNullable<WidgetConfiguration['__typename']>

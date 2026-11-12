@@ -250,6 +250,12 @@ export type {
   WorkflowRunConfiguration,
   ChatThreadsConfiguration,
   ChatConfiguration,
+  WhatsappConnectionConfiguration,
+  WhatsappConversationConfiguration,
+  PixChargeConfiguration,
+  WhatsappChatsConfiguration,
+  ObjectListDisplayMode,
+  ObjectListConfiguration,
   PageLayoutWidgetConfiguration,
 } from './page-layout/PageLayoutWidgetConfiguration';
 export type {

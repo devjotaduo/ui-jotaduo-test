@@ -2,6 +2,7 @@ import { MAIN_CONTEXT_STORE_INSTANCE_ID } from '@/context-store/constants/MainCo
 import { contextStoreCurrentObjectMetadataItemIdComponentState } from '@/context-store/states/contextStoreCurrentObjectMetadataItemIdComponentState';
 import { contextStoreCurrentPageTypeComponentState } from '@/context-store/states/contextStoreCurrentPageTypeComponentState';
 import { contextStoreCurrentViewIdComponentState } from '@/context-store/states/contextStoreCurrentViewIdComponentState';
+import { contextStoreIsStandaloneRecordPageComponentState } from '@/context-store/states/contextStoreIsStandaloneRecordPageComponentState';
 import { contextStoreCurrentViewTypeComponentState } from '@/context-store/states/contextStoreCurrentViewTypeComponentState';
 import { useContextStoreInstanceId } from '@/context-store/hooks/useContextStoreInstanceId';
 import { getPageType } from '@/context-store/utils/getPageType';
@@ -18,6 +19,7 @@ type RouteContextStoreProviderEffectProps = {
   objectMetadataItem?: EnrichedObjectMetadataItem;
   isRecordIndexPage: boolean;
   isRecordShowPage: boolean;
+  isStandaloneRecordPage: boolean;
   isStandalonePage: boolean;
   isSettingsPage: boolean;
 };
@@ -27,6 +29,7 @@ export const RouteContextStoreProviderEffect = ({
   objectMetadataItem,
   isRecordIndexPage,
   isRecordShowPage,
+  isStandaloneRecordPage,
   isStandalonePage,
   isSettingsPage,
 }: RouteContextStoreProviderEffectProps) => {
@@ -51,6 +54,11 @@ export const RouteContextStoreProviderEffect = ({
   ] = useAtomComponentState(
     contextStoreCurrentObjectMetadataItemIdComponentState,
   );
+
+  const [
+    contextStoreIsStandaloneRecordPage,
+    setContextStoreIsStandaloneRecordPage,
+  ] = useAtomComponentState(contextStoreIsStandaloneRecordPageComponentState);
 
   const view = useAtomFamilySelectorValue(viewFromViewIdFamilySelector, {
     viewId: viewId ?? '',
@@ -133,6 +141,16 @@ export const RouteContextStoreProviderEffect = ({
     isRecordShowPage,
     isRecordIndexPage,
     isStandalonePage,
+  ]);
+
+  useEffect(() => {
+    if (contextStoreIsStandaloneRecordPage !== isStandaloneRecordPage) {
+      setContextStoreIsStandaloneRecordPage(isStandaloneRecordPage);
+    }
+  }, [
+    contextStoreIsStandaloneRecordPage,
+    isStandaloneRecordPage,
+    setContextStoreIsStandaloneRecordPage,
   ]);
 
   return null;

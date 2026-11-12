@@ -2514,7 +2514,12 @@ enum FieldDisplayMode {
   CARD
   EDITOR
   FIELD
+  LINK
+  OPTIONS
+  ROW
+  STEPPER
   TABLE
+  TILES
   VIEW
 }
 
@@ -3592,6 +3597,7 @@ type Mutation {
   destroyViewSort(input: DestroyViewSortInput!): Boolean!
   detachRecordFromInboxThread(input: InboxThreadRecordInput!): Boolean!
   disconnectConnectedAccount(id: UUID!): ConnectedAccountPublicDTO!
+  disconnectWhatsapp(deviceId: String): Boolean!
   duplicateDashboard(id: UUID!): DuplicatedDashboard!
   duplicateMessageList(id: UUID!): DuplicatedMessageList!
   editSSOIdentityProvider(input: EditSsoInput!): EditSso!
@@ -3608,6 +3614,8 @@ type Mutation {
   generateTransientToken: TransientToken!
   generateTwoFactorAuthenticationBackupCodes(otp: String): TwoFactorAuthenticationBackupCodes!
   generateTwoFactorAuthenticationRecoveryCode(otp: String, userId: UUID!): TwoFactorAuthenticationRecoveryCode!
+  generateWhatsappLoginQrCode(deviceId: String): WhatsappLoginQrCode!
+  generateWhatsappPairingCode(deviceId: String, phoneNumber: String!): WhatsappPairingCode!
   getAuthTokensFromLoginToken(loginToken: String!, origin: String!): AuthTokens!
   getAuthTokensFromOTP(captchaToken: String, loginToken: String!, origin: String!, otp: String!): AuthTokens!
   getAuthTokensFromSSOExchangeToken(ssoExchangeToken: String!): AuthTokens!
@@ -3662,6 +3670,7 @@ type Mutation {
   sendInvitations(emails: [String!]!, roleId: UUID): SendInvitations!
   sendMessageCampaign(input: SendMessageCampaignInput!): SendMessageCampaignOutputDTO!
   sendMessageCampaignTest(input: SendMessageCampaignTestInput!): SendEmailViaDomainOutput!
+  sendWhatsappMessage(message: String!, phoneNumber: String!): Boolean!
   setAppKeyValue(input: SetAppKeyValueInput!): AppKeyValue!
   setBillingPartnerCode(partnerCode: String!): BillingPartnerCode!
   setEnterpriseKey(enterpriseKey: String!): EnterpriseLicenseInfoDTO!
@@ -3905,6 +3914,13 @@ type ObjectIndexMetadatasConnection {
 
   """Paging information"""
   pageInfo: PageInfo!
+}
+
+type ObjectListConfiguration {
+  configurationType: WidgetConfigurationType!
+  displayMode: String
+  fieldMetadataIds: [String!]
+  objectMetadataId: String
 }
 
 type ObjectMetadataCommandMenuItemPayload {
@@ -4218,6 +4234,16 @@ type PieChartDataItem {
   value: Float!
 }
 
+type PixCharge {
+  brCode: String
+  isConfigured: Boolean!
+  merchantName: String
+}
+
+type PixChargeConfiguration {
+  configurationType: WidgetConfigurationType!
+}
+
 type PlaceDetailsResult {
   city: String
   country: String
@@ -4452,6 +4478,7 @@ type Query {
     paging: CursorPaging! = {first: 10}
   ): ObjectConnection!
   pieChartData(input: PieChartDataInput!): PieChartData!
+  pixCharge(amount: Float!, description: String, txid: String): PixCharge!
   previewMessageCampaignAudience(input: PreviewMessageCampaignAudienceInput!): CampaignAudiencePreviewDTO!
   previewMessageCampaignSend(input: PreviewMessageCampaignSendInput!): PreviewMessageCampaignSendOutputDTO!
   publicMarketplaceAppDetail(universalIdentifier: String!): MarketplaceAppDetail!
@@ -4474,6 +4501,9 @@ type Query {
   validationRulesReadingField(fieldMetadataId: UUID!): [ValidationRule!]!
   webhook(id: UUID!): Webhook
   webhooks: [Webhook!]!
+  whatsappChats(limit: Int): [WhatsappChat!]!
+  whatsappConnectionStatus(deviceId: String): WhatsappConnectionStatus!
+  whatsappMessages(limit: Int, phoneNumber: String!): [WhatsappMessage!]!
 }
 
 type RatioAggregateConfig {
@@ -6461,7 +6491,58 @@ type Webhook {
   updatedAt: DateTime!
 }
 
-union WidgetConfiguration = AggregateChartConfiguration | BarChartConfiguration | CalendarConfiguration | CallRecordingSummaryConfiguration | CallRecordingTranscriptConfiguration | ChatConfiguration | ChatThreadsConfiguration | EmailThreadConfiguration | EmailsConfiguration | FieldConfiguration | FieldRichTextConfiguration | FieldsConfiguration | FilesConfiguration | FormFieldConfiguration | FrontComponentConfiguration | IframeConfiguration | LineChartConfiguration | MessageCampaignBodyConfiguration | MessageCampaignDetailsConfiguration | NotesConfiguration | PieChartConfiguration | RecordTableConfiguration | StandaloneRichTextConfiguration | TasksConfiguration | TimelineConfiguration | ViewConfiguration | WorkflowConfiguration | WorkflowRunConfiguration | WorkflowVersionConfiguration
+type WhatsappChat {
+  jid: String!
+  lastMessageAt: String
+  lastMessageContent: String
+  lastMessageIsFromMe: Boolean!
+  lastMessageMediaType: String
+  name: String!
+  phoneNumber: String!
+}
+
+type WhatsappChatsConfiguration {
+  configurationType: WidgetConfigurationType!
+}
+
+type WhatsappConnectedDevice {
+  jid: String!
+  name: String!
+}
+
+type WhatsappConnectionConfiguration {
+  configurationType: WidgetConfigurationType!
+}
+
+type WhatsappConnectionStatus {
+  devices: [WhatsappConnectedDevice!]!
+  isConfigured: Boolean!
+  isConnected: Boolean!
+}
+
+type WhatsappConversationConfiguration {
+  configurationType: WidgetConfigurationType!
+}
+
+type WhatsappLoginQrCode {
+  expiresInSeconds: Int!
+  qrCodeDataUrl: String!
+}
+
+type WhatsappMessage {
+  content: String!
+  id: String!
+  isFromMe: Boolean!
+  mediaType: String
+  timestamp: String!
+}
+
+type WhatsappPairingCode {
+  expiresInSeconds: Int!
+  pairingCode: String!
+}
+
+union WidgetConfiguration = AggregateChartConfiguration | BarChartConfiguration | CalendarConfiguration | CallRecordingSummaryConfiguration | CallRecordingTranscriptConfiguration | ChatConfiguration | ChatThreadsConfiguration | EmailThreadConfiguration | EmailsConfiguration | FieldConfiguration | FieldRichTextConfiguration | FieldsConfiguration | FilesConfiguration | FormFieldConfiguration | FrontComponentConfiguration | IframeConfiguration | LineChartConfiguration | MessageCampaignBodyConfiguration | MessageCampaignDetailsConfiguration | NotesConfiguration | ObjectListConfiguration | PieChartConfiguration | PixChargeConfiguration | RecordTableConfiguration | StandaloneRichTextConfiguration | TasksConfiguration | TimelineConfiguration | ViewConfiguration | WhatsappChatsConfiguration | WhatsappConnectionConfiguration | WhatsappConversationConfiguration | WorkflowConfiguration | WorkflowRunConfiguration | WorkflowVersionConfiguration
 
 enum WidgetConfigurationType {
   AGGREGATE_CHART
@@ -6484,12 +6565,17 @@ enum WidgetConfigurationType {
   MESSAGE_CAMPAIGN_BODY
   MESSAGE_CAMPAIGN_DETAILS
   NOTES
+  OBJECT_LIST
   PIE_CHART
+  PIX_CHARGE
   RECORD_TABLE
   STANDALONE_RICH_TEXT
   TASKS
   TIMELINE
   VIEW
+  WHATSAPP_CHATS
+  WHATSAPP_CONNECTION
+  WHATSAPP_CONVERSATION
   WORKFLOW
   WORKFLOW_RUN
   WORKFLOW_VERSION
@@ -6514,11 +6600,16 @@ enum WidgetType {
   MESSAGE_CAMPAIGN_BODY
   MESSAGE_CAMPAIGN_DETAILS
   NOTES
+  OBJECT_LIST
+  PIX_CHARGE
   RECORD_TABLE
   STANDALONE_RICH_TEXT
   TASKS
   TIMELINE
   VIEW
+  WHATSAPP_CHATS
+  WHATSAPP_CONNECTION
+  WHATSAPP_CONVERSATION
   WORKFLOW
   WORKFLOW_RUN
   WORKFLOW_VERSION

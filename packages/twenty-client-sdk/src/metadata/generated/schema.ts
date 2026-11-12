@@ -1675,7 +1675,7 @@ export interface FieldConnection {
 
 
 /** Display mode for field configuration widgets */
-export type FieldDisplayMode = 'CARD' | 'EDITOR' | 'FIELD' | 'TABLE' | 'VIEW'
+export type FieldDisplayMode = 'CARD' | 'EDITOR' | 'FIELD' | 'LINK' | 'OPTIONS' | 'ROW' | 'STEPPER' | 'TABLE' | 'TILES' | 'VIEW'
 
 export interface FieldEdge {
     /** Cursor for this node. */
@@ -2535,6 +2535,7 @@ export interface Mutation {
     destroyViewSort: Scalars['Boolean']
     detachRecordFromInboxThread: Scalars['Boolean']
     disconnectConnectedAccount: ConnectedAccountPublicDTO
+    disconnectWhatsapp: Scalars['Boolean']
     duplicateDashboard: DuplicatedDashboard
     duplicateMessageList: DuplicatedMessageList
     editSSOIdentityProvider: EditSso
@@ -2552,6 +2553,8 @@ export interface Mutation {
     generateTransientToken: TransientToken
     generateTwoFactorAuthenticationBackupCodes: TwoFactorAuthenticationBackupCodes
     generateTwoFactorAuthenticationRecoveryCode: TwoFactorAuthenticationRecoveryCode
+    generateWhatsappLoginQrCode: WhatsappLoginQrCode
+    generateWhatsappPairingCode: WhatsappPairingCode
     getAuthTokensFromLoginToken: AuthTokens
     getAuthTokensFromOTP: AuthTokens
     getAuthTokensFromSSOExchangeToken: AuthTokens
@@ -2607,6 +2610,7 @@ export interface Mutation {
     sendInvitations: SendInvitations
     sendMessageCampaign: SendMessageCampaignOutputDTO
     sendMessageCampaignTest: SendEmailViaDomainOutput
+    sendWhatsappMessage: Scalars['Boolean']
     setAppKeyValue: AppKeyValue
     setBillingPartnerCode: BillingPartnerCode
     setEnterpriseKey: EnterpriseLicenseInfoDTO
@@ -2827,6 +2831,14 @@ export interface ObjectIndexMetadatasConnection {
     /** Paging information */
     pageInfo: PageInfo
     __typename: 'ObjectIndexMetadatasConnection'
+}
+
+export interface ObjectListConfiguration {
+    configurationType: WidgetConfigurationType
+    displayMode?: Scalars['String']
+    fieldMetadataIds?: Scalars['String'][]
+    objectMetadataId?: Scalars['String']
+    __typename: 'ObjectListConfiguration'
 }
 
 export interface ObjectMetadataCommandMenuItemPayload {
@@ -3085,6 +3097,18 @@ export interface PieChartDataItem {
     __typename: 'PieChartDataItem'
 }
 
+export interface PixCharge {
+    brCode?: Scalars['String']
+    isConfigured: Scalars['Boolean']
+    merchantName?: Scalars['String']
+    __typename: 'PixCharge'
+}
+
+export interface PixChargeConfiguration {
+    configurationType: WidgetConfigurationType
+    __typename: 'PixChargeConfiguration'
+}
+
 export interface PlaceDetailsResult {
     city?: Scalars['String']
     country?: Scalars['String']
@@ -3302,6 +3326,7 @@ export interface Query {
     objectRecordCounts: ObjectRecordCount[]
     objects: ObjectConnection
     pieChartData: PieChartData
+    pixCharge: PixCharge
     previewMessageCampaignAudience: CampaignAudiencePreviewDTO
     previewMessageCampaignSend: PreviewMessageCampaignSendOutputDTO
     publicMarketplaceAppDetail: MarketplaceAppDetail
@@ -3324,6 +3349,9 @@ export interface Query {
     validationRulesReadingField: ValidationRule[]
     webhook?: Webhook
     webhooks: Webhook[]
+    whatsappChats: WhatsappChat[]
+    whatsappConnectionStatus: WhatsappConnectionStatus
+    whatsappMessages: WhatsappMessage[]
     __typename: 'Query'
 }
 
@@ -4301,11 +4329,71 @@ export interface Webhook {
     __typename: 'Webhook'
 }
 
-export type WidgetConfiguration = (AggregateChartConfiguration | BarChartConfiguration | CalendarConfiguration | CallRecordingSummaryConfiguration | CallRecordingTranscriptConfiguration | ChatConfiguration | ChatThreadsConfiguration | EmailThreadConfiguration | EmailsConfiguration | FieldConfiguration | FieldRichTextConfiguration | FieldsConfiguration | FilesConfiguration | FormFieldConfiguration | FrontComponentConfiguration | IframeConfiguration | LineChartConfiguration | MessageCampaignBodyConfiguration | MessageCampaignDetailsConfiguration | NotesConfiguration | PieChartConfiguration | RecordTableConfiguration | StandaloneRichTextConfiguration | TasksConfiguration | TimelineConfiguration | ViewConfiguration | WorkflowConfiguration | WorkflowRunConfiguration | WorkflowVersionConfiguration) & { __isUnion?: true }
+export interface WhatsappChat {
+    jid: Scalars['String']
+    lastMessageAt?: Scalars['String']
+    lastMessageContent?: Scalars['String']
+    lastMessageIsFromMe: Scalars['Boolean']
+    lastMessageMediaType?: Scalars['String']
+    name: Scalars['String']
+    phoneNumber: Scalars['String']
+    __typename: 'WhatsappChat'
+}
 
-export type WidgetConfigurationType = 'AGGREGATE_CHART' | 'BAR_CHART' | 'CALENDAR' | 'CALL_RECORDING_SUMMARY' | 'CALL_RECORDING_TRANSCRIPT' | 'CHAT' | 'CHAT_THREADS' | 'EMAILS' | 'EMAIL_THREAD' | 'FIELD' | 'FIELDS' | 'FIELD_RICH_TEXT' | 'FILES' | 'FORM_FIELD' | 'FRONT_COMPONENT' | 'IFRAME' | 'LINE_CHART' | 'MESSAGE_CAMPAIGN_BODY' | 'MESSAGE_CAMPAIGN_DETAILS' | 'NOTES' | 'PIE_CHART' | 'RECORD_TABLE' | 'STANDALONE_RICH_TEXT' | 'TASKS' | 'TIMELINE' | 'VIEW' | 'WORKFLOW' | 'WORKFLOW_RUN' | 'WORKFLOW_VERSION'
+export interface WhatsappChatsConfiguration {
+    configurationType: WidgetConfigurationType
+    __typename: 'WhatsappChatsConfiguration'
+}
 
-export type WidgetType = 'CALENDAR' | 'CALL_RECORDING_SUMMARY' | 'CALL_RECORDING_TRANSCRIPT' | 'CHAT' | 'CHAT_THREADS' | 'EMAILS' | 'EMAIL_THREAD' | 'FIELD' | 'FIELDS' | 'FIELD_RICH_TEXT' | 'FILES' | 'FORM_FIELD' | 'FRONT_COMPONENT' | 'GRAPH' | 'IFRAME' | 'MESSAGE_CAMPAIGN_BODY' | 'MESSAGE_CAMPAIGN_DETAILS' | 'NOTES' | 'RECORD_TABLE' | 'STANDALONE_RICH_TEXT' | 'TASKS' | 'TIMELINE' | 'VIEW' | 'WORKFLOW' | 'WORKFLOW_RUN' | 'WORKFLOW_VERSION'
+export interface WhatsappConnectedDevice {
+    jid: Scalars['String']
+    name: Scalars['String']
+    __typename: 'WhatsappConnectedDevice'
+}
+
+export interface WhatsappConnectionConfiguration {
+    configurationType: WidgetConfigurationType
+    __typename: 'WhatsappConnectionConfiguration'
+}
+
+export interface WhatsappConnectionStatus {
+    devices: WhatsappConnectedDevice[]
+    isConfigured: Scalars['Boolean']
+    isConnected: Scalars['Boolean']
+    __typename: 'WhatsappConnectionStatus'
+}
+
+export interface WhatsappConversationConfiguration {
+    configurationType: WidgetConfigurationType
+    __typename: 'WhatsappConversationConfiguration'
+}
+
+export interface WhatsappLoginQrCode {
+    expiresInSeconds: Scalars['Int']
+    qrCodeDataUrl: Scalars['String']
+    __typename: 'WhatsappLoginQrCode'
+}
+
+export interface WhatsappMessage {
+    content: Scalars['String']
+    id: Scalars['String']
+    isFromMe: Scalars['Boolean']
+    mediaType?: Scalars['String']
+    timestamp: Scalars['String']
+    __typename: 'WhatsappMessage'
+}
+
+export interface WhatsappPairingCode {
+    expiresInSeconds: Scalars['Int']
+    pairingCode: Scalars['String']
+    __typename: 'WhatsappPairingCode'
+}
+
+export type WidgetConfiguration = (AggregateChartConfiguration | BarChartConfiguration | CalendarConfiguration | CallRecordingSummaryConfiguration | CallRecordingTranscriptConfiguration | ChatConfiguration | ChatThreadsConfiguration | EmailThreadConfiguration | EmailsConfiguration | FieldConfiguration | FieldRichTextConfiguration | FieldsConfiguration | FilesConfiguration | FormFieldConfiguration | FrontComponentConfiguration | IframeConfiguration | LineChartConfiguration | MessageCampaignBodyConfiguration | MessageCampaignDetailsConfiguration | NotesConfiguration | ObjectListConfiguration | PieChartConfiguration | PixChargeConfiguration | RecordTableConfiguration | StandaloneRichTextConfiguration | TasksConfiguration | TimelineConfiguration | ViewConfiguration | WhatsappChatsConfiguration | WhatsappConnectionConfiguration | WhatsappConversationConfiguration | WorkflowConfiguration | WorkflowRunConfiguration | WorkflowVersionConfiguration) & { __isUnion?: true }
+
+export type WidgetConfigurationType = 'AGGREGATE_CHART' | 'BAR_CHART' | 'CALENDAR' | 'CALL_RECORDING_SUMMARY' | 'CALL_RECORDING_TRANSCRIPT' | 'CHAT' | 'CHAT_THREADS' | 'EMAILS' | 'EMAIL_THREAD' | 'FIELD' | 'FIELDS' | 'FIELD_RICH_TEXT' | 'FILES' | 'FORM_FIELD' | 'FRONT_COMPONENT' | 'IFRAME' | 'LINE_CHART' | 'MESSAGE_CAMPAIGN_BODY' | 'MESSAGE_CAMPAIGN_DETAILS' | 'NOTES' | 'OBJECT_LIST' | 'PIE_CHART' | 'PIX_CHARGE' | 'RECORD_TABLE' | 'STANDALONE_RICH_TEXT' | 'TASKS' | 'TIMELINE' | 'VIEW' | 'WHATSAPP_CHATS' | 'WHATSAPP_CONNECTION' | 'WHATSAPP_CONVERSATION' | 'WORKFLOW' | 'WORKFLOW_RUN' | 'WORKFLOW_VERSION'
+
+export type WidgetType = 'CALENDAR' | 'CALL_RECORDING_SUMMARY' | 'CALL_RECORDING_TRANSCRIPT' | 'CHAT' | 'CHAT_THREADS' | 'EMAILS' | 'EMAIL_THREAD' | 'FIELD' | 'FIELDS' | 'FIELD_RICH_TEXT' | 'FILES' | 'FORM_FIELD' | 'FRONT_COMPONENT' | 'GRAPH' | 'IFRAME' | 'MESSAGE_CAMPAIGN_BODY' | 'MESSAGE_CAMPAIGN_DETAILS' | 'NOTES' | 'OBJECT_LIST' | 'PIX_CHARGE' | 'RECORD_TABLE' | 'STANDALONE_RICH_TEXT' | 'TASKS' | 'TIMELINE' | 'VIEW' | 'WHATSAPP_CHATS' | 'WHATSAPP_CONNECTION' | 'WHATSAPP_CONVERSATION' | 'WORKFLOW' | 'WORKFLOW_RUN' | 'WORKFLOW_VERSION'
 
 export type WorkflowActionType = 'AI_AGENT' | 'CLASSIFY' | 'CODE' | 'CREATE_CALENDAR_EVENT' | 'CREATE_RECORD' | 'DELAY' | 'DELETE_RECORD' | 'DRAFT_EMAIL' | 'EMPTY' | 'FILTER' | 'FIND_RECORDS' | 'FORM' | 'HTTP_REQUEST' | 'IF_ELSE' | 'ITERATOR' | 'LOGIC_FUNCTION' | 'MCP_TOOL' | 'PICK_RECORD' | 'SEND_CHAT_MESSAGE' | 'SEND_EMAIL' | 'UPDATE_RECORD' | 'UPSERT_RECORD' | 'WAIT_FOR_EVENT'
 
@@ -7342,6 +7430,7 @@ export interface MutationGenqlSelection{
     destroyViewSort?: { __args: {input: DestroyViewSortInput} }
     detachRecordFromInboxThread?: { __args: {input: InboxThreadRecordInput} }
     disconnectConnectedAccount?: (ConnectedAccountPublicDTOGenqlSelection & { __args: {id: Scalars['UUID']} })
+    disconnectWhatsapp?: { __args: {deviceId?: (Scalars['String'] | null)} } | boolean | number
     duplicateDashboard?: (DuplicatedDashboardGenqlSelection & { __args: {id: Scalars['UUID']} })
     duplicateMessageList?: (DuplicatedMessageListGenqlSelection & { __args: {id: Scalars['UUID']} })
     editSSOIdentityProvider?: (EditSsoGenqlSelection & { __args: {input: EditSsoInput} })
@@ -7359,6 +7448,8 @@ export interface MutationGenqlSelection{
     generateTransientToken?: TransientTokenGenqlSelection
     generateTwoFactorAuthenticationBackupCodes?: (TwoFactorAuthenticationBackupCodesGenqlSelection & { __args?: {otp?: (Scalars['String'] | null)} })
     generateTwoFactorAuthenticationRecoveryCode?: (TwoFactorAuthenticationRecoveryCodeGenqlSelection & { __args: {otp?: (Scalars['String'] | null), userId: Scalars['UUID']} })
+    generateWhatsappLoginQrCode?: (WhatsappLoginQrCodeGenqlSelection & { __args?: {deviceId?: (Scalars['String'] | null)} })
+    generateWhatsappPairingCode?: (WhatsappPairingCodeGenqlSelection & { __args: {deviceId?: (Scalars['String'] | null), phoneNumber: Scalars['String']} })
     getAuthTokensFromLoginToken?: (AuthTokensGenqlSelection & { __args: {loginToken: Scalars['String'], origin: Scalars['String']} })
     getAuthTokensFromOTP?: (AuthTokensGenqlSelection & { __args: {captchaToken?: (Scalars['String'] | null), loginToken: Scalars['String'], origin: Scalars['String'], otp: Scalars['String']} })
     getAuthTokensFromSSOExchangeToken?: (AuthTokensGenqlSelection & { __args: {ssoExchangeToken: Scalars['String']} })
@@ -7414,6 +7505,7 @@ export interface MutationGenqlSelection{
     sendInvitations?: (SendInvitationsGenqlSelection & { __args: {emails: Scalars['String'][], roleId?: (Scalars['UUID'] | null)} })
     sendMessageCampaign?: (SendMessageCampaignOutputDTOGenqlSelection & { __args: {input: SendMessageCampaignInput} })
     sendMessageCampaignTest?: (SendEmailViaDomainOutputGenqlSelection & { __args: {input: SendMessageCampaignTestInput} })
+    sendWhatsappMessage?: { __args: {message: Scalars['String'], phoneNumber: Scalars['String']} }
     setAppKeyValue?: (AppKeyValueGenqlSelection & { __args: {input: SetAppKeyValueInput} })
     setBillingPartnerCode?: (BillingPartnerCodeGenqlSelection & { __args: {partnerCode: Scalars['String']} })
     setEnterpriseKey?: (EnterpriseLicenseInfoDTOGenqlSelection & { __args: {enterpriseKey: Scalars['String']} })
@@ -7649,6 +7741,15 @@ export interface ObjectIndexMetadatasConnectionGenqlSelection{
     edges?: IndexEdgeGenqlSelection
     /** Paging information */
     pageInfo?: PageInfoGenqlSelection
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface ObjectListConfigurationGenqlSelection{
+    configurationType?: boolean | number
+    displayMode?: boolean | number
+    fieldMetadataIds?: boolean | number
+    objectMetadataId?: boolean | number
     __typename?: boolean | number
     __scalar?: boolean | number
 }
@@ -7919,6 +8020,20 @@ export interface PieChartDataItemGenqlSelection{
     __scalar?: boolean | number
 }
 
+export interface PixChargeGenqlSelection{
+    brCode?: boolean | number
+    isConfigured?: boolean | number
+    merchantName?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface PixChargeConfigurationGenqlSelection{
+    configurationType?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
 export interface PlaceDetailsResultGenqlSelection{
     city?: boolean | number
     country?: boolean | number
@@ -8162,6 +8277,7 @@ export interface QueryGenqlSelection{
     /** Limit or page results. */
     paging: CursorPaging} })
     pieChartData?: (PieChartDataGenqlSelection & { __args: {input: PieChartDataInput} })
+    pixCharge?: (PixChargeGenqlSelection & { __args: {amount: Scalars['Float'], description?: (Scalars['String'] | null), txid?: (Scalars['String'] | null)} })
     previewMessageCampaignAudience?: (CampaignAudiencePreviewDTOGenqlSelection & { __args: {input: PreviewMessageCampaignAudienceInput} })
     previewMessageCampaignSend?: (PreviewMessageCampaignSendOutputDTOGenqlSelection & { __args: {input: PreviewMessageCampaignSendInput} })
     publicMarketplaceAppDetail?: (MarketplaceAppDetailGenqlSelection & { __args: {universalIdentifier: Scalars['String']} })
@@ -8184,6 +8300,9 @@ export interface QueryGenqlSelection{
     validationRulesReadingField?: (ValidationRuleGenqlSelection & { __args: {fieldMetadataId: Scalars['UUID']} })
     webhook?: (WebhookGenqlSelection & { __args: {id: Scalars['UUID']} })
     webhooks?: WebhookGenqlSelection
+    whatsappChats?: (WhatsappChatGenqlSelection & { __args?: {limit?: (Scalars['Int'] | null)} })
+    whatsappConnectionStatus?: (WhatsappConnectionStatusGenqlSelection & { __args?: {deviceId?: (Scalars['String'] | null)} })
+    whatsappMessages?: (WhatsappMessageGenqlSelection & { __args: {limit?: (Scalars['Int'] | null), phoneNumber: Scalars['String']} })
     __typename?: boolean | number
     __scalar?: boolean | number
 }
@@ -9502,6 +9621,75 @@ export interface WebhookGenqlSelection{
     __scalar?: boolean | number
 }
 
+export interface WhatsappChatGenqlSelection{
+    jid?: boolean | number
+    lastMessageAt?: boolean | number
+    lastMessageContent?: boolean | number
+    lastMessageIsFromMe?: boolean | number
+    lastMessageMediaType?: boolean | number
+    name?: boolean | number
+    phoneNumber?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface WhatsappChatsConfigurationGenqlSelection{
+    configurationType?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface WhatsappConnectedDeviceGenqlSelection{
+    jid?: boolean | number
+    name?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface WhatsappConnectionConfigurationGenqlSelection{
+    configurationType?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface WhatsappConnectionStatusGenqlSelection{
+    devices?: WhatsappConnectedDeviceGenqlSelection
+    isConfigured?: boolean | number
+    isConnected?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface WhatsappConversationConfigurationGenqlSelection{
+    configurationType?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface WhatsappLoginQrCodeGenqlSelection{
+    expiresInSeconds?: boolean | number
+    qrCodeDataUrl?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface WhatsappMessageGenqlSelection{
+    content?: boolean | number
+    id?: boolean | number
+    isFromMe?: boolean | number
+    mediaType?: boolean | number
+    timestamp?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
+export interface WhatsappPairingCodeGenqlSelection{
+    expiresInSeconds?: boolean | number
+    pairingCode?: boolean | number
+    __typename?: boolean | number
+    __scalar?: boolean | number
+}
+
 export interface WidgetConfigurationGenqlSelection{
     on_AggregateChartConfiguration?:AggregateChartConfigurationGenqlSelection,
     on_BarChartConfiguration?:BarChartConfigurationGenqlSelection,
@@ -9523,12 +9711,17 @@ export interface WidgetConfigurationGenqlSelection{
     on_MessageCampaignBodyConfiguration?:MessageCampaignBodyConfigurationGenqlSelection,
     on_MessageCampaignDetailsConfiguration?:MessageCampaignDetailsConfigurationGenqlSelection,
     on_NotesConfiguration?:NotesConfigurationGenqlSelection,
+    on_ObjectListConfiguration?:ObjectListConfigurationGenqlSelection,
     on_PieChartConfiguration?:PieChartConfigurationGenqlSelection,
+    on_PixChargeConfiguration?:PixChargeConfigurationGenqlSelection,
     on_RecordTableConfiguration?:RecordTableConfigurationGenqlSelection,
     on_StandaloneRichTextConfiguration?:StandaloneRichTextConfigurationGenqlSelection,
     on_TasksConfiguration?:TasksConfigurationGenqlSelection,
     on_TimelineConfiguration?:TimelineConfigurationGenqlSelection,
     on_ViewConfiguration?:ViewConfigurationGenqlSelection,
+    on_WhatsappChatsConfiguration?:WhatsappChatsConfigurationGenqlSelection,
+    on_WhatsappConnectionConfiguration?:WhatsappConnectionConfigurationGenqlSelection,
+    on_WhatsappConversationConfiguration?:WhatsappConversationConfigurationGenqlSelection,
     on_WorkflowConfiguration?:WorkflowConfigurationGenqlSelection,
     on_WorkflowRunConfiguration?:WorkflowRunConfigurationGenqlSelection,
     on_WorkflowVersionConfiguration?:WorkflowVersionConfigurationGenqlSelection,
@@ -11543,6 +11736,14 @@ export interface WorkspaceUrlsAndIdGenqlSelection{
     
 
 
+    const ObjectListConfiguration_possibleTypes: string[] = ['ObjectListConfiguration']
+    export const isObjectListConfiguration = (obj?: { __typename?: any } | null): obj is ObjectListConfiguration => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isObjectListConfiguration"')
+      return ObjectListConfiguration_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
     const ObjectMetadataCommandMenuItemPayload_possibleTypes: string[] = ['ObjectMetadataCommandMenuItemPayload']
     export const isObjectMetadataCommandMenuItemPayload = (obj?: { __typename?: any } | null): obj is ObjectMetadataCommandMenuItemPayload => {
       if (!obj?.__typename) throw new Error('__typename is missing in "isObjectMetadataCommandMenuItemPayload"')
@@ -11715,6 +11916,22 @@ export interface WorkspaceUrlsAndIdGenqlSelection{
     export const isPieChartDataItem = (obj?: { __typename?: any } | null): obj is PieChartDataItem => {
       if (!obj?.__typename) throw new Error('__typename is missing in "isPieChartDataItem"')
       return PieChartDataItem_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const PixCharge_possibleTypes: string[] = ['PixCharge']
+    export const isPixCharge = (obj?: { __typename?: any } | null): obj is PixCharge => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isPixCharge"')
+      return PixCharge_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const PixChargeConfiguration_possibleTypes: string[] = ['PixChargeConfiguration']
+    export const isPixChargeConfiguration = (obj?: { __typename?: any } | null): obj is PixChargeConfiguration => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isPixChargeConfiguration"')
+      return PixChargeConfiguration_possibleTypes.includes(obj.__typename)
     }
     
 
@@ -12559,7 +12776,79 @@ export interface WorkspaceUrlsAndIdGenqlSelection{
     
 
 
-    const WidgetConfiguration_possibleTypes: string[] = ['AggregateChartConfiguration','BarChartConfiguration','CalendarConfiguration','CallRecordingSummaryConfiguration','CallRecordingTranscriptConfiguration','ChatConfiguration','ChatThreadsConfiguration','EmailThreadConfiguration','EmailsConfiguration','FieldConfiguration','FieldRichTextConfiguration','FieldsConfiguration','FilesConfiguration','FormFieldConfiguration','FrontComponentConfiguration','IframeConfiguration','LineChartConfiguration','MessageCampaignBodyConfiguration','MessageCampaignDetailsConfiguration','NotesConfiguration','PieChartConfiguration','RecordTableConfiguration','StandaloneRichTextConfiguration','TasksConfiguration','TimelineConfiguration','ViewConfiguration','WorkflowConfiguration','WorkflowRunConfiguration','WorkflowVersionConfiguration']
+    const WhatsappChat_possibleTypes: string[] = ['WhatsappChat']
+    export const isWhatsappChat = (obj?: { __typename?: any } | null): obj is WhatsappChat => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isWhatsappChat"')
+      return WhatsappChat_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const WhatsappChatsConfiguration_possibleTypes: string[] = ['WhatsappChatsConfiguration']
+    export const isWhatsappChatsConfiguration = (obj?: { __typename?: any } | null): obj is WhatsappChatsConfiguration => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isWhatsappChatsConfiguration"')
+      return WhatsappChatsConfiguration_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const WhatsappConnectedDevice_possibleTypes: string[] = ['WhatsappConnectedDevice']
+    export const isWhatsappConnectedDevice = (obj?: { __typename?: any } | null): obj is WhatsappConnectedDevice => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isWhatsappConnectedDevice"')
+      return WhatsappConnectedDevice_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const WhatsappConnectionConfiguration_possibleTypes: string[] = ['WhatsappConnectionConfiguration']
+    export const isWhatsappConnectionConfiguration = (obj?: { __typename?: any } | null): obj is WhatsappConnectionConfiguration => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isWhatsappConnectionConfiguration"')
+      return WhatsappConnectionConfiguration_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const WhatsappConnectionStatus_possibleTypes: string[] = ['WhatsappConnectionStatus']
+    export const isWhatsappConnectionStatus = (obj?: { __typename?: any } | null): obj is WhatsappConnectionStatus => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isWhatsappConnectionStatus"')
+      return WhatsappConnectionStatus_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const WhatsappConversationConfiguration_possibleTypes: string[] = ['WhatsappConversationConfiguration']
+    export const isWhatsappConversationConfiguration = (obj?: { __typename?: any } | null): obj is WhatsappConversationConfiguration => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isWhatsappConversationConfiguration"')
+      return WhatsappConversationConfiguration_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const WhatsappLoginQrCode_possibleTypes: string[] = ['WhatsappLoginQrCode']
+    export const isWhatsappLoginQrCode = (obj?: { __typename?: any } | null): obj is WhatsappLoginQrCode => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isWhatsappLoginQrCode"')
+      return WhatsappLoginQrCode_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const WhatsappMessage_possibleTypes: string[] = ['WhatsappMessage']
+    export const isWhatsappMessage = (obj?: { __typename?: any } | null): obj is WhatsappMessage => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isWhatsappMessage"')
+      return WhatsappMessage_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const WhatsappPairingCode_possibleTypes: string[] = ['WhatsappPairingCode']
+    export const isWhatsappPairingCode = (obj?: { __typename?: any } | null): obj is WhatsappPairingCode => {
+      if (!obj?.__typename) throw new Error('__typename is missing in "isWhatsappPairingCode"')
+      return WhatsappPairingCode_possibleTypes.includes(obj.__typename)
+    }
+    
+
+
+    const WidgetConfiguration_possibleTypes: string[] = ['AggregateChartConfiguration','BarChartConfiguration','CalendarConfiguration','CallRecordingSummaryConfiguration','CallRecordingTranscriptConfiguration','ChatConfiguration','ChatThreadsConfiguration','EmailThreadConfiguration','EmailsConfiguration','FieldConfiguration','FieldRichTextConfiguration','FieldsConfiguration','FilesConfiguration','FormFieldConfiguration','FrontComponentConfiguration','IframeConfiguration','LineChartConfiguration','MessageCampaignBodyConfiguration','MessageCampaignDetailsConfiguration','NotesConfiguration','ObjectListConfiguration','PieChartConfiguration','PixChargeConfiguration','RecordTableConfiguration','StandaloneRichTextConfiguration','TasksConfiguration','TimelineConfiguration','ViewConfiguration','WhatsappChatsConfiguration','WhatsappConnectionConfiguration','WhatsappConversationConfiguration','WorkflowConfiguration','WorkflowRunConfiguration','WorkflowVersionConfiguration']
     export const isWidgetConfiguration = (obj?: { __typename?: any } | null): obj is WidgetConfiguration => {
       if (!obj?.__typename) throw new Error('__typename is missing in "isWidgetConfiguration"')
       return WidgetConfiguration_possibleTypes.includes(obj.__typename)
@@ -13105,7 +13394,12 @@ export const enumFieldDisplayMode = {
    CARD: 'CARD' as const,
    EDITOR: 'EDITOR' as const,
    FIELD: 'FIELD' as const,
+   LINK: 'LINK' as const,
+   OPTIONS: 'OPTIONS' as const,
+   ROW: 'ROW' as const,
+   STEPPER: 'STEPPER' as const,
    TABLE: 'TABLE' as const,
+   TILES: 'TILES' as const,
    VIEW: 'VIEW' as const
 }
 
@@ -13635,12 +13929,17 @@ export const enumWidgetConfigurationType = {
    MESSAGE_CAMPAIGN_BODY: 'MESSAGE_CAMPAIGN_BODY' as const,
    MESSAGE_CAMPAIGN_DETAILS: 'MESSAGE_CAMPAIGN_DETAILS' as const,
    NOTES: 'NOTES' as const,
+   OBJECT_LIST: 'OBJECT_LIST' as const,
    PIE_CHART: 'PIE_CHART' as const,
+   PIX_CHARGE: 'PIX_CHARGE' as const,
    RECORD_TABLE: 'RECORD_TABLE' as const,
    STANDALONE_RICH_TEXT: 'STANDALONE_RICH_TEXT' as const,
    TASKS: 'TASKS' as const,
    TIMELINE: 'TIMELINE' as const,
    VIEW: 'VIEW' as const,
+   WHATSAPP_CHATS: 'WHATSAPP_CHATS' as const,
+   WHATSAPP_CONNECTION: 'WHATSAPP_CONNECTION' as const,
+   WHATSAPP_CONVERSATION: 'WHATSAPP_CONVERSATION' as const,
    WORKFLOW: 'WORKFLOW' as const,
    WORKFLOW_RUN: 'WORKFLOW_RUN' as const,
    WORKFLOW_VERSION: 'WORKFLOW_VERSION' as const
@@ -13665,11 +13964,16 @@ export const enumWidgetType = {
    MESSAGE_CAMPAIGN_BODY: 'MESSAGE_CAMPAIGN_BODY' as const,
    MESSAGE_CAMPAIGN_DETAILS: 'MESSAGE_CAMPAIGN_DETAILS' as const,
    NOTES: 'NOTES' as const,
+   OBJECT_LIST: 'OBJECT_LIST' as const,
+   PIX_CHARGE: 'PIX_CHARGE' as const,
    RECORD_TABLE: 'RECORD_TABLE' as const,
    STANDALONE_RICH_TEXT: 'STANDALONE_RICH_TEXT' as const,
    TASKS: 'TASKS' as const,
    TIMELINE: 'TIMELINE' as const,
    VIEW: 'VIEW' as const,
+   WHATSAPP_CHATS: 'WHATSAPP_CHATS' as const,
+   WHATSAPP_CONNECTION: 'WHATSAPP_CONNECTION' as const,
+   WHATSAPP_CONVERSATION: 'WHATSAPP_CONVERSATION' as const,
    WORKFLOW: 'WORKFLOW' as const,
    WORKFLOW_RUN: 'WORKFLOW_RUN' as const,
    WORKFLOW_VERSION: 'WORKFLOW_VERSION' as const

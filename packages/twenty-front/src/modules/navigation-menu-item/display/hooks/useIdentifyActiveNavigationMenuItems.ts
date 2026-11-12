@@ -1,9 +1,10 @@
 import { useMemo } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { AppPath, NavigationMenuItemType } from 'twenty-shared/types';
-import { getAppPath, isDefined } from 'twenty-shared/utils';
+import { NavigationMenuItemType } from 'twenty-shared/types';
+import { isDefined } from 'twenty-shared/utils';
 
 import { MAIN_CONTEXT_STORE_INSTANCE_ID } from '@/context-store/constants/MainContextStoreInstanceId';
+import { matchRecordShowPagePathname } from '@/object-record/record-show/utils/matchRecordShowPagePathname';
 import { contextStoreCurrentViewIdComponentState } from '@/context-store/states/contextStoreCurrentViewIdComponentState';
 import { lastClickedNavigationMenuItemIdState } from '@/navigation-menu-item/common/states/lastClickedNavigationMenuItemIdState';
 import { isAutomationNavigationMenuItemType } from '@/navigation-menu-item/common/utils/isAutomationNavigationMenuItemType';
@@ -53,12 +54,8 @@ export const useIdentifyActiveNavigationMenuItems = (): {
 
   const isOnRecordShowPage =
     isDefined(currentObjectMetadataItem) &&
-    currentPath.includes(
-      getAppPath(AppPath.RecordShowPage, {
-        objectNameSingular: currentObjectMetadataItem.nameSingular,
-        objectRecordId: '',
-      }) + '/',
-    );
+    matchRecordShowPagePathname(currentPath)?.objectNameSingular ===
+      currentObjectMetadataItem.nameSingular;
 
   const contextStoreCurrentViewId = useAtomComponentStateValue(
     contextStoreCurrentViewIdComponentState,

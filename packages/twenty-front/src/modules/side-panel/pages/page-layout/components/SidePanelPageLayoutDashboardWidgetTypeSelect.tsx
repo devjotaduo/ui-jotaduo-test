@@ -29,6 +29,8 @@ import { isDefined } from 'twenty-shared/utils';
 import {
   IconAlignBoxLeftTop,
   IconApps,
+  IconBrandWhatsapp,
+  IconList,
   IconChartPie,
   IconFrame,
   IconTable,
@@ -230,6 +232,81 @@ export const SidePanelPageLayoutDashboardWidgetTypeSelect = () => {
     });
   };
 
+  const handleCreateObjectListWidget = () => {
+    if (
+      isExistingWidgetMissingOrDifferentType(
+        existingWidget?.type,
+        WidgetType.OBJECT_LIST,
+      )
+    ) {
+      if (isDefined(pageLayoutEditingWidgetId)) {
+        removePageLayoutWidgetAndPreservePosition(pageLayoutEditingWidgetId);
+      }
+
+      const newWidget = createPageLayoutWidget({
+        type: WidgetType.OBJECT_LIST,
+        title: t`Records`,
+        configuration: {
+          __typename: 'ObjectListConfiguration',
+          configurationType: WidgetConfigurationType.OBJECT_LIST,
+        },
+      });
+      setPageLayoutEditingWidgetId(newWidget.id);
+    }
+
+    closeSidePanelMenu();
+  };
+
+  const handleCreateWhatsappChatsWidget = () => {
+    if (
+      isExistingWidgetMissingOrDifferentType(
+        existingWidget?.type,
+        WidgetType.WHATSAPP_CHATS,
+      )
+    ) {
+      if (isDefined(pageLayoutEditingWidgetId)) {
+        removePageLayoutWidgetAndPreservePosition(pageLayoutEditingWidgetId);
+      }
+
+      const newWidget = createPageLayoutWidget({
+        type: WidgetType.WHATSAPP_CHATS,
+        title: t`WhatsApp chats`,
+        configuration: {
+          __typename: 'WhatsappChatsConfiguration',
+          configurationType: WidgetConfigurationType.WHATSAPP_CHATS,
+        },
+      });
+      setPageLayoutEditingWidgetId(newWidget.id);
+    }
+
+    closeSidePanelMenu();
+  };
+
+  const handleCreateWhatsappConnectionWidget = () => {
+    if (
+      isExistingWidgetMissingOrDifferentType(
+        existingWidget?.type,
+        WidgetType.WHATSAPP_CONNECTION,
+      )
+    ) {
+      if (isDefined(pageLayoutEditingWidgetId)) {
+        removePageLayoutWidgetAndPreservePosition(pageLayoutEditingWidgetId);
+      }
+
+      const newWidget = createPageLayoutWidget({
+        type: WidgetType.WHATSAPP_CONNECTION,
+        title: t`WhatsApp connection`,
+        configuration: {
+          __typename: 'WhatsappConnectionConfiguration',
+          configurationType: WidgetConfigurationType.WHATSAPP_CONNECTION,
+        },
+      });
+      setPageLayoutEditingWidgetId(newWidget.id);
+    }
+
+    closeSidePanelMenu();
+  };
+
   const handleCreateFrontComponentWidget = (frontComponent: FrontComponent) => {
     if (
       isExistingWidgetMissingOrDifferentType(
@@ -261,6 +338,9 @@ export const SidePanelPageLayoutDashboardWidgetTypeSelect = () => {
     'record-table',
     'iframe',
     'rich-text',
+    'whatsapp-connection',
+    'whatsapp-chats',
+    'object-list',
     ...frontComponentsWithSelectItemId.map(({ selectItemId }) => selectItemId),
   ];
 
@@ -310,6 +390,39 @@ export const SidePanelPageLayoutDashboardWidgetTypeSelect = () => {
             label={t`Rich Text`}
             id="rich-text"
             onClick={handleNavigateToRichTextSettings}
+          />
+        </SelectableListItem>
+        <SelectableListItem
+          itemId="whatsapp-connection"
+          onEnter={handleCreateWhatsappConnectionWidget}
+        >
+          <CommandMenuItem
+            Icon={IconBrandWhatsapp}
+            label={t`WhatsApp connection`}
+            id="whatsapp-connection"
+            onClick={handleCreateWhatsappConnectionWidget}
+          />
+        </SelectableListItem>
+        <SelectableListItem
+          itemId="whatsapp-chats"
+          onEnter={handleCreateWhatsappChatsWidget}
+        >
+          <CommandMenuItem
+            Icon={IconBrandWhatsapp}
+            label={t`WhatsApp chats`}
+            id="whatsapp-chats"
+            onClick={handleCreateWhatsappChatsWidget}
+          />
+        </SelectableListItem>
+        <SelectableListItem
+          itemId="object-list"
+          onEnter={handleCreateObjectListWidget}
+        >
+          <CommandMenuItem
+            Icon={IconList}
+            label={t`Records list`}
+            id="object-list"
+            onClick={handleCreateObjectListWidget}
           />
         </SelectableListItem>
       </SidePanelGroup>

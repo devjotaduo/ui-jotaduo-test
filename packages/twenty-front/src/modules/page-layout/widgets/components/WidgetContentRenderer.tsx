@@ -2,6 +2,11 @@ import { type PageLayoutWidget } from '@/page-layout/types/PageLayoutWidget';
 import { CalendarWidget } from '@/page-layout/widgets/calendar/components/CalendarWidget';
 import { CallRecordingWidget } from '@/page-layout/widgets/call-recording/components/CallRecordingWidget';
 import { ChatWidget } from '@/page-layout/widgets/chat/components/ChatWidget';
+import { WhatsappConnectionWidget } from '@/page-layout/widgets/whatsapp-connection/components/WhatsappConnectionWidget';
+import { WhatsappConversationWidget } from '@/page-layout/widgets/whatsapp-conversation/components/WhatsappConversationWidget';
+import { PixChargeWidget } from '@/page-layout/widgets/pix-charge/components/PixChargeWidget';
+import { WhatsappChatsWidget } from '@/page-layout/widgets/whatsapp-chats/components/WhatsappChatsWidget';
+import { ObjectListWidget } from '@/page-layout/widgets/object-list/components/ObjectListWidget';
 import { ChatThreadsWidget } from '@/page-layout/widgets/chat-threads/components/ChatThreadsWidget';
 import { MessageThreadWidget } from '@/page-layout/widgets/email-thread/components/MessageThreadWidget';
 import { MessagesWidget } from '@/page-layout/widgets/messages/components/MessagesWidget';
@@ -56,6 +61,21 @@ export const WidgetContentRenderer = ({
 
     case WidgetType.CHAT:
       return <ChatWidget />;
+
+    case WidgetType.WHATSAPP_CONNECTION:
+      return <WhatsappConnectionWidget />;
+
+    case WidgetType.WHATSAPP_CONVERSATION:
+      return <WhatsappConversationWidget />;
+
+    case WidgetType.PIX_CHARGE:
+      return <PixChargeWidget />;
+
+    case WidgetType.WHATSAPP_CHATS:
+      return <WhatsappChatsWidget />;
+
+    case WidgetType.OBJECT_LIST:
+      return <ObjectListWidget widget={widget} />;
 
     case WidgetType.FIELD_RICH_TEXT:
       return <FieldRichTextWidgetRenderer widget={widget} />;

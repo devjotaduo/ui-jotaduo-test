@@ -107,6 +107,21 @@ export class FlatPageLayoutWidgetTypeValidatorService {
       CHAT: validateSimpleRecordPageWidgetForCreation(
         WidgetConfigurationType.CHAT,
       ),
+      WHATSAPP_CONNECTION: validateSimpleRecordPageWidgetForCreation(
+        WidgetConfigurationType.WHATSAPP_CONNECTION,
+      ),
+      WHATSAPP_CONVERSATION: validateSimpleRecordPageWidgetForCreation(
+        WidgetConfigurationType.WHATSAPP_CONVERSATION,
+      ),
+      PIX_CHARGE: validateSimpleRecordPageWidgetForCreation(
+        WidgetConfigurationType.PIX_CHARGE,
+      ),
+      WHATSAPP_CHATS: validateSimpleRecordPageWidgetForCreation(
+        WidgetConfigurationType.WHATSAPP_CHATS,
+      ),
+      OBJECT_LIST: validateSimpleRecordPageWidgetForCreation(
+        WidgetConfigurationType.OBJECT_LIST,
+      ),
       MESSAGE_CAMPAIGN_BODY: validateSimpleRecordPageWidgetForCreation(
         WidgetConfigurationType.MESSAGE_CAMPAIGN_BODY,
       ),
@@ -181,6 +196,21 @@ export class FlatPageLayoutWidgetTypeValidatorService {
       ),
       CHAT: validateSimpleRecordPageWidgetForUpdate(
         WidgetConfigurationType.CHAT,
+      ),
+      WHATSAPP_CONNECTION: validateSimpleRecordPageWidgetForUpdate(
+        WidgetConfigurationType.WHATSAPP_CONNECTION,
+      ),
+      WHATSAPP_CONVERSATION: validateSimpleRecordPageWidgetForUpdate(
+        WidgetConfigurationType.WHATSAPP_CONVERSATION,
+      ),
+      PIX_CHARGE: validateSimpleRecordPageWidgetForUpdate(
+        WidgetConfigurationType.PIX_CHARGE,
+      ),
+      WHATSAPP_CHATS: validateSimpleRecordPageWidgetForUpdate(
+        WidgetConfigurationType.WHATSAPP_CHATS,
+      ),
+      OBJECT_LIST: validateSimpleRecordPageWidgetForUpdate(
+        WidgetConfigurationType.OBJECT_LIST,
       ),
       MESSAGE_CAMPAIGN_BODY: validateSimpleRecordPageWidgetForUpdate(
         WidgetConfigurationType.MESSAGE_CAMPAIGN_BODY,

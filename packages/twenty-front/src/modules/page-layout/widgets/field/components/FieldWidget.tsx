@@ -9,6 +9,8 @@ import { isFieldFilesValue } from '@/object-record/record-field/ui/types/guards/
 import { isFieldMorphRelation } from '@/object-record/record-field/ui/types/guards/isFieldMorphRelation';
 import { isFieldRelation } from '@/object-record/record-field/ui/types/guards/isFieldRelation';
 import { isFieldRichText } from '@/object-record/record-field/ui/types/guards/isFieldRichText';
+import { isFieldMultiSelect } from '@/object-record/record-field/ui/types/guards/isFieldMultiSelect';
+import { isFieldSelect } from '@/object-record/record-field/ui/types/guards/isFieldSelect';
 import { isFieldText } from '@/object-record/record-field/ui/types/guards/isFieldText';
 import { isUsableJunctionConfig } from '@/object-record/record-field/ui/utils/junction/isUsableJunctionConfig';
 import { resolveJunctionConfig } from '@/object-record/record-field/ui/utils/junction/resolveJunctionConfig';
@@ -24,6 +26,11 @@ import { FieldWidgetMorphRelationField } from '@/page-layout/widgets/field/compo
 import { FieldWidgetRelationCard } from '@/page-layout/widgets/field/components/FieldWidgetRelationCard';
 import { FieldWidgetRelationField } from '@/page-layout/widgets/field/components/FieldWidgetRelationField';
 import { FieldWidgetRelationTable } from '@/page-layout/widgets/field/components/FieldWidgetRelationTable';
+import { FieldWidgetRelationLinkCard } from '@/page-layout/widgets/field/components/FieldWidgetRelationLinkCard';
+import { FieldWidgetSelectOptions } from '@/page-layout/widgets/field/components/FieldWidgetSelectOptions';
+import { FieldWidgetSettingRow } from '@/page-layout/widgets/field/components/FieldWidgetSettingRow';
+import { FieldWidgetSelectStepper } from '@/page-layout/widgets/field/components/FieldWidgetSelectStepper';
+import { FieldWidgetSelectTiles } from '@/page-layout/widgets/field/components/FieldWidgetSelectTiles';
 import { FieldWidgetRichTextEditor } from '@/page-layout/widgets/field/components/FieldWidgetRichTextEditor';
 import { FieldWidgetTextEditor } from '@/page-layout/widgets/field/components/FieldWidgetTextEditor';
 import { assertFieldWidgetOrThrow } from '@/page-layout/widgets/field/utils/assertFieldWidgetOrThrow';
@@ -177,6 +184,17 @@ export const FieldWidget = ({ widget }: FieldWidgetProps) => {
       );
     }
 
+    // Only direct relations: junctions filter through a morph field the index URL filter cannot express
+    if (fieldDisplayMode === FieldDisplayMode.LINK) {
+      return (
+        <FieldWidgetRelationLinkCard
+          fieldDefinition={fieldDefinition}
+          relationValue={record}
+          recordId={targetRecord.id}
+        />
+      );
+    }
+
     if (fieldDisplayMode === FieldDisplayMode.CARD) {
       return (
         <FieldWidgetRelationCard
@@ -236,6 +254,45 @@ export const FieldWidget = ({ widget }: FieldWidgetProps) => {
   }
 
   if (
+    isFieldSelect(fieldDefinition) &&
+    fieldDisplayMode === FieldDisplayMode.TILES
+  ) {
+    return (
+      <FieldWidgetSelectTiles
+        fieldMetadataItem={fieldMetadataItem}
+        objectMetadataItem={objectMetadataItem}
+        recordId={targetRecord.id}
+      />
+    );
+  }
+
+  if (
+    isFieldSelect(fieldDefinition) &&
+    fieldDisplayMode === FieldDisplayMode.STEPPER
+  ) {
+    return (
+      <FieldWidgetSelectStepper
+        fieldMetadataItem={fieldMetadataItem}
+        objectMetadataItem={objectMetadataItem}
+        recordId={targetRecord.id}
+      />
+    );
+  }
+
+  if (
+    (isFieldSelect(fieldDefinition) || isFieldMultiSelect(fieldDefinition)) &&
+    fieldDisplayMode === FieldDisplayMode.OPTIONS
+  ) {
+    return (
+      <FieldWidgetSelectOptions
+        fieldMetadataItem={fieldMetadataItem}
+        objectMetadataItem={objectMetadataItem}
+        recordId={targetRecord.id}
+      />
+    );
+  }
+
+  if (
     isFieldText(fieldDefinition) &&
     fieldDisplayMode === FieldDisplayMode.EDITOR
   ) {
@@ -244,6 +301,18 @@ export const FieldWidget = ({ widget }: FieldWidgetProps) => {
         fieldMetadataItem={fieldMetadataItem}
         objectMetadataItem={objectMetadataItem}
         recordId={targetRecord.id}
+      />
+    );
+  }
+
+  if (fieldDisplayMode === FieldDisplayMode.ROW) {
+    return (
+      <FieldWidgetSettingRow
+        fieldDefinition={fieldDefinition}
+        fieldMetadataItem={fieldMetadataItem}
+        objectMetadataItem={objectMetadataItem}
+        recordId={targetRecord.id}
+        isInSidePanel={isInSidePanel}
       />
     );
   }

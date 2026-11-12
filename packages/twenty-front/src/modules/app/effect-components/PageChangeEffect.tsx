@@ -39,6 +39,7 @@ import { isDefined, isSafeInternalPath } from 'twenty-shared/utils';
 import { usePageChangeEffectNavigateLocation } from '@/app/hooks/usePageChangeEffectNavigateLocation';
 import { getPageLayoutIdForLocation } from '@/app/utils/getPageLayoutIdForLocation';
 import { isMatchingLocation } from '~/utils/isMatchingLocation';
+import { matchRecordShowPagePathname } from '@/object-record/record-show/utils/matchRecordShowPagePathname';
 
 // TODO: break down into smaller functions and / or hooks
 export const PageChangeEffect = () => {
@@ -221,7 +222,7 @@ export const PageChangeEffect = () => {
         resetFocusStackToRecordIndex();
         break;
       }
-      case isMatchingLocation(location, AppPath.RecordShowPage): {
+      case isDefined(matchRecordShowPagePathname(location.pathname)): {
         const isSidePanelOpen = store.get(isSidePanelOpenedState.atom);
 
         if (!isSidePanelOpen) {
@@ -245,10 +246,9 @@ export const PageChangeEffect = () => {
         );
 
         if (isDefined(newRecordTitleCellToOpen)) {
-          const objectRecordIdFromPath = matchPath(
-            AppPath.RecordShowPage,
+          const objectRecordIdFromPath = matchRecordShowPagePathname(
             location.pathname,
-          )?.params.objectRecordId;
+          )?.objectRecordId;
 
           if (newRecordTitleCellToOpen.recordId === objectRecordIdFromPath) {
             openNewRecordTitleCell(newRecordTitleCellToOpen);

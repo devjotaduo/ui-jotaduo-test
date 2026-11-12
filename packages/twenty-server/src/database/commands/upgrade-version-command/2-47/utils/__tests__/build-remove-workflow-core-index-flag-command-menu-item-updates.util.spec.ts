@@ -21,6 +21,14 @@ const { allFlatEntityMaps } = computeTwentyStandardApplicationAllFlatEntityMaps(
   },
 );
 
+// Favorites expressions as of 2.47: later releases extend the standard ones, which this upgrade never targeted
+const FAVORITES_EXPRESSIONS_AT_2_47: Record<string, string> = {
+  [ADD_TO_FAVORITES_UNIVERSAL_IDENTIFIER]:
+    'arrayLength(favoriteRecordIds) < numberOfSelectedRecords and noneDefined(selectedRecords, "deletedAt") and not hasAnySoftDeleteFilterOnView and objectMetadataItem.nameSingular != "messageCampaign" and objectMetadataItem.nameSingular != "workflow"',
+  [REMOVE_FROM_FAVORITES_UNIVERSAL_IDENTIFIER]:
+    'arrayLength(favoriteRecordIds) == numberOfSelectedRecords and noneDefined(selectedRecords, "deletedAt") and not hasAnySoftDeleteFilterOnView and objectMetadataItem.nameSingular != "messageCampaign" and objectMetadataItem.nameSingular != "workflow"',
+};
+
 const getStandardItem = (universalIdentifier: string): FlatCommandMenuItem => {
   const commandMenuItem =
     allFlatEntityMaps.flatCommandMenuItemMaps.byUniversalIdentifier[
@@ -33,7 +41,12 @@ const getStandardItem = (universalIdentifier: string): FlatCommandMenuItem => {
     );
   }
 
-  return commandMenuItem;
+  return {
+    ...commandMenuItem,
+    conditionalAvailabilityExpression:
+      FAVORITES_EXPRESSIONS_AT_2_47[universalIdentifier] ??
+      commandMenuItem.conditionalAvailabilityExpression,
+  };
 };
 
 const withFlaggedFavoritesExpression = (
@@ -78,7 +91,7 @@ const updateUp = (flatCommandMenuItems: FlatCommandMenuItem[]) =>
   });
 
 describe('buildRemoveWorkflowCoreIndexFlagCommandMenuItemUpdates', () => {
-  it('moves the favorites commands to the current standard expressions', () => {
+  it('moves the favorites commands to the unflagged 2.47 expressions', () => {
     const favoritesItems = [
       ADD_TO_FAVORITES_UNIVERSAL_IDENTIFIER,
       REMOVE_FROM_FAVORITES_UNIVERSAL_IDENTIFIER,

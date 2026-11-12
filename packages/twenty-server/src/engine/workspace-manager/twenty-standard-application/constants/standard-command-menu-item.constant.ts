@@ -20,7 +20,7 @@ export const STANDARD_COMMAND_MENU_ITEMS = {
     shortLabel: null,
     availabilityType: CommandMenuItemAvailabilityType.RECORD_SELECTION,
     conditionalAvailabilityExpression:
-      'pageType == "RECORD_PAGE" and not isInSidePanel and objectMetadataItem.nameSingular != "messageCampaign" and objectMetadataItem.nameSingular != "agentChatThread"',
+      'pageType == "RECORD_PAGE" and not isInSidePanel and objectMetadataItem.nameSingular != "messageCampaign" and objectMetadataItem.nameSingular != "agentChatThread" and not isStandaloneRecordPage',
     availabilityObjectMetadataUniversalIdentifier: null,
     frontComponentUniversalIdentifier: null,
     engineComponentKey: EngineComponentKey.NAVIGATE_TO_NEXT_RECORD,
@@ -40,7 +40,7 @@ export const STANDARD_COMMAND_MENU_ITEMS = {
     shortLabel: null,
     availabilityType: CommandMenuItemAvailabilityType.RECORD_SELECTION,
     conditionalAvailabilityExpression:
-      'pageType == "RECORD_PAGE" and not isInSidePanel and objectMetadataItem.nameSingular != "messageCampaign" and objectMetadataItem.nameSingular != "agentChatThread"',
+      'pageType == "RECORD_PAGE" and not isInSidePanel and objectMetadataItem.nameSingular != "messageCampaign" and objectMetadataItem.nameSingular != "agentChatThread" and not isStandaloneRecordPage',
     availabilityObjectMetadataUniversalIdentifier: null,
     frontComponentUniversalIdentifier: null,
     engineComponentKey: EngineComponentKey.NAVIGATE_TO_PREVIOUS_RECORD,
@@ -170,7 +170,7 @@ export const STANDARD_COMMAND_MENU_ITEMS = {
     shortLabel: null,
     availabilityType: CommandMenuItemAvailabilityType.RECORD_SELECTION,
     conditionalAvailabilityExpression:
-      'arrayLength(favoriteRecordIds) < numberOfSelectedRecords and noneDefined(selectedRecords, "deletedAt") and not hasAnySoftDeleteFilterOnView and objectMetadataItem.nameSingular != "messageCampaign" and objectMetadataItem.nameSingular != "workflow"',
+      'arrayLength(favoriteRecordIds) < numberOfSelectedRecords and noneDefined(selectedRecords, "deletedAt") and not hasAnySoftDeleteFilterOnView and objectMetadataItem.nameSingular != "messageCampaign" and objectMetadataItem.nameSingular != "workflow" and not isStandaloneRecordPage',
     availabilityObjectMetadataUniversalIdentifier: null,
     frontComponentUniversalIdentifier: null,
     engineComponentKey: EngineComponentKey.ADD_TO_FAVORITES,
@@ -190,7 +190,7 @@ export const STANDARD_COMMAND_MENU_ITEMS = {
     shortLabel: null,
     availabilityType: CommandMenuItemAvailabilityType.RECORD_SELECTION,
     conditionalAvailabilityExpression:
-      'arrayLength(favoriteRecordIds) == numberOfSelectedRecords and noneDefined(selectedRecords, "deletedAt") and not hasAnySoftDeleteFilterOnView and objectMetadataItem.nameSingular != "messageCampaign" and objectMetadataItem.nameSingular != "workflow"',
+      'arrayLength(favoriteRecordIds) == numberOfSelectedRecords and noneDefined(selectedRecords, "deletedAt") and not hasAnySoftDeleteFilterOnView and objectMetadataItem.nameSingular != "messageCampaign" and objectMetadataItem.nameSingular != "workflow" and not isStandaloneRecordPage',
     availabilityObjectMetadataUniversalIdentifier: null,
     frontComponentUniversalIdentifier: null,
     engineComponentKey: EngineComponentKey.REMOVE_FROM_FAVORITES,
