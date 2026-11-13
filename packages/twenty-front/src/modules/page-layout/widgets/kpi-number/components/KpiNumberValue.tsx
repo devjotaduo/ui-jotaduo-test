@@ -91,11 +91,11 @@ export const KpiNumberValue = ({
   };
 
   // The API takes one operator per field, so each bound is its own filter
-  const buildRangeFilter = ({ start, end }: { start: Date; end: Date }) =>
+  const buildRangeFilter = ({ start, end }: { start: Date; end?: Date }) =>
     combineFilters([
       recordScopeFilter ?? {},
       { createdAt: { gte: start.toISOString() } },
-      { createdAt: { lt: end.toISOString() } },
+      ...(isDefined(end) ? [{ createdAt: { lt: end.toISOString() } }] : []),
     ]);
 
   const {
@@ -105,7 +105,8 @@ export const KpiNumberValue = ({
   } = useAggregateRecords({
     objectNameSingular: objectMetadataItem.nameSingular,
     recordGqlFieldsAggregate,
-    filter: buildRangeFilter(current),
+    // No upper bound: one frozen at mount would leave out records created while the widget stays open
+    filter: buildRangeFilter({ start: current.start }),
   });
 
   const { data: previousData } = useAggregateRecords({
