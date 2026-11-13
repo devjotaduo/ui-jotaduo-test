@@ -133,12 +133,16 @@ export const WhatsappConversationMessages = ({
       return;
     }
 
+    const submittedDraft = draft;
     const result = await sendMessage({
-      variables: { phoneNumber, message: draft },
+      variables: { phoneNumber, message: submittedDraft },
     }).catch(() => null);
 
     if (result?.data?.sendWhatsappMessage === true) {
-      setDraft('');
+      // Text typed while the request was pending is the next message, not the one just sent
+      setDraft((currentDraft) =>
+        currentDraft === submittedDraft ? '' : currentDraft,
+      );
       await refetch();
     }
   };
