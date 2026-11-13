@@ -87,6 +87,8 @@ export const fromCreatePageLayoutWidgetInputToFlatPageLayoutWidgetToCreate = ({
         viewFieldGroupUniversalIdentifierById:
           flatViewFieldGroupMaps.universalIdentifierById,
         viewUniversalIdentifierById: flatViewMaps.universalIdentifierById,
+        objectMetadataUniversalIdentifierById:
+          flatObjectMetadataMaps.universalIdentifierById,
         shouldThrowOnMissingIdentifier: true,
       }),
   };

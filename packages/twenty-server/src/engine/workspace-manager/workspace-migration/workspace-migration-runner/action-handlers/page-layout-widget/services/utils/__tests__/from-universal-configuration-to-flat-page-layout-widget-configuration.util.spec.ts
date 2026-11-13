@@ -80,6 +80,8 @@ const getChartRecordFilters = (
       flatFrontComponentMaps: createEmptyFlatEntityMaps(),
       flatViewMaps: createEmptyFlatEntityMaps(),
       flatViewFieldGroupMaps: createEmptyFlatEntityMaps(),
+      flatObjectMetadataMaps: createEmptyFlatEntityMaps(),
+      flatCommandMenuItemMaps: createEmptyFlatEntityMaps(),
     });
 
   if (
@@ -105,6 +107,8 @@ describe('fromUniversalConfigurationToFlatPageLayoutWidgetConfiguration', () => 
         flatFrontComponentMaps: createEmptyFlatEntityMaps(),
         flatViewMaps: createEmptyFlatEntityMaps(),
         flatViewFieldGroupMaps: createEmptyFlatEntityMaps(),
+        flatObjectMetadataMaps: createEmptyFlatEntityMaps(),
+        flatCommandMenuItemMaps: createEmptyFlatEntityMaps(),
       }),
     ).toEqual({
       configurationType: WidgetConfigurationType.FIELD,
@@ -145,6 +149,8 @@ describe('fromUniversalConfigurationToFlatPageLayoutWidgetConfiguration', () => 
         flatFrontComponentMaps,
         flatViewMaps: createEmptyFlatEntityMaps(),
         flatViewFieldGroupMaps: createEmptyFlatEntityMaps(),
+        flatObjectMetadataMaps: createEmptyFlatEntityMaps(),
+        flatCommandMenuItemMaps: createEmptyFlatEntityMaps(),
       }),
     ).toEqual({
       configurationType: WidgetConfigurationType.FRONT_COMPONENT,
@@ -172,5 +178,49 @@ describe('fromUniversalConfigurationToFlatPageLayoutWidgetConfiguration', () => 
         value: 'foo',
       },
     ]);
+  });
+
+  it('should resolve the references of a key number widget and keep the ones it does not know', () => {
+    expect(
+      fromUniversalConfigurationToFlatPageLayoutWidgetConfiguration({
+        universalConfiguration: {
+          configurationType: WidgetConfigurationType.KPI_NUMBER,
+          objectMetadataId: 'unknown-object',
+          kpiFieldMetadataId: AGGREGATE_FIELD_UNIVERSAL_IDENTIFIER,
+        },
+        flatFieldMetadataMaps,
+        flatFrontComponentMaps: createEmptyFlatEntityMaps(),
+        flatViewMaps: createEmptyFlatEntityMaps(),
+        flatViewFieldGroupMaps: createEmptyFlatEntityMaps(),
+        flatObjectMetadataMaps: createEmptyFlatEntityMaps(),
+        flatCommandMenuItemMaps: createEmptyFlatEntityMaps(),
+      }),
+    ).toEqual({
+      configurationType: WidgetConfigurationType.KPI_NUMBER,
+      objectMetadataId: 'unknown-object',
+      kpiFieldMetadataId: AGGREGATE_FIELD_ID,
+    });
+  });
+
+  it('should resolve the fields of a records list widget', () => {
+    expect(
+      fromUniversalConfigurationToFlatPageLayoutWidgetConfiguration({
+        universalConfiguration: {
+          configurationType: WidgetConfigurationType.OBJECT_LIST,
+          fieldMetadataIds: [
+            RELATION_FIELD_UNIVERSAL_IDENTIFIER,
+            TARGET_TEXT_FIELD_UNIVERSAL_IDENTIFIER,
+          ],
+        },
+        flatFieldMetadataMaps,
+        flatFrontComponentMaps: createEmptyFlatEntityMaps(),
+        flatViewMaps: createEmptyFlatEntityMaps(),
+        flatViewFieldGroupMaps: createEmptyFlatEntityMaps(),
+        flatObjectMetadataMaps: createEmptyFlatEntityMaps(),
+        flatCommandMenuItemMaps: createEmptyFlatEntityMaps(),
+      }),
+    ).toMatchObject({
+      fieldMetadataIds: [RELATION_FIELD_ID, TARGET_TEXT_FIELD_ID],
+    });
   });
 });

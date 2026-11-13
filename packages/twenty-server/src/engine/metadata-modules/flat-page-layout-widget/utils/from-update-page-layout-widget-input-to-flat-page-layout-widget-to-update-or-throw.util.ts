@@ -152,6 +152,8 @@ export const fromUpdatePageLayoutWidgetInputToFlatPageLayoutWidgetToUpdateOrThro
           viewFieldGroupUniversalIdentifierById:
             flatViewFieldGroupMaps.universalIdentifierById,
           viewUniversalIdentifierById: flatViewMaps.universalIdentifierById,
+          objectMetadataUniversalIdentifierById:
+            flatObjectMetadataMaps.universalIdentifierById,
         });
     }
 

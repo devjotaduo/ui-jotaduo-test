@@ -644,6 +644,8 @@ export class PageLayoutUpdateService {
               viewFieldGroupUniversalIdentifierById:
                 flatViewFieldGroupMaps.universalIdentifierById,
               viewUniversalIdentifierById: flatViewMaps.universalIdentifierById,
+              objectMetadataUniversalIdentifierById:
+                flatObjectMetadataMaps.universalIdentifierById,
             }),
         };
       },
@@ -849,6 +851,8 @@ export class PageLayoutUpdateService {
           viewFieldGroupUniversalIdentifierById:
             flatViewFieldGroupMaps.universalIdentifierById,
           viewUniversalIdentifierById: flatViewMaps.universalIdentifierById,
+          objectMetadataUniversalIdentifierById:
+            flatObjectMetadataMaps.universalIdentifierById,
         });
     }
 
