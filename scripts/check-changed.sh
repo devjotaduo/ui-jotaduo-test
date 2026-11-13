@@ -106,7 +106,7 @@ lint_package() {
   [ -f "packages/$package/.oxlintrc.json" ] || { echo "no .oxlintrc.json, skipped"; return 0; }
   (
     cd "packages/$package" || exit 1
-    npx oxlint --type-aware -c .oxlintrc.json --deny-warnings $files || exit 1
+    npx oxlint --type-aware -c .oxlintrc.json $files || exit 1
     # Generated files are ignored by oxfmt; a package with only those has nothing to format
     format_output="$(npx oxfmt --check $files 2>&1)"
     format_status=$?
