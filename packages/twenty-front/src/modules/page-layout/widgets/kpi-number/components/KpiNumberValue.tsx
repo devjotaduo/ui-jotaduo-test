@@ -8,7 +8,7 @@ import { getKpiNumberRecordScopeFilter } from '@/page-layout/widgets/kpi-number/
 import { useLayoutRenderingContext } from '@/ui/layout/contexts/LayoutRenderingContext';
 import { styled } from '@linaria/react';
 import { useLingui } from '@lingui/react/macro';
-import { useState } from 'react';
+import { startOfHour } from 'date-fns';
 import { FIELD_FOR_TOTAL_COUNT_AGGREGATE_OPERATION } from 'twenty-shared/constants';
 import {
   FieldMetadataType,
@@ -72,8 +72,8 @@ export const KpiNumberValue = ({
   const { t } = useLingui();
   const { formatNumber } = useNumberFormat();
   const { targetRecordIdentifier } = useLayoutRenderingContext();
-  // A date read on every render would change the query variables each time
-  const [now] = useState(() => new Date());
+  // Hour precision keeps the query variables stable between renders and still follows a period rollover
+  const now = startOfHour(new Date());
 
   const { current, previous } = getKpiNumberPeriodRanges({ period, now });
   const recordScopeFilter = getKpiNumberRecordScopeFilter({
