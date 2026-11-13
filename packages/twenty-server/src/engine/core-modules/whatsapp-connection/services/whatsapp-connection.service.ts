@@ -4,7 +4,10 @@ import { msg } from '@lingui/core/macro';
 import { isNonEmptyString } from '@sniptt/guards';
 import { isDefined } from 'twenty-shared/utils';
 
-import { UserInputError } from 'src/engine/core-modules/graphql/utils/graphql-errors.util';
+import {
+  ForbiddenError,
+  UserInputError,
+} from 'src/engine/core-modules/graphql/utils/graphql-errors.util';
 import { TwentyConfigService } from 'src/engine/core-modules/twenty-config/twenty-config.service';
 import {
   type WhatsappConnectionStatusDTO,
@@ -41,8 +44,32 @@ export class WhatsappConnectionService {
     return isNonEmptyString(this.twentyConfigService.get('WHATSAPP_GOWA_URL'));
   }
 
-  async getStatus(deviceId?: string): Promise<WhatsappConnectionStatusDTO> {
-    if (!this.isConfigured()) {
+  // The GOWA account is one per server, so only one workspace may own it once several share the instance
+  canWorkspaceUseWhatsapp(workspaceId: string) {
+    const ownerWorkspaceId = this.twentyConfigService.get(
+      'WHATSAPP_GOWA_WORKSPACE_ID',
+    );
+
+    if (isNonEmptyString(ownerWorkspaceId)) {
+      return ownerWorkspaceId === workspaceId;
+    }
+
+    return !this.twentyConfigService.get('IS_MULTIWORKSPACE_ENABLED');
+  }
+
+  assertWorkspaceCanUseWhatsapp(workspaceId: string) {
+    if (!this.canWorkspaceUseWhatsapp(workspaceId)) {
+      throw new ForbiddenError('WhatsApp belongs to another workspace', {
+        userFriendlyMessage: msg`WhatsApp is not available in this workspace.`,
+      });
+    }
+  }
+
+  async getStatus(
+    workspaceId: string,
+    deviceId?: string,
+  ): Promise<WhatsappConnectionStatusDTO> {
+    if (!this.isConfigured() || !this.canWorkspaceUseWhatsapp(workspaceId)) {
       return { isConfigured: false, isConnected: false, devices: [] };
     }
 

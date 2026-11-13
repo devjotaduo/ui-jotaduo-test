@@ -79,3 +79,41 @@ describe('WhatsappConnectionService.getChats', () => {
     expect(chats[0].lastMessageAt).toBe('2026-11-12T11:00:00Z');
   });
 });
+
+describe('WhatsappConnectionService.canWorkspaceUseWhatsapp', () => {
+  const buildService = (config: Record<string, string | boolean>) =>
+    new WhatsappConnectionService({
+      get: (key: string) => config[key],
+    } as unknown as TwentyConfigService);
+
+  it('should allow the only workspace of a single-workspace server', () => {
+    const service = buildService({ IS_MULTIWORKSPACE_ENABLED: false });
+
+    expect(service.canWorkspaceUseWhatsapp('workspace-1')).toBe(true);
+  });
+
+  it('should refuse every workspace of a multi-workspace server without an owner', () => {
+    const service = buildService({ IS_MULTIWORKSPACE_ENABLED: true });
+
+    expect(service.canWorkspaceUseWhatsapp('workspace-1')).toBe(false);
+    expect(() => service.assertWorkspaceCanUseWhatsapp('workspace-1')).toThrow(
+      'WhatsApp belongs to another workspace',
+    );
+  });
+
+  it('should allow only the owner workspace', async () => {
+    const service = buildService({
+      ...CONFIG,
+      IS_MULTIWORKSPACE_ENABLED: true,
+      WHATSAPP_GOWA_WORKSPACE_ID: 'workspace-1',
+    });
+
+    expect(service.canWorkspaceUseWhatsapp('workspace-1')).toBe(true);
+    expect(service.canWorkspaceUseWhatsapp('workspace-2')).toBe(false);
+    expect(await service.getStatus('workspace-2')).toEqual({
+      isConfigured: false,
+      isConnected: false,
+      devices: [],
+    });
+  });
+});

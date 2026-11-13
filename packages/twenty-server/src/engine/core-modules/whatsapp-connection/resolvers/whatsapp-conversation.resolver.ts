@@ -8,6 +8,8 @@ import {
   WhatsappMessageDTO,
 } from 'src/engine/core-modules/whatsapp-connection/dtos/whatsapp-connection.dto';
 import { WhatsappConnectionService } from 'src/engine/core-modules/whatsapp-connection/services/whatsapp-connection.service';
+import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
+import { AuthWorkspace } from 'src/engine/decorators/auth/auth-workspace.decorator';
 import { AccessPolicyGuard } from 'src/engine/guards/access-policy.guard';
 import { PermissionsGraphqlApiExceptionFilter } from 'src/engine/permissions/utils/permissions-graphql-api-exception.filter';
 
@@ -45,8 +47,11 @@ export class WhatsappConversationResolver {
 
   @Query(() => [WhatsappChatDTO])
   async whatsappChats(
+    @AuthWorkspace() workspace: WorkspaceEntity,
     @Args('limit', { type: () => Int, nullable: true }) limit?: number,
   ) {
+    this.whatsappConnectionService.assertWorkspaceCanUseWhatsapp(workspace.id);
+
     return this.whatsappConnectionService.getChats(
       Math.min(Math.max(limit ?? DEFAULT_CHAT_LIMIT, 1), MAX_CHAT_LIMIT),
     );
@@ -54,9 +59,12 @@ export class WhatsappConversationResolver {
 
   @Query(() => [WhatsappMessageDTO])
   async whatsappMessages(
+    @AuthWorkspace() workspace: WorkspaceEntity,
     @Args('phoneNumber') phoneNumber: string,
     @Args('limit', { type: () => Int, nullable: true }) limit?: number,
   ) {
+    this.whatsappConnectionService.assertWorkspaceCanUseWhatsapp(workspace.id);
+
     return this.whatsappConnectionService.getMessages(
       phoneNumber,
       Math.min(Math.max(limit ?? DEFAULT_MESSAGE_LIMIT, 1), MAX_MESSAGE_LIMIT),
@@ -65,9 +73,12 @@ export class WhatsappConversationResolver {
 
   @Mutation(() => Boolean)
   async sendWhatsappMessage(
+    @AuthWorkspace() workspace: WorkspaceEntity,
     @Args('phoneNumber') phoneNumber: string,
     @Args('message') message: string,
   ) {
+    this.whatsappConnectionService.assertWorkspaceCanUseWhatsapp(workspace.id);
+
     return this.whatsappConnectionService.sendMessage(phoneNumber, message);
   }
 }

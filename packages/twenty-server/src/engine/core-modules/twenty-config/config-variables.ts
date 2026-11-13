@@ -2541,6 +2541,16 @@ export class ConfigVariables {
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.ADVANCED_SETTINGS,
     description:
+      'Id of the only workspace allowed to use the GOWA WhatsApp account. Required when multi-workspace is enabled',
+    type: ConfigVariableType.STRING,
+    isEnvOnly: true,
+  })
+  @IsOptionalOrEmptyString()
+  WHATSAPP_GOWA_WORKSPACE_ID?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.ADVANCED_SETTINGS,
+    description:
       'Enable or disable address autocomplete (see ADDRESS_AUTOCOMPLETE_DRIVER)',
     type: ConfigVariableType.BOOLEAN,
   })

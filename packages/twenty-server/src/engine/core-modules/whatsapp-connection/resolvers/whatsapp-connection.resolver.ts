@@ -11,6 +11,8 @@ import {
   WhatsappPairingCodeDTO,
 } from 'src/engine/core-modules/whatsapp-connection/dtos/whatsapp-connection.dto';
 import { WhatsappConnectionService } from 'src/engine/core-modules/whatsapp-connection/services/whatsapp-connection.service';
+import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
+import { AuthWorkspace } from 'src/engine/decorators/auth/auth-workspace.decorator';
 import { AccessPolicyGuard } from 'src/engine/guards/access-policy.guard';
 import { PermissionsGraphqlApiExceptionFilter } from 'src/engine/permissions/utils/permissions-graphql-api-exception.filter';
 
@@ -42,30 +44,40 @@ export class WhatsappConnectionResolver {
 
   @Query(() => WhatsappConnectionStatusDTO)
   async whatsappConnectionStatus(
+    @AuthWorkspace() workspace: WorkspaceEntity,
     @Args('deviceId', { nullable: true }) deviceId?: string,
   ) {
-    return this.whatsappConnectionService.getStatus(deviceId);
+    return this.whatsappConnectionService.getStatus(workspace.id, deviceId);
   }
 
   @Mutation(() => WhatsappLoginQrCodeDTO)
   async generateWhatsappLoginQrCode(
+    @AuthWorkspace() workspace: WorkspaceEntity,
     @Args('deviceId', { nullable: true }) deviceId?: string,
   ) {
+    this.whatsappConnectionService.assertWorkspaceCanUseWhatsapp(workspace.id);
+
     return this.whatsappConnectionService.getLoginQrCode(deviceId);
   }
 
   @Mutation(() => WhatsappPairingCodeDTO)
   async generateWhatsappPairingCode(
+    @AuthWorkspace() workspace: WorkspaceEntity,
     @Args('phoneNumber') phoneNumber: string,
     @Args('deviceId', { nullable: true }) deviceId?: string,
   ) {
+    this.whatsappConnectionService.assertWorkspaceCanUseWhatsapp(workspace.id);
+
     return this.whatsappConnectionService.getPairingCode(phoneNumber, deviceId);
   }
 
   @Mutation(() => Boolean)
   async disconnectWhatsapp(
+    @AuthWorkspace() workspace: WorkspaceEntity,
     @Args('deviceId', { nullable: true }) deviceId?: string,
   ) {
+    this.whatsappConnectionService.assertWorkspaceCanUseWhatsapp(workspace.id);
+
     return this.whatsappConnectionService.logout(deviceId);
   }
 }
