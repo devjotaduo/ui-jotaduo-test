@@ -268,6 +268,7 @@ export class PageLayoutWidgetService {
       flatFrontComponentMaps,
       flatViewFieldGroupMaps,
       flatViewMaps,
+      flatCommandMenuItemMaps,
     } =
       await this.workspaceManyOrAllFlatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
         {
@@ -280,6 +281,7 @@ export class PageLayoutWidgetService {
             'flatFrontComponentMaps',
             'flatViewFieldGroupMaps',
             'flatViewMaps',
+            'flatCommandMenuItemMaps',
           ],
         },
       );
@@ -295,6 +297,7 @@ export class PageLayoutWidgetService {
         flatFrontComponentMaps,
         flatViewFieldGroupMaps,
         flatViewMaps,
+        flatCommandMenuItemMaps,
       });
 
     if (isDefined(createInput.configuration)) {
@@ -422,6 +425,7 @@ export class PageLayoutWidgetService {
         flatViewFieldGroupMaps: existingFlatViewFieldGroupMaps,
         flatViewMaps: existingFlatViewMaps,
         flatPageLayoutTabMaps: existingFlatPageLayoutTabMaps,
+        flatCommandMenuItemMaps: existingFlatCommandMenuItemMaps,
       },
       { workspaceCustomFlatApplication },
     ] = await Promise.all([
@@ -435,6 +439,7 @@ export class PageLayoutWidgetService {
             'flatViewFieldGroupMaps',
             'flatViewMaps',
             'flatPageLayoutTabMaps',
+            'flatCommandMenuItemMaps',
           ],
         },
       ),
@@ -475,6 +480,7 @@ export class PageLayoutWidgetService {
         flatViewFieldGroupMaps: existingFlatViewFieldGroupMaps,
         flatViewMaps: existingFlatViewMaps,
         flatPageLayoutTabMaps: existingFlatPageLayoutTabMaps,
+        flatCommandMenuItemMaps: existingFlatCommandMenuItemMaps,
         callerApplicationUniversalIdentifier:
           workspaceCustomFlatApplication.universalIdentifier,
         workspaceCustomApplicationUniversalIdentifier:
