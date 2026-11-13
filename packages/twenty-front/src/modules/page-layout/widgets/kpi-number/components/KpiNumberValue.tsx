@@ -136,6 +136,18 @@ export const KpiNumberValue = ({
     previousValue: readValue(previousData),
   });
 
+  // The aggregate query silently drops a field the viewer cannot read, which would show as zero
+  const isFieldRestricted =
+    operation !== 'COUNT' &&
+    isDefined(field) &&
+    !objectMetadataItem.readableFields.some(({ id }) => id === field.id);
+
+  if (isFieldRestricted) {
+    return (
+      <StyledComparison>{t`You do not have access to this number.`}</StyledComparison>
+    );
+  }
+
   if (isDefined(error)) {
     return (
       <StyledComparison>{t`Could not load this number.`}</StyledComparison>
