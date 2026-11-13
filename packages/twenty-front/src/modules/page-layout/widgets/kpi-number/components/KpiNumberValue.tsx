@@ -2,6 +2,7 @@ import { type EnrichedObjectMetadataItem } from '@/object-metadata/types/Enriche
 import { type FieldMetadataItem } from '@/object-metadata/types/FieldMetadataItem';
 import { useNumberFormat } from '@/localization/hooks/useNumberFormat';
 import { useAggregateRecords } from '@/object-record/hooks/useAggregateRecords';
+import { useObjectPermissionsForObject } from '@/object-record/hooks/useObjectPermissionsForObject';
 import { getKpiNumberDeltaPercentage } from '@/page-layout/widgets/kpi-number/utils/getKpiNumberDeltaPercentage';
 import { getKpiNumberPeriodRanges } from '@/page-layout/widgets/kpi-number/utils/getKpiNumberPeriodRanges';
 import { getKpiNumberRecordScopeFilter } from '@/page-layout/widgets/kpi-number/utils/getKpiNumberRecordScopeFilter';
@@ -15,7 +16,11 @@ import {
   type KpiNumberAggregateOperation,
   type KpiNumberPeriod,
 } from 'twenty-shared/types';
-import { combineFilters, isDefined } from 'twenty-shared/utils';
+import {
+  canAccessThroughAllRecordsOrRlsPermission,
+  combineFilters,
+  isDefined,
+} from 'twenty-shared/utils';
 import { IconTrendingDown, IconTrendingUp } from 'twenty-ui/icon';
 import { Loader } from 'twenty-ui/primitives/feedback';
 import { themeCssVariables } from 'twenty-ui/theme';
@@ -72,6 +77,9 @@ export const KpiNumberValue = ({
   const { t } = useLingui();
   const { formatNumber } = useNumberFormat();
   const { targetRecordIdentifier } = useLayoutRenderingContext();
+  const objectPermissions = useObjectPermissionsForObject(
+    objectMetadataItem.id,
+  );
   // Minute precision keeps the query variables stable between renders and still follows a period rollover
   const now = startOfMinute(new Date());
 
@@ -136,13 +144,17 @@ export const KpiNumberValue = ({
     previousValue: readValue(previousData),
   });
 
-  // The aggregate query silently drops a field the viewer cannot read, which would show as zero
+  // The aggregate query is skipped for an unreadable object and drops an unreadable field, both of which would show as zero
+  const isObjectRestricted = !canAccessThroughAllRecordsOrRlsPermission({
+    objectRecordsPermissions: objectPermissions,
+    operationType: 'read',
+  });
   const isFieldRestricted =
     operation !== 'COUNT' &&
     isDefined(field) &&
     !objectMetadataItem.readableFields.some(({ id }) => id === field.id);
 
-  if (isFieldRestricted) {
+  if (isObjectRestricted || isFieldRestricted) {
     return (
       <StyledComparison>{t`You do not have access to this number.`}</StyledComparison>
     );
