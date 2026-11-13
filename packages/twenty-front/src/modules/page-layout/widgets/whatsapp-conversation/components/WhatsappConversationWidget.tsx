@@ -49,5 +49,8 @@ export const WhatsappConversationWidget = () => {
     );
   }
 
-  return <WhatsappConversationMessages phoneNumber={phoneNumber} />;
+  // Keyed by number so a draft typed for one recipient is never sent to another
+  return (
+    <WhatsappConversationMessages key={phoneNumber} phoneNumber={phoneNumber} />
+  );
 };
