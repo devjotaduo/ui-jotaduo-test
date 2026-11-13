@@ -41,6 +41,8 @@ import { FeatureFlagModule } from 'src/engine/core-modules/feature-flag/feature-
 import { AccessPolicyModule } from 'src/engine/guards/access-policy/access-policy.module';
 import { FileStorageModule } from 'src/engine/core-modules/file-storage/file-storage.module';
 import { GeoMapModule } from 'src/engine/core-modules/geo-map/geo-map-module';
+import { PixChargeModule } from 'src/engine/core-modules/pix-charge/pix-charge.module';
+import { WhatsappConnectionModule } from 'src/engine/core-modules/whatsapp-connection/whatsapp-connection.module';
 import { GettingStartedWorkflowModule } from 'src/engine/core-modules/getting-started/getting-started-workflow.module';
 import { GettingStartedModule } from 'src/engine/core-modules/getting-started/getting-started.module';
 import { HealthModule } from 'src/engine/core-modules/health/health.module';
@@ -138,6 +140,8 @@ import { FileApiModule } from './file/file-api.module';
     WorkspaceQueryRunnerModule,
     WorkspaceResolverNameMapCacheModule,
     GeoMapModule,
+    WhatsappConnectionModule,
+    PixChargeModule,
     SubscriptionsModule,
     ImapSmtpCaldavModule,
     FileStorageModule.forRoot(),

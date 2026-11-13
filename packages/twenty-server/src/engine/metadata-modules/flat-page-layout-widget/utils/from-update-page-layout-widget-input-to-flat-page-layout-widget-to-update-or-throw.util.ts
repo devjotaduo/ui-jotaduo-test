@@ -38,6 +38,7 @@ export const fromUpdatePageLayoutWidgetInputToFlatPageLayoutWidgetToUpdateOrThro
     flatViewFieldGroupMaps,
     flatViewMaps,
     flatPageLayoutTabMaps,
+    flatCommandMenuItemMaps,
     callerApplicationUniversalIdentifier,
     workspaceCustomApplicationUniversalIdentifier,
   }: {
@@ -53,7 +54,10 @@ export const fromUpdatePageLayoutWidgetInputToFlatPageLayoutWidgetToUpdateOrThro
     | 'flatViewFieldGroupMaps'
     | 'flatViewMaps'
     | 'flatPageLayoutTabMaps'
-  >): FlatPageLayoutWidget => {
+  > &
+    Partial<
+      Pick<AllFlatEntityMaps, 'flatCommandMenuItemMaps'>
+    >): FlatPageLayoutWidget => {
     const { id: pageLayoutWidgetToUpdateId } =
       extractAndSanitizeObjectStringFields(rawUpdatePageLayoutWidgetInput, [
         'id',
@@ -152,6 +156,10 @@ export const fromUpdatePageLayoutWidgetInputToFlatPageLayoutWidgetToUpdateOrThro
           viewFieldGroupUniversalIdentifierById:
             flatViewFieldGroupMaps.universalIdentifierById,
           viewUniversalIdentifierById: flatViewMaps.universalIdentifierById,
+          objectMetadataUniversalIdentifierById:
+            flatObjectMetadataMaps.universalIdentifierById,
+          commandMenuItemUniversalIdentifierById:
+            flatCommandMenuItemMaps?.universalIdentifierById,
         });
     }
 

@@ -148,4 +148,56 @@ describe('fromPageLayoutWidgetConfigurationToUniversalConfiguration', () => {
       isUIEditable: false,
     });
   });
+
+  it('should carry the references of the records list, key number and action buttons widgets as universal identifiers', () => {
+    const identifierMaps = {
+      fieldMetadataUniversalIdentifierById,
+      objectMetadataUniversalIdentifierById: {
+        'object-id': 'object-universal',
+      },
+      commandMenuItemUniversalIdentifierById: {
+        'command-id': 'command-universal',
+      },
+    };
+
+    expect(
+      fromPageLayoutWidgetConfigurationToUniversalConfiguration({
+        configuration: {
+          configurationType: WidgetConfigurationType.OBJECT_LIST,
+          objectMetadataId: 'object-id',
+          fieldMetadataIds: [RELATION_FIELD_ID, DELETED_FIELD_ID],
+        },
+        ...identifierMaps,
+      }),
+    ).toMatchObject({
+      objectMetadataId: 'object-universal',
+      fieldMetadataIds: [RELATION_FIELD_UNIVERSAL_IDENTIFIER, DELETED_FIELD_ID],
+    });
+
+    expect(
+      fromPageLayoutWidgetConfigurationToUniversalConfiguration({
+        configuration: {
+          configurationType: WidgetConfigurationType.KPI_NUMBER,
+          objectMetadataId: 'object-id',
+          kpiFieldMetadataId: AGGREGATE_FIELD_ID,
+        },
+        ...identifierMaps,
+      }),
+    ).toMatchObject({
+      objectMetadataId: 'object-universal',
+      kpiFieldMetadataId: AGGREGATE_FIELD_UNIVERSAL_IDENTIFIER,
+    });
+
+    expect(
+      fromPageLayoutWidgetConfigurationToUniversalConfiguration({
+        configuration: {
+          configurationType: WidgetConfigurationType.ACTION_BUTTONS,
+          commandMenuItemIds: ['command-id', 'unknown-command'],
+        },
+        ...identifierMaps,
+      }),
+    ).toMatchObject({
+      commandMenuItemIds: ['command-universal', 'unknown-command'],
+    });
+  });
 });

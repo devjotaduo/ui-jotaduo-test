@@ -16,7 +16,6 @@ import { useNavigatePageLayoutSidePanel } from '@/side-panel/pages/page-layout/h
 import { usePageLayoutSidePanelTarget } from '@/side-panel/pages/page-layout/hooks/usePageLayoutSidePanelTarget';
 import { getFrontComponentWidgetTypeSelectItemId } from '@/side-panel/pages/page-layout/utils/getFrontComponentWidgetTypeSelectItemId';
 import { isExistingWidgetMissingOrDifferentType } from '@/side-panel/pages/page-layout/utils/isExistingWidgetMissingOrDifferentType';
-import { isFrontComponentAvailableInWidgetPicker } from '@/side-panel/pages/page-layout/utils/isFrontComponentAvailableInWidgetPicker';
 import { SelectableListItem } from '@/ui/layout/selectable-list/components/SelectableListItem';
 import { useAtomComponentState } from '@/ui/utilities/state/jotai/hooks/useAtomComponentState';
 import { useAtomComponentStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomComponentStateValue';
@@ -25,10 +24,18 @@ import {
   StandardObjectNameSingular,
   SidePanelPages,
 } from 'twenty-shared/types';
-import { isDefined } from 'twenty-shared/utils';
+import {
+  isDefined,
+  isFrontComponentAvailableInWidgetPicker,
+} from 'twenty-shared/utils';
 import {
   IconAlignBoxLeftTop,
   IconApps,
+  IconBrandWhatsapp,
+  IconList,
+  IconNumber,
+  IconClick,
+  IconListCheck,
   IconChartPie,
   IconFrame,
   IconTable,
@@ -230,6 +237,156 @@ export const SidePanelPageLayoutDashboardWidgetTypeSelect = () => {
     });
   };
 
+  const handleCreateObjectListWidget = () => {
+    if (
+      isExistingWidgetMissingOrDifferentType(
+        existingWidget?.type,
+        WidgetType.OBJECT_LIST,
+      )
+    ) {
+      if (isDefined(pageLayoutEditingWidgetId)) {
+        removePageLayoutWidgetAndPreservePosition(pageLayoutEditingWidgetId);
+      }
+
+      const newWidget = createPageLayoutWidget({
+        type: WidgetType.OBJECT_LIST,
+        title: t`Records`,
+        configuration: {
+          __typename: 'ObjectListConfiguration',
+          configurationType: WidgetConfigurationType.OBJECT_LIST,
+        },
+      });
+      setPageLayoutEditingWidgetId(newWidget.id);
+    }
+
+    closeSidePanelMenu();
+  };
+
+  const handleCreateKpiNumberWidget = () => {
+    if (
+      isExistingWidgetMissingOrDifferentType(
+        existingWidget?.type,
+        WidgetType.KPI_NUMBER,
+      )
+    ) {
+      if (isDefined(pageLayoutEditingWidgetId)) {
+        removePageLayoutWidgetAndPreservePosition(pageLayoutEditingWidgetId);
+      }
+
+      const newWidget = createPageLayoutWidget({
+        type: WidgetType.KPI_NUMBER,
+        title: t`Number`,
+        configuration: {
+          __typename: 'KpiNumberConfiguration',
+          configurationType: WidgetConfigurationType.KPI_NUMBER,
+        },
+      });
+      setPageLayoutEditingWidgetId(newWidget.id);
+    }
+
+    closeSidePanelMenu();
+  };
+
+  const handleCreateActionButtonsWidget = () => {
+    if (
+      isExistingWidgetMissingOrDifferentType(
+        existingWidget?.type,
+        WidgetType.ACTION_BUTTONS,
+      )
+    ) {
+      if (isDefined(pageLayoutEditingWidgetId)) {
+        removePageLayoutWidgetAndPreservePosition(pageLayoutEditingWidgetId);
+      }
+
+      const newWidget = createPageLayoutWidget({
+        type: WidgetType.ACTION_BUTTONS,
+        title: t`Actions`,
+        configuration: {
+          __typename: 'ActionButtonsConfiguration',
+          configurationType: WidgetConfigurationType.ACTION_BUTTONS,
+        },
+      });
+      setPageLayoutEditingWidgetId(newWidget.id);
+    }
+
+    closeSidePanelMenu();
+  };
+
+  const handleCreateNextActionsWidget = () => {
+    if (
+      isExistingWidgetMissingOrDifferentType(
+        existingWidget?.type,
+        WidgetType.NEXT_ACTIONS,
+      )
+    ) {
+      if (isDefined(pageLayoutEditingWidgetId)) {
+        removePageLayoutWidgetAndPreservePosition(pageLayoutEditingWidgetId);
+      }
+
+      const newWidget = createPageLayoutWidget({
+        type: WidgetType.NEXT_ACTIONS,
+        title: t`Next actions`,
+        configuration: {
+          __typename: 'NextActionsConfiguration',
+          configurationType: WidgetConfigurationType.NEXT_ACTIONS,
+        },
+      });
+      setPageLayoutEditingWidgetId(newWidget.id);
+    }
+
+    closeSidePanelMenu();
+  };
+
+  const handleCreateWhatsappChatsWidget = () => {
+    if (
+      isExistingWidgetMissingOrDifferentType(
+        existingWidget?.type,
+        WidgetType.WHATSAPP_CHATS,
+      )
+    ) {
+      if (isDefined(pageLayoutEditingWidgetId)) {
+        removePageLayoutWidgetAndPreservePosition(pageLayoutEditingWidgetId);
+      }
+
+      const newWidget = createPageLayoutWidget({
+        type: WidgetType.WHATSAPP_CHATS,
+        title: t`WhatsApp chats`,
+        configuration: {
+          __typename: 'WhatsappChatsConfiguration',
+          configurationType: WidgetConfigurationType.WHATSAPP_CHATS,
+        },
+      });
+      setPageLayoutEditingWidgetId(newWidget.id);
+    }
+
+    closeSidePanelMenu();
+  };
+
+  const handleCreateWhatsappConnectionWidget = () => {
+    if (
+      isExistingWidgetMissingOrDifferentType(
+        existingWidget?.type,
+        WidgetType.WHATSAPP_CONNECTION,
+      )
+    ) {
+      if (isDefined(pageLayoutEditingWidgetId)) {
+        removePageLayoutWidgetAndPreservePosition(pageLayoutEditingWidgetId);
+      }
+
+      const newWidget = createPageLayoutWidget({
+        type: WidgetType.WHATSAPP_CONNECTION,
+        title: t`WhatsApp connection`,
+        configuration: {
+          __typename: 'WhatsappConnectionConfiguration',
+          configurationType: WidgetConfigurationType.WHATSAPP_CONNECTION,
+        },
+      });
+      setPageLayoutEditingWidgetId(newWidget.id);
+    }
+
+    closeSidePanelMenu();
+  };
+
   const handleCreateFrontComponentWidget = (frontComponent: FrontComponent) => {
     if (
       isExistingWidgetMissingOrDifferentType(
@@ -261,6 +418,12 @@ export const SidePanelPageLayoutDashboardWidgetTypeSelect = () => {
     'record-table',
     'iframe',
     'rich-text',
+    'whatsapp-connection',
+    'whatsapp-chats',
+    'object-list',
+    'kpi-number',
+    'action-buttons',
+    'next-actions',
     ...frontComponentsWithSelectItemId.map(({ selectItemId }) => selectItemId),
   ];
 
@@ -310,6 +473,72 @@ export const SidePanelPageLayoutDashboardWidgetTypeSelect = () => {
             label={t`Rich Text`}
             id="rich-text"
             onClick={handleNavigateToRichTextSettings}
+          />
+        </SelectableListItem>
+        <SelectableListItem
+          itemId="whatsapp-connection"
+          onEnter={handleCreateWhatsappConnectionWidget}
+        >
+          <CommandMenuItem
+            Icon={IconBrandWhatsapp}
+            label={t`WhatsApp connection`}
+            id="whatsapp-connection"
+            onClick={handleCreateWhatsappConnectionWidget}
+          />
+        </SelectableListItem>
+        <SelectableListItem
+          itemId="whatsapp-chats"
+          onEnter={handleCreateWhatsappChatsWidget}
+        >
+          <CommandMenuItem
+            Icon={IconBrandWhatsapp}
+            label={t`WhatsApp chats`}
+            id="whatsapp-chats"
+            onClick={handleCreateWhatsappChatsWidget}
+          />
+        </SelectableListItem>
+        <SelectableListItem
+          itemId="object-list"
+          onEnter={handleCreateObjectListWidget}
+        >
+          <CommandMenuItem
+            Icon={IconList}
+            label={t`Records list`}
+            id="object-list"
+            onClick={handleCreateObjectListWidget}
+          />
+        </SelectableListItem>
+        <SelectableListItem
+          itemId="kpi-number"
+          onEnter={handleCreateKpiNumberWidget}
+        >
+          <CommandMenuItem
+            Icon={IconNumber}
+            label={t`Key number`}
+            id="kpi-number"
+            onClick={handleCreateKpiNumberWidget}
+          />
+        </SelectableListItem>
+        <SelectableListItem
+          itemId="action-buttons"
+          onEnter={handleCreateActionButtonsWidget}
+        >
+          <CommandMenuItem
+            Icon={IconClick}
+            label={t`Action buttons`}
+            id="action-buttons"
+            onClick={handleCreateActionButtonsWidget}
+          />
+        </SelectableListItem>
+        <SelectableListItem
+          itemId="next-actions"
+          onEnter={handleCreateNextActionsWidget}
+        >
+          <CommandMenuItem
+            Icon={IconListCheck}
+            label={t`Next actions`}
+            id="next-actions"
+            onClick={handleCreateNextActionsWidget}
           />
         </SelectableListItem>
       </SidePanelGroup>

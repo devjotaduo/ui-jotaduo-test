@@ -22,7 +22,8 @@ export type FromCreatePageLayoutWidgetInputToFlatPageLayoutWidgetToCreateArgs =
     | 'flatFrontComponentMaps'
     | 'flatViewFieldGroupMaps'
     | 'flatViewMaps'
-  >;
+  > &
+    Partial<Pick<AllFlatEntityMaps, 'flatCommandMenuItemMaps'>>;
 
 export const fromCreatePageLayoutWidgetInputToFlatPageLayoutWidgetToCreate = ({
   createPageLayoutWidgetInput: rawCreatePageLayoutWidgetInput,
@@ -34,6 +35,7 @@ export const fromCreatePageLayoutWidgetInputToFlatPageLayoutWidgetToCreate = ({
   flatFrontComponentMaps,
   flatViewFieldGroupMaps,
   flatViewMaps,
+  flatCommandMenuItemMaps,
 }: FromCreatePageLayoutWidgetInputToFlatPageLayoutWidgetToCreateArgs): FlatPageLayoutWidget => {
   const { pageLayoutTabId, ...createPageLayoutWidgetInput } =
     trimAndRemoveDuplicatedWhitespacesFromObjectStringProperties(
@@ -87,6 +89,10 @@ export const fromCreatePageLayoutWidgetInputToFlatPageLayoutWidgetToCreate = ({
         viewFieldGroupUniversalIdentifierById:
           flatViewFieldGroupMaps.universalIdentifierById,
         viewUniversalIdentifierById: flatViewMaps.universalIdentifierById,
+        objectMetadataUniversalIdentifierById:
+          flatObjectMetadataMaps.universalIdentifierById,
+        commandMenuItemUniversalIdentifierById:
+          flatCommandMenuItemMaps?.universalIdentifierById,
         shouldThrowOnMissingIdentifier: true,
       }),
   };

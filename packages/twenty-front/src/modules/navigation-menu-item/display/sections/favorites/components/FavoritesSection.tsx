@@ -12,6 +12,7 @@ import { NavigationSections } from '@/navigation-menu-item/common/constants/Navi
 import { NavigationMenuItemDragContext } from '@/navigation-menu-item/common/contexts/NavigationMenuItemDragContext';
 import { useDeleteManyNavigationMenuItems } from '@/navigation-menu-item/common/hooks/useDeleteManyNavigationMenuItems';
 import { isNavigationMenuItemFolder } from '@/navigation-menu-item/common/utils/isNavigationMenuItemFolder';
+import { getNavigationMenuItemBehavior } from '@/navigation-menu-item/common/utils/getNavigationMenuItemBehavior';
 import { NavigationMenuItemDisplay } from '@/navigation-menu-item/display/components/NavigationMenuItemDisplay';
 import { NavigationMenuItemDroppableSlot } from '@/navigation-menu-item/display/dnd/components/NavigationMenuItemDroppableSlot';
 import { NavigationMenuItemSortableItem } from '@/navigation-menu-item/display/dnd/components/NavigationMenuItemSortableItem';
@@ -157,7 +158,8 @@ export const FavoritesSection = () => {
                 folderChildrenById={folderChildrenById}
                 folderCount={folderCount}
                 rightOptions={
-                  isNavigationMenuItemFolder(item)
+                  isNavigationMenuItemFolder(item) ||
+                  !getNavigationMenuItemBehavior(item).canQuickUnpin
                     ? undefined
                     : makeRightOptions(item)
                 }

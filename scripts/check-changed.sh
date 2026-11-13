@@ -21,7 +21,6 @@ WORKERS="$(( CORES > 2 ? CORES - 2 : 1 ))"
 # Server jest workers take ~3 GB each: never start more than free memory allows
 AVAILABLE_GB="$(awk '/MemAvailable/ { printf "%d", $2 / 1024 / 1024 }' /proc/meminfo 2>/dev/null || echo 8)"
 MEMORY_WORKERS="$(( AVAILABLE_GB / 3 > 1 ? AVAILABLE_GB / 3 : 1 ))"
-WORKERS="$(( WORKERS < MEMORY_WORKERS ? WORKERS : MEMORY_WORKERS ))"
 RUN_LINT=1
 RUN_TYPECHECK=1
 RUN_TESTS=1
@@ -38,6 +37,9 @@ while [ $# -gt 0 ]; do
     *) echo "Unknown option: $1" >&2; exit 2 ;;
   esac
 done
+
+# Applied after --workers so the option is a ceiling, never a way past the memory limit
+WORKERS="$(( WORKERS < MEMORY_WORKERS ? WORKERS : MEMORY_WORKERS ))"
 
 # The repo requires Node 26; use the nvm install when the shell has an older default
 NVM_NODE_BIN="$(ls -d "$HOME"/.nvm/versions/node/v26.*/bin 2>/dev/null | sort -V | tail -1)"

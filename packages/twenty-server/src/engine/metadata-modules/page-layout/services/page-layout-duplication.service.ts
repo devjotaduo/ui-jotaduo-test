@@ -53,6 +53,7 @@ export class PageLayoutDuplicationService {
       flatObjectMetadataMaps,
       flatFieldMetadataMaps,
       flatFrontComponentMaps,
+      flatCommandMenuItemMaps,
       flatViewFieldGroupMaps,
       flatViewMaps,
     } = await this.getPageLayoutFlatEntityMaps(workspaceId);
@@ -118,6 +119,7 @@ export class PageLayoutDuplicationService {
       flatObjectMetadataMaps,
       flatFieldMetadataMaps,
       flatFrontComponentMaps,
+      flatCommandMenuItemMaps,
       flatViewFieldGroupMaps,
       flatViewMaps,
     });
@@ -188,6 +190,7 @@ export class PageLayoutDuplicationService {
           'flatObjectMetadataMaps',
           'flatFieldMetadataMaps',
           'flatFrontComponentMaps',
+          'flatCommandMenuItemMaps',
           'flatViewFieldGroupMaps',
           'flatViewMaps',
         ],
@@ -300,6 +303,7 @@ export class PageLayoutDuplicationService {
     flatObjectMetadataMaps,
     flatFieldMetadataMaps,
     flatFrontComponentMaps,
+    flatCommandMenuItemMaps,
     flatViewFieldGroupMaps,
     flatViewMaps,
   }: {
@@ -314,6 +318,7 @@ export class PageLayoutDuplicationService {
     flatObjectMetadataMaps: AllFlatEntityMaps['flatObjectMetadataMaps'];
     flatFieldMetadataMaps: AllFlatEntityMaps['flatFieldMetadataMaps'];
     flatFrontComponentMaps: AllFlatEntityMaps['flatFrontComponentMaps'];
+    flatCommandMenuItemMaps: AllFlatEntityMaps['flatCommandMenuItemMaps'];
     flatViewFieldGroupMaps: AllFlatEntityMaps['flatViewFieldGroupMaps'];
     flatViewMaps: AllFlatEntityMaps['flatViewMaps'];
   }): FlatPageLayoutWidget[] {
@@ -336,6 +341,7 @@ export class PageLayoutDuplicationService {
           flatObjectMetadataMaps,
           flatFieldMetadataMaps,
           flatFrontComponentMaps,
+          flatCommandMenuItemMaps,
           flatViewFieldGroupMaps,
           flatViewMaps,
         }),

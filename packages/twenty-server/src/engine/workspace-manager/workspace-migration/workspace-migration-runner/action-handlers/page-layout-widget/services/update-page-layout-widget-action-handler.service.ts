@@ -59,6 +59,10 @@ export class UpdatePageLayoutWidgetActionHandlerService extends WorkspaceMigrati
                 flatViewMaps: allFlatEntityMaps.flatViewMaps,
                 flatViewFieldGroupMaps:
                   allFlatEntityMaps.flatViewFieldGroupMaps,
+                flatObjectMetadataMaps:
+                  allFlatEntityMaps.flatObjectMetadataMaps,
+                flatCommandMenuItemMaps:
+                  allFlatEntityMaps.flatCommandMenuItemMaps,
               }),
           };
 

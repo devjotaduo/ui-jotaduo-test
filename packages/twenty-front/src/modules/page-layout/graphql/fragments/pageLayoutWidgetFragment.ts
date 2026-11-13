@@ -172,6 +172,38 @@ export const PAGE_LAYOUT_WIDGET_FRAGMENT = gql`
       ... on ChatConfiguration {
         configurationType
       }
+      ... on WhatsappConnectionConfiguration {
+        configurationType
+      }
+      ... on WhatsappConversationConfiguration {
+        configurationType
+      }
+      ... on PixChargeConfiguration {
+        configurationType
+      }
+      ... on WhatsappChatsConfiguration {
+        configurationType
+      }
+      ... on ObjectListConfiguration {
+        configurationType
+        objectMetadataId
+        fieldMetadataIds
+        displayMode
+      }
+      ... on KpiNumberConfiguration {
+        configurationType
+        objectMetadataId
+        kpiOperation
+        kpiFieldMetadataId
+        period
+      }
+      ... on ActionButtonsConfiguration {
+        configurationType
+        commandMenuItemIds
+      }
+      ... on NextActionsConfiguration {
+        configurationType
+      }
       ... on MessageCampaignBodyConfiguration {
         configurationType
       }

@@ -107,6 +107,30 @@ export class FlatPageLayoutWidgetTypeValidatorService {
       CHAT: validateSimpleRecordPageWidgetForCreation(
         WidgetConfigurationType.CHAT,
       ),
+      WHATSAPP_CONNECTION: validateSimpleRecordPageWidgetForCreation(
+        WidgetConfigurationType.WHATSAPP_CONNECTION,
+      ),
+      WHATSAPP_CONVERSATION: validateSimpleRecordPageWidgetForCreation(
+        WidgetConfigurationType.WHATSAPP_CONVERSATION,
+      ),
+      PIX_CHARGE: validateSimpleRecordPageWidgetForCreation(
+        WidgetConfigurationType.PIX_CHARGE,
+      ),
+      WHATSAPP_CHATS: validateSimpleRecordPageWidgetForCreation(
+        WidgetConfigurationType.WHATSAPP_CHATS,
+      ),
+      OBJECT_LIST: validateSimpleRecordPageWidgetForCreation(
+        WidgetConfigurationType.OBJECT_LIST,
+      ),
+      KPI_NUMBER: validateSimpleRecordPageWidgetForCreation(
+        WidgetConfigurationType.KPI_NUMBER,
+      ),
+      ACTION_BUTTONS: validateSimpleRecordPageWidgetForCreation(
+        WidgetConfigurationType.ACTION_BUTTONS,
+      ),
+      NEXT_ACTIONS: validateSimpleRecordPageWidgetForCreation(
+        WidgetConfigurationType.NEXT_ACTIONS,
+      ),
       MESSAGE_CAMPAIGN_BODY: validateSimpleRecordPageWidgetForCreation(
         WidgetConfigurationType.MESSAGE_CAMPAIGN_BODY,
       ),
@@ -181,6 +205,30 @@ export class FlatPageLayoutWidgetTypeValidatorService {
       ),
       CHAT: validateSimpleRecordPageWidgetForUpdate(
         WidgetConfigurationType.CHAT,
+      ),
+      WHATSAPP_CONNECTION: validateSimpleRecordPageWidgetForUpdate(
+        WidgetConfigurationType.WHATSAPP_CONNECTION,
+      ),
+      WHATSAPP_CONVERSATION: validateSimpleRecordPageWidgetForUpdate(
+        WidgetConfigurationType.WHATSAPP_CONVERSATION,
+      ),
+      PIX_CHARGE: validateSimpleRecordPageWidgetForUpdate(
+        WidgetConfigurationType.PIX_CHARGE,
+      ),
+      WHATSAPP_CHATS: validateSimpleRecordPageWidgetForUpdate(
+        WidgetConfigurationType.WHATSAPP_CHATS,
+      ),
+      OBJECT_LIST: validateSimpleRecordPageWidgetForUpdate(
+        WidgetConfigurationType.OBJECT_LIST,
+      ),
+      KPI_NUMBER: validateSimpleRecordPageWidgetForUpdate(
+        WidgetConfigurationType.KPI_NUMBER,
+      ),
+      ACTION_BUTTONS: validateSimpleRecordPageWidgetForUpdate(
+        WidgetConfigurationType.ACTION_BUTTONS,
+      ),
+      NEXT_ACTIONS: validateSimpleRecordPageWidgetForUpdate(
+        WidgetConfigurationType.NEXT_ACTIONS,
       ),
       MESSAGE_CAMPAIGN_BODY: validateSimpleRecordPageWidgetForUpdate(
         WidgetConfigurationType.MESSAGE_CAMPAIGN_BODY,

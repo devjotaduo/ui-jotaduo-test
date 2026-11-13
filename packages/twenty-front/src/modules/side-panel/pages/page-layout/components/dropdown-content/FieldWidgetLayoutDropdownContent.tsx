@@ -27,6 +27,11 @@ import {
   type IconComponent,
   IconFileText,
   IconId,
+  IconLayoutGrid,
+  IconLayoutList,
+  IconLink,
+  IconListCheck,
+  IconProgressCheck,
   IconListDetails,
   IconTable,
 } from 'twenty-ui/icon';
@@ -37,6 +42,11 @@ const DISPLAY_MODE_ICONS: Record<FieldDisplayMode, IconComponent> = {
   [FieldDisplayMode.FIELD]: IconListDetails,
   [FieldDisplayMode.CARD]: IconId,
   [FieldDisplayMode.EDITOR]: IconFileText,
+  [FieldDisplayMode.OPTIONS]: IconListCheck,
+  [FieldDisplayMode.STEPPER]: IconProgressCheck,
+  [FieldDisplayMode.TILES]: IconLayoutGrid,
+  [FieldDisplayMode.ROW]: IconLayoutList,
+  [FieldDisplayMode.LINK]: IconLink,
   [FieldDisplayMode.VIEW]: IconListDetails,
   [FieldDisplayMode.TABLE]: IconTable,
 };
@@ -210,6 +220,11 @@ export const FieldWidgetLayoutDropdownContent = () => {
     [FieldDisplayMode.FIELD]: t`Field`,
     [FieldDisplayMode.CARD]: t`Card`,
     [FieldDisplayMode.EDITOR]: t`Editor`,
+    [FieldDisplayMode.OPTIONS]: t`Options`,
+    [FieldDisplayMode.STEPPER]: t`Stages`,
+    [FieldDisplayMode.TILES]: t`Tiles`,
+    [FieldDisplayMode.ROW]: t`Setting row`,
+    [FieldDisplayMode.LINK]: t`Link card`,
   };
 
   return (

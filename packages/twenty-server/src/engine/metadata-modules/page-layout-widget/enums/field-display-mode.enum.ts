@@ -4,6 +4,11 @@ export enum FieldDisplayMode {
   CARD = 'CARD',
   EDITOR = 'EDITOR',
   FIELD = 'FIELD',
+  OPTIONS = 'OPTIONS',
+  STEPPER = 'STEPPER',
+  TILES = 'TILES',
+  ROW = 'ROW',
+  LINK = 'LINK',
   VIEW = 'VIEW',
   TABLE = 'TABLE',
 }

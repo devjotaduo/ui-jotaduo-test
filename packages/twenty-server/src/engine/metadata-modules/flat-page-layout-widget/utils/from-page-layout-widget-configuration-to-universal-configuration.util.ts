@@ -80,6 +80,12 @@ const convertChartFilterToUniversalFilter = ({
   };
 };
 
+// An id with no known universal identifier is kept as is, so a stale reference never blocks a save
+const toUniversalIdentifierOrKeep = (
+  id: string,
+  universalIdentifierById: Partial<Record<string, string>>,
+): string => universalIdentifierById[id] ?? id;
+
 export const fromPageLayoutWidgetConfigurationToUniversalConfiguration = ({
   configuration,
   fieldMetadataUniversalIdentifierById,
@@ -87,6 +93,8 @@ export const fromPageLayoutWidgetConfigurationToUniversalConfiguration = ({
   viewFieldGroupUniversalIdentifierById:
     _viewFieldGroupUniversalIdentifierById = {},
   viewUniversalIdentifierById = {},
+  objectMetadataUniversalIdentifierById = {},
+  commandMenuItemUniversalIdentifierById = {},
   shouldThrowOnMissingIdentifier = false,
 }: {
   configuration: PageLayoutWidgetConfiguration;
@@ -94,6 +102,8 @@ export const fromPageLayoutWidgetConfigurationToUniversalConfiguration = ({
   frontComponentUniversalIdentifierById?: Partial<Record<string, string>>;
   viewFieldGroupUniversalIdentifierById?: Partial<Record<string, string>>;
   viewUniversalIdentifierById?: Partial<Record<string, string>>;
+  objectMetadataUniversalIdentifierById?: Partial<Record<string, string>>;
+  commandMenuItemUniversalIdentifierById?: Partial<Record<string, string>>;
   shouldThrowOnMissingIdentifier?: boolean;
 }): UniversalPageLayoutWidgetConfiguration => {
   switch (configuration.configurationType) {
@@ -415,6 +425,58 @@ export const fromPageLayoutWidgetConfigurationToUniversalConfiguration = ({
       };
     }
 
+    case WidgetConfigurationType.OBJECT_LIST: {
+      const { objectMetadataId, fieldMetadataIds } = configuration;
+
+      return {
+        ...configuration,
+        objectMetadataId: isDefined(objectMetadataId)
+          ? toUniversalIdentifierOrKeep(
+              objectMetadataId,
+              objectMetadataUniversalIdentifierById,
+            )
+          : objectMetadataId,
+        fieldMetadataIds: fieldMetadataIds?.map((fieldMetadataId) =>
+          toUniversalIdentifierOrKeep(
+            fieldMetadataId,
+            fieldMetadataUniversalIdentifierById,
+          ),
+        ),
+      };
+    }
+
+    case WidgetConfigurationType.KPI_NUMBER: {
+      const { objectMetadataId, kpiFieldMetadataId } = configuration;
+
+      return {
+        ...configuration,
+        objectMetadataId: isDefined(objectMetadataId)
+          ? toUniversalIdentifierOrKeep(
+              objectMetadataId,
+              objectMetadataUniversalIdentifierById,
+            )
+          : objectMetadataId,
+        kpiFieldMetadataId: isDefined(kpiFieldMetadataId)
+          ? toUniversalIdentifierOrKeep(
+              kpiFieldMetadataId,
+              fieldMetadataUniversalIdentifierById,
+            )
+          : kpiFieldMetadataId,
+      };
+    }
+
+    case WidgetConfigurationType.ACTION_BUTTONS:
+      return {
+        ...configuration,
+        commandMenuItemIds: configuration.commandMenuItemIds?.map(
+          (commandMenuItemId) =>
+            toUniversalIdentifierOrKeep(
+              commandMenuItemId,
+              commandMenuItemUniversalIdentifierById,
+            ),
+        ),
+      };
+
     case WidgetConfigurationType.VIEW:
     case WidgetConfigurationType.TIMELINE:
     case WidgetConfigurationType.TASKS:
@@ -433,6 +495,11 @@ export const fromPageLayoutWidgetConfigurationToUniversalConfiguration = ({
     case WidgetConfigurationType.CALL_RECORDING_TRANSCRIPT:
     case WidgetConfigurationType.CHAT_THREADS:
     case WidgetConfigurationType.CHAT:
+    case WidgetConfigurationType.WHATSAPP_CONNECTION:
+    case WidgetConfigurationType.WHATSAPP_CONVERSATION:
+    case WidgetConfigurationType.PIX_CHARGE:
+    case WidgetConfigurationType.WHATSAPP_CHATS:
+    case WidgetConfigurationType.NEXT_ACTIONS:
     case WidgetConfigurationType.MESSAGE_CAMPAIGN_BODY:
     case WidgetConfigurationType.MESSAGE_CAMPAIGN_DETAILS:
       return configuration;

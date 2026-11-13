@@ -136,6 +136,7 @@ export class PageLayoutUpdateService {
       flatObjectMetadataMaps,
       flatFieldMetadataMaps,
       flatFrontComponentMaps,
+      flatCommandMenuItemMaps,
       flatViewFieldGroupMaps,
       flatViewMaps,
     } =
@@ -146,6 +147,7 @@ export class PageLayoutUpdateService {
             'flatObjectMetadataMaps',
             'flatFieldMetadataMaps',
             'flatFrontComponentMaps',
+            'flatCommandMenuItemMaps',
             'flatViewFieldGroupMaps',
             'flatViewMaps',
           ],
@@ -173,6 +175,7 @@ export class PageLayoutUpdateService {
           workspaceCustomFlatApplication.universalIdentifier,
         flatFieldMetadataMaps,
         flatFrontComponentMaps,
+        flatCommandMenuItemMaps,
         flatViewFieldGroupMaps,
         flatViewMaps,
       });
@@ -471,6 +474,7 @@ export class PageLayoutUpdateService {
     workspaceCustomApplicationUniversalIdentifier,
     flatFieldMetadataMaps,
     flatFrontComponentMaps,
+    flatCommandMenuItemMaps,
     flatViewFieldGroupMaps,
     flatViewMaps,
   }: {
@@ -483,6 +487,7 @@ export class PageLayoutUpdateService {
     | 'flatObjectMetadataMaps'
     | 'flatFieldMetadataMaps'
     | 'flatFrontComponentMaps'
+    | 'flatCommandMenuItemMaps'
     | 'flatViewFieldGroupMaps'
     | 'flatViewMaps'
     | 'flatPageLayoutTabMaps'
@@ -514,6 +519,7 @@ export class PageLayoutUpdateService {
           workspaceCustomApplicationUniversalIdentifier,
           flatFieldMetadataMaps,
           flatFrontComponentMaps,
+          flatCommandMenuItemMaps,
           flatViewFieldGroupMaps,
           flatViewMaps,
         });
@@ -542,6 +548,7 @@ export class PageLayoutUpdateService {
     workspaceCustomApplicationUniversalIdentifier,
     flatFieldMetadataMaps,
     flatFrontComponentMaps,
+    flatCommandMenuItemMaps,
     flatViewFieldGroupMaps,
     flatViewMaps,
   }: {
@@ -556,6 +563,7 @@ export class PageLayoutUpdateService {
     | 'flatObjectMetadataMaps'
     | 'flatFieldMetadataMaps'
     | 'flatFrontComponentMaps'
+    | 'flatCommandMenuItemMaps'
     | 'flatViewFieldGroupMaps'
     | 'flatViewMaps'
     | 'flatPageLayoutTabMaps'
@@ -644,6 +652,10 @@ export class PageLayoutUpdateService {
               viewFieldGroupUniversalIdentifierById:
                 flatViewFieldGroupMaps.universalIdentifierById,
               viewUniversalIdentifierById: flatViewMaps.universalIdentifierById,
+              objectMetadataUniversalIdentifierById:
+                flatObjectMetadataMaps.universalIdentifierById,
+              commandMenuItemUniversalIdentifierById:
+                flatCommandMenuItemMaps.universalIdentifierById,
             }),
         };
       },
@@ -658,6 +670,7 @@ export class PageLayoutUpdateService {
           flatObjectMetadataMaps,
           flatFieldMetadataMaps,
           flatFrontComponentMaps,
+          flatCommandMenuItemMaps,
           flatViewFieldGroupMaps,
           flatViewMaps,
           workspaceCustomApplicationUniversalIdentifier,
@@ -676,6 +689,7 @@ export class PageLayoutUpdateService {
             flatObjectMetadataMaps,
             flatFieldMetadataMaps,
             flatFrontComponentMaps,
+            flatCommandMenuItemMaps,
             flatViewFieldGroupMaps,
             flatViewMaps,
             workspaceCustomApplicationUniversalIdentifier,
@@ -728,6 +742,7 @@ export class PageLayoutUpdateService {
     flatObjectMetadataMaps,
     flatFieldMetadataMaps,
     flatFrontComponentMaps,
+    flatCommandMenuItemMaps,
     flatViewFieldGroupMaps,
     flatViewMaps,
     workspaceCustomApplicationUniversalIdentifier,
@@ -741,6 +756,7 @@ export class PageLayoutUpdateService {
     | 'flatObjectMetadataMaps'
     | 'flatFieldMetadataMaps'
     | 'flatFrontComponentMaps'
+    | 'flatCommandMenuItemMaps'
     | 'flatViewFieldGroupMaps'
     | 'flatViewMaps'
     | 'flatPageLayoutTabMaps'
@@ -849,6 +865,10 @@ export class PageLayoutUpdateService {
           viewFieldGroupUniversalIdentifierById:
             flatViewFieldGroupMaps.universalIdentifierById,
           viewUniversalIdentifierById: flatViewMaps.universalIdentifierById,
+          objectMetadataUniversalIdentifierById:
+            flatObjectMetadataMaps.universalIdentifierById,
+          commandMenuItemUniversalIdentifierById:
+            flatCommandMenuItemMaps.universalIdentifierById,
         });
     }
 

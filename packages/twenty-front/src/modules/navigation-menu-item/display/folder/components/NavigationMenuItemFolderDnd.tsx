@@ -1,4 +1,5 @@
 import { navigationMenuItemInsertionPreviewState } from '@/navigation-menu-item/common/states/navigationMenuItemInsertionPreviewState';
+import { getNavigationMenuItemBehavior } from '@/navigation-menu-item/common/utils/getNavigationMenuItemBehavior';
 import { NavigationMenuItemFolderChevron } from '@/navigation-menu-item/display/folder/components/NavigationMenuItemFolderChevron';
 import { NavigationMenuItemFolderChevronButton } from '@/navigation-menu-item/display/folder/components/NavigationMenuItemFolderChevronButton';
 import { NavigationMenuItemEditable } from '@/navigation-menu-item/edit/components/NavigationMenuItemEditable';
@@ -370,7 +371,9 @@ export const NavigationMenuItemFolderDnd = ({
                     selectedIndex={selectedIndexWithInsertionPreview}
                     isDragging={isDragging}
                     rightOptions={
-                      isEditInPlace ? (
+                      isEditInPlace &&
+                      getNavigationMenuItemBehavior(navigationMenuItem)
+                        .canQuickUnpin ? (
                         <LightIconButton
                           onClick={(event) => {
                             event.stopPropagation();

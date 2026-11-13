@@ -80,18 +80,32 @@ const convertUniversalFilterToChartFilter = ({
   };
 };
 
+// A value that matches no universal identifier is already a local id and is kept as is
+const toIdOrKeep = (
+  universalIdentifier: string,
+  flatEntityMaps: {
+    byUniversalIdentifier: Partial<Record<string, { id: string }>>;
+  },
+): string =>
+  flatEntityMaps.byUniversalIdentifier[universalIdentifier]?.id ??
+  universalIdentifier;
+
 export const fromUniversalConfigurationToFlatPageLayoutWidgetConfiguration = ({
   universalConfiguration,
   flatFieldMetadataMaps,
   flatFrontComponentMaps,
   flatViewMaps,
   flatViewFieldGroupMaps: _flatViewFieldGroupMaps,
+  flatObjectMetadataMaps,
+  flatCommandMenuItemMaps,
 }: {
   universalConfiguration: FlatPageLayoutWidget['universalConfiguration'];
   flatFieldMetadataMaps: MetadataFlatEntityMaps<'fieldMetadata'>;
   flatFrontComponentMaps: MetadataFlatEntityMaps<'frontComponent'>;
   flatViewMaps: MetadataFlatEntityMaps<'view'>;
   flatViewFieldGroupMaps: MetadataFlatEntityMaps<'viewFieldGroup'>;
+  flatObjectMetadataMaps: MetadataFlatEntityMaps<'objectMetadata'>;
+  flatCommandMenuItemMaps: MetadataFlatEntityMaps<'commandMenuItem'>;
 }): FlatPageLayoutWidget['configuration'] => {
   switch (universalConfiguration.configurationType) {
     case WidgetConfigurationType.AGGREGATE_CHART: {
@@ -384,6 +398,43 @@ export const fromUniversalConfigurationToFlatPageLayoutWidgetConfiguration = ({
       };
     }
 
+    case WidgetConfigurationType.OBJECT_LIST: {
+      const { objectMetadataId, fieldMetadataIds } = universalConfiguration;
+
+      return {
+        ...universalConfiguration,
+        objectMetadataId: isDefined(objectMetadataId)
+          ? toIdOrKeep(objectMetadataId, flatObjectMetadataMaps)
+          : objectMetadataId,
+        fieldMetadataIds: fieldMetadataIds?.map((fieldMetadataId) =>
+          toIdOrKeep(fieldMetadataId, flatFieldMetadataMaps),
+        ),
+      };
+    }
+
+    case WidgetConfigurationType.KPI_NUMBER: {
+      const { objectMetadataId, kpiFieldMetadataId } = universalConfiguration;
+
+      return {
+        ...universalConfiguration,
+        objectMetadataId: isDefined(objectMetadataId)
+          ? toIdOrKeep(objectMetadataId, flatObjectMetadataMaps)
+          : objectMetadataId,
+        kpiFieldMetadataId: isDefined(kpiFieldMetadataId)
+          ? toIdOrKeep(kpiFieldMetadataId, flatFieldMetadataMaps)
+          : kpiFieldMetadataId,
+      };
+    }
+
+    case WidgetConfigurationType.ACTION_BUTTONS:
+      return {
+        ...universalConfiguration,
+        commandMenuItemIds: universalConfiguration.commandMenuItemIds?.map(
+          (commandMenuItemId) =>
+            toIdOrKeep(commandMenuItemId, flatCommandMenuItemMaps),
+        ),
+      };
+
     case WidgetConfigurationType.VIEW:
     case WidgetConfigurationType.TIMELINE:
     case WidgetConfigurationType.TASKS:
@@ -402,6 +453,11 @@ export const fromUniversalConfigurationToFlatPageLayoutWidgetConfiguration = ({
     case WidgetConfigurationType.CALL_RECORDING_TRANSCRIPT:
     case WidgetConfigurationType.CHAT_THREADS:
     case WidgetConfigurationType.CHAT:
+    case WidgetConfigurationType.WHATSAPP_CONNECTION:
+    case WidgetConfigurationType.WHATSAPP_CONVERSATION:
+    case WidgetConfigurationType.PIX_CHARGE:
+    case WidgetConfigurationType.WHATSAPP_CHATS:
+    case WidgetConfigurationType.NEXT_ACTIONS:
     case WidgetConfigurationType.MESSAGE_CAMPAIGN_BODY:
     case WidgetConfigurationType.MESSAGE_CAMPAIGN_DETAILS:
       return universalConfiguration;

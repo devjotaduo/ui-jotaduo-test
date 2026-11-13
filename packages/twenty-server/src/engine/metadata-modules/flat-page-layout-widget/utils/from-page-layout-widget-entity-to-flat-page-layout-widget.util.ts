@@ -14,6 +14,8 @@ type FromPageLayoutWidgetEntityToFlatPageLayoutWidgetArgs =
     frontComponentUniversalIdentifierById?: Partial<Record<string, string>>;
     viewFieldGroupUniversalIdentifierById?: Partial<Record<string, string>>;
     viewUniversalIdentifierById?: Partial<Record<string, string>>;
+    objectMetadataUniversalIdentifierById?: Partial<Record<string, string>>;
+    commandMenuItemUniversalIdentifierById?: Partial<Record<string, string>>;
   };
 
 export const fromPageLayoutWidgetEntityToFlatPageLayoutWidget = (
@@ -26,6 +28,8 @@ export const fromPageLayoutWidgetEntityToFlatPageLayoutWidget = (
     frontComponentUniversalIdentifierById,
     viewFieldGroupUniversalIdentifierById,
     viewUniversalIdentifierById,
+    objectMetadataUniversalIdentifierById,
+    commandMenuItemUniversalIdentifierById,
   } = args;
 
   const pageLayoutWidgetScalarEntity = fromEntityToScalarEntity({
@@ -46,6 +50,8 @@ export const fromPageLayoutWidgetEntityToFlatPageLayoutWidget = (
       frontComponentUniversalIdentifierById,
       viewFieldGroupUniversalIdentifierById,
       viewUniversalIdentifierById,
+      objectMetadataUniversalIdentifierById,
+      commandMenuItemUniversalIdentifierById,
     });
 
   const universalOverrides = isDefined(pageLayoutWidgetEntity.overrides)

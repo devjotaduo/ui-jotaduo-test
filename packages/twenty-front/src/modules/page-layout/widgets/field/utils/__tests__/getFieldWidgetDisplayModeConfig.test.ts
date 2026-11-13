@@ -8,9 +8,9 @@ import {
 } from '@/page-layout/widgets/field/utils/getFieldWidgetDisplayModeConfig';
 
 describe('getFieldWidgetDisplayModeConfig', () => {
-  it('allows text fields to use field or editor display modes', () => {
+  it('allows text fields to use field, editor or row display modes', () => {
     expect(getFieldWidgetAvailableDisplayModes(FieldMetadataType.TEXT)).toEqual(
-      [FieldDisplayMode.FIELD, FieldDisplayMode.EDITOR],
+      [FieldDisplayMode.FIELD, FieldDisplayMode.EDITOR, FieldDisplayMode.ROW],
     );
   });
 

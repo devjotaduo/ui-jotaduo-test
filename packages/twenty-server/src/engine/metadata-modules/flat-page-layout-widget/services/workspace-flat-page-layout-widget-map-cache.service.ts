@@ -18,6 +18,7 @@ const FLAT_PAGE_LAYOUT_WIDGET_ROWS_REQUIREMENT = {
   fieldMetadata: ['id', 'universalIdentifier'],
   frontComponent: ['id', 'universalIdentifier'],
   view: ['id', 'universalIdentifier'],
+  commandMenuItem: ['id', 'universalIdentifier'],
 } as const;
 
 @Injectable()
@@ -38,6 +39,7 @@ export class WorkspaceFlatPageLayoutWidgetMapCacheService extends MetadataFlatEn
       fieldMetadata: fieldMetadatas,
       frontComponent: frontComponents,
       view: views,
+      commandMenuItem: commandMenuItems,
     } = rows;
 
     const applicationIdToUniversalIdentifierMap =
@@ -59,6 +61,13 @@ export class WorkspaceFlatPageLayoutWidgetMapCacheService extends MetadataFlatEn
       createIdToUniversalIdentifierMap(views),
     );
 
+    const objectMetadataUniversalIdentifierById = Object.fromEntries(
+      objectMetadataIdToUniversalIdentifierMap,
+    );
+    const commandMenuItemUniversalIdentifierById = Object.fromEntries(
+      createIdToUniversalIdentifierMap(commandMenuItems),
+    );
+
     const flatPageLayoutWidgetMaps = createEmptyFlatEntityMaps();
 
     for (const pageLayoutWidgetEntity of existingPageLayoutWidgets) {
@@ -72,6 +81,8 @@ export class WorkspaceFlatPageLayoutWidgetMapCacheService extends MetadataFlatEn
           pageLayoutTabUniversalIdentifierById,
           frontComponentUniversalIdentifierById,
           viewUniversalIdentifierById,
+          objectMetadataUniversalIdentifierById,
+          commandMenuItemUniversalIdentifierById,
         });
 
       addFlatEntityToFlatEntityMapsThroughMutationOrThrow({

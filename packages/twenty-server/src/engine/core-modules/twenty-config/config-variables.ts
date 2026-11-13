@@ -2483,6 +2483,73 @@ export class ConfigVariables {
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.ADVANCED_SETTINGS,
+    description: 'Pix key that receives payments from the Pix charge widget',
+    type: ConfigVariableType.STRING,
+    isEnvOnly: true,
+  })
+  @IsOptionalOrEmptyString()
+  PIX_KEY?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.ADVANCED_SETTINGS,
+    description: 'Receiver name shown in the Pix charge (up to 25 characters)',
+    type: ConfigVariableType.STRING,
+    isEnvOnly: true,
+  })
+  @IsOptionalOrEmptyString()
+  PIX_MERCHANT_NAME?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.ADVANCED_SETTINGS,
+    description: 'Receiver city shown in the Pix charge (up to 15 characters)',
+    type: ConfigVariableType.STRING,
+    isEnvOnly: true,
+  })
+  @IsOptionalOrEmptyString()
+  PIX_MERCHANT_CITY?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.ADVANCED_SETTINGS,
+    description:
+      'Base URL of the go-whatsapp-web-multidevice (GOWA) REST server used by the WhatsApp connection widget',
+    type: ConfigVariableType.STRING,
+    isEnvOnly: true,
+  })
+  @IsUrl({ require_tld: false, require_protocol: true })
+  @IsOptional()
+  WHATSAPP_GOWA_URL?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.ADVANCED_SETTINGS,
+    description: 'Basic auth username of the GOWA REST server',
+    type: ConfigVariableType.STRING,
+    isEnvOnly: true,
+  })
+  @IsOptionalOrEmptyString()
+  WHATSAPP_GOWA_USERNAME?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.ADVANCED_SETTINGS,
+    isSensitive: true,
+    description: 'Basic auth password of the GOWA REST server',
+    type: ConfigVariableType.STRING,
+    isEnvOnly: true,
+  })
+  @IsOptionalOrEmptyString()
+  WHATSAPP_GOWA_PASSWORD?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.ADVANCED_SETTINGS,
+    description:
+      'Id of the only workspace allowed to use the GOWA WhatsApp account. Required when multi-workspace is enabled',
+    type: ConfigVariableType.STRING,
+    isEnvOnly: true,
+  })
+  @IsOptionalOrEmptyString()
+  WHATSAPP_GOWA_WORKSPACE_ID?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.ADVANCED_SETTINGS,
     description:
       'Enable or disable address autocomplete (see ADDRESS_AUTOCOMPLETE_DRIVER)',
     type: ConfigVariableType.BOOLEAN,

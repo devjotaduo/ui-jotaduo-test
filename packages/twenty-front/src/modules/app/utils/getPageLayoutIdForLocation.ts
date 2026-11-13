@@ -3,6 +3,7 @@ import { type Location, matchPath } from 'react-router-dom';
 import { AppPath, StandardObjectNameSingular } from 'twenty-shared/types';
 import { isDefined } from 'twenty-shared/utils';
 
+import { matchRecordShowPagePathname } from '@/object-record/record-show/utils/matchRecordShowPagePathname';
 import { objectMetadataItemFamilySelector } from '@/object-metadata/states/objectMetadataItemFamilySelector';
 import { recordPageLayoutByObjectMetadataIdFamilySelector } from '@/page-layout/states/selectors/recordPageLayoutByObjectMetadataIdFamilySelector';
 
@@ -15,10 +16,10 @@ export const getPageLayoutIdForLocation = ({
   location: Location;
   store: ReturnType<typeof getDefaultStore>;
 }): string | null => {
-  const recordShowMatch = matchPath(AppPath.RecordShowPage, location.pathname);
+  const recordShowMatch = matchRecordShowPagePathname(location.pathname);
 
-  if (isDefined(recordShowMatch?.params.objectNameSingular)) {
-    const objectNameSingular = recordShowMatch.params.objectNameSingular;
+  if (isDefined(recordShowMatch)) {
+    const objectNameSingular = recordShowMatch.objectNameSingular;
 
     if (objectNameSingular === DASHBOARD_NAME_SINGULAR) {
       return null;

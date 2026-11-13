@@ -6,6 +6,14 @@ import {
   type CallRecordingSummaryConfiguration,
   type CallRecordingTranscriptConfiguration,
   type ChatConfiguration,
+  type WhatsappConnectionConfiguration,
+  type WhatsappConversationConfiguration,
+  type PixChargeConfiguration,
+  type WhatsappChatsConfiguration,
+  type ObjectListConfiguration,
+  type KpiNumberConfiguration,
+  type ActionButtonsConfiguration,
+  type NextActionsConfiguration,
   type ChatThreadsConfiguration,
   type EmailThreadConfiguration,
   type EmailsConfiguration,
@@ -77,6 +85,48 @@ type WidgetConfigurationTypenameMap = {
   };
   ChatConfiguration: Omit<ChatConfiguration, 'configurationType'> & {
     configurationType: WidgetConfigurationType.CHAT;
+  };
+  WhatsappConnectionConfiguration: Omit<
+    WhatsappConnectionConfiguration,
+    'configurationType'
+  > & {
+    configurationType: WidgetConfigurationType.WHATSAPP_CONNECTION;
+  };
+  WhatsappConversationConfiguration: Omit<
+    WhatsappConversationConfiguration,
+    'configurationType'
+  > & {
+    configurationType: WidgetConfigurationType.WHATSAPP_CONVERSATION;
+  };
+  PixChargeConfiguration: Omit<PixChargeConfiguration, 'configurationType'> & {
+    configurationType: WidgetConfigurationType.PIX_CHARGE;
+  };
+  WhatsappChatsConfiguration: Omit<
+    WhatsappChatsConfiguration,
+    'configurationType'
+  > & {
+    configurationType: WidgetConfigurationType.WHATSAPP_CHATS;
+  };
+  ObjectListConfiguration: Omit<
+    ObjectListConfiguration,
+    'configurationType'
+  > & {
+    configurationType: WidgetConfigurationType.OBJECT_LIST;
+  };
+  KpiNumberConfiguration: Omit<KpiNumberConfiguration, 'configurationType'> & {
+    configurationType: WidgetConfigurationType.KPI_NUMBER;
+  };
+  ActionButtonsConfiguration: Omit<
+    ActionButtonsConfiguration,
+    'configurationType'
+  > & {
+    configurationType: WidgetConfigurationType.ACTION_BUTTONS;
+  };
+  NextActionsConfiguration: Omit<
+    NextActionsConfiguration,
+    'configurationType'
+  > & {
+    configurationType: WidgetConfigurationType.NEXT_ACTIONS;
   };
   MessageCampaignBodyConfiguration: Omit<
     MessageCampaignBodyConfiguration,

@@ -300,6 +300,14 @@ import { AddAvatarToAgentFastInstanceCommand } from 'src/database/commands/upgra
 import { AddWorkflowAndAgentNavigationMenuItemsFastInstanceCommand } from 'src/database/commands/upgrade-version-command/2-58/2-58-instance-command-fast-1794298453467-add-workflow-and-agent-navigation-menu-items';
 import { AddRowLevelPermissionRuleTableFastInstanceCommand } from 'src/database/commands/upgrade-version-command/2-58/2-58-instance-command-fast-1794327249159-add-row-level-permission-rule-table';
 import { AddRowLevelPermissionRuleLinksFastInstanceCommand } from 'src/database/commands/upgrade-version-command/2-58/2-58-instance-command-fast-1794337540366-add-row-level-permission-rule-links';
+import { AddOauthDiscoveryToConnectionProviderFastInstanceCommand } from 'src/database/commands/upgrade-version-command/2-59/2-59-instance-command-fast-1794507959766-add-oauth-discovery-to-connection-provider';
+import { RenameDeferredWorkspaceMigrationActionToDeferredWorkspaceOperationFastInstanceCommand } from 'src/database/commands/upgrade-version-command/2-59/2-59-instance-command-fast-1794508996000-rename-deferred-workspace-migration-action-to-deferred-workspace-operation';
+import { AddWhatsappConnectionWidgetTypeFastInstanceCommand } from 'src/database/commands/upgrade-version-command/2-59/2-59-instance-command-fast-1794512584661-add-whatsapp-connection-widget-type';
+import { AddWhatsappConversationWidgetTypeFastInstanceCommand } from 'src/database/commands/upgrade-version-command/2-59/2-59-instance-command-fast-1794513896233-add-whatsapp-conversation-widget-type';
+import { AddPixChargeWidgetTypeFastInstanceCommand } from 'src/database/commands/upgrade-version-command/2-59/2-59-instance-command-fast-1794515476512-add-pix-charge-widget-type';
+import { AddWhatsappChatsWidgetTypeFastInstanceCommand } from 'src/database/commands/upgrade-version-command/2-59/2-59-instance-command-fast-1794517702815-add-whatsapp-chats-widget-type';
+import { AddObjectListWidgetTypeFastInstanceCommand } from 'src/database/commands/upgrade-version-command/2-59/2-59-instance-command-fast-1794521102911-add-object-list-widget-type';
+import { AddKpiActionButtonsNextActionsWidgetTypesFastInstanceCommand } from 'src/database/commands/upgrade-version-command/2-59/2-59-instance-command-fast-1794547668846-add-kpi-action-buttons-next-actions-widget-types';
 
 export const INSTANCE_COMMANDS = [
   AddViewFieldGroupIdIndexOnViewFieldFastInstanceCommand,
@@ -602,4 +610,12 @@ export const INSTANCE_COMMANDS = [
   AddJobConfigToWorkflowAndLogicFunctionFastInstanceCommand,
   AddRowLevelPermissionRuleTableFastInstanceCommand,
   AddRowLevelPermissionRuleLinksFastInstanceCommand,
+  AddOauthDiscoveryToConnectionProviderFastInstanceCommand,
+  RenameDeferredWorkspaceMigrationActionToDeferredWorkspaceOperationFastInstanceCommand,
+  AddWhatsappConnectionWidgetTypeFastInstanceCommand,
+  AddWhatsappConversationWidgetTypeFastInstanceCommand,
+  AddPixChargeWidgetTypeFastInstanceCommand,
+  AddWhatsappChatsWidgetTypeFastInstanceCommand,
+  AddObjectListWidgetTypeFastInstanceCommand,
+  AddKpiActionButtonsNextActionsWidgetTypesFastInstanceCommand,
 ];

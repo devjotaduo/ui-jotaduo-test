@@ -34,6 +34,14 @@ export const getPageLayoutWidgetHeightBehavior = ({
       return PageLayoutWidgetVerticalListHeightBehavior.TAB_VIEWPORT;
 
     case WidgetType.IFRAME:
+    case WidgetType.WHATSAPP_CONNECTION:
+    case WidgetType.WHATSAPP_CONVERSATION:
+    case WidgetType.PIX_CHARGE:
+    case WidgetType.WHATSAPP_CHATS:
+    case WidgetType.OBJECT_LIST:
+    case WidgetType.KPI_NUMBER:
+    case WidgetType.ACTION_BUTTONS:
+    case WidgetType.NEXT_ACTIONS:
     case WidgetType.RECORD_TABLE:
     case WidgetType.MESSAGE_CAMPAIGN_DETAILS:
     case WidgetType.FIELD:
