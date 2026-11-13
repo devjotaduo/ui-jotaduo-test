@@ -25,6 +25,8 @@ export enum AppPath {
   RecordIndexPage = '/objects/:objectNamePlural',
   RecordShowPage = '/object/:objectNameSingular/:objectRecordId',
   PageLayoutPage = '/page/:pageLayoutId',
+  // A record opened as a page of its own, detached from its object's list
+  RecordStandaloneShowPage = '/page/record/:objectNameSingular/:objectRecordId',
   WorkflowIndexPage = '/workflows',
   WorkflowCoreShowPage = '/workflow/:coreWorkflowId',
   AgentIndexPage = '/agents',

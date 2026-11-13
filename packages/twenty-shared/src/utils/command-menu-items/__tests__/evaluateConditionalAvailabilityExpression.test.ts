@@ -6,6 +6,7 @@ const buildContext = (
 ): CommandMenuContextApi => ({
   pageType: ContextStorePageType.Index,
   isInSidePanel: false,
+  isStandaloneRecordPage: false,
   isDashboardPageLayoutInEditMode: false,
   isLayoutCustomizationModeEnabled: false,
   favoriteRecordIds: [],
@@ -703,6 +704,32 @@ describe('evaluateConditionalAvailabilityExpression', () => {
           context,
         ),
       ).toBe(true);
+    });
+  });
+
+  describe('isStandaloneRecordPage', () => {
+    const expression =
+      'pageType == "RECORD_PAGE" and not isInSidePanel and not isStandaloneRecordPage';
+
+    it('should keep the command on a record page inside its list', () => {
+      expect(
+        evaluateConditionalAvailabilityExpression(
+          expression,
+          buildContext({ pageType: ContextStorePageType.Record }),
+        ),
+      ).toBe(true);
+    });
+
+    it('should hide the command on a standalone record page', () => {
+      expect(
+        evaluateConditionalAvailabilityExpression(
+          expression,
+          buildContext({
+            pageType: ContextStorePageType.Record,
+            isStandaloneRecordPage: true,
+          }),
+        ),
+      ).toBe(false);
     });
   });
 });

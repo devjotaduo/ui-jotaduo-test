@@ -16,6 +16,19 @@ export type Scalars = {
   Upload: { input: any; output: any; }
 };
 
+export type AccessGroupPropagationProgress = {
+  __typename?: 'AccessGroupPropagationProgress';
+  isInProgress: Scalars['Boolean']['output'];
+  remainingRecordCount: Scalars['Int']['output'];
+  totalRecordCount: Scalars['Int']['output'];
+};
+
+export type ActionButtonsConfiguration = {
+  __typename?: 'ActionButtonsConfiguration';
+  commandMenuItemIds?: Maybe<Array<Scalars['String']['output']>>;
+  configurationType: WidgetConfigurationType;
+};
+
 export type ActivateWorkspaceInput = {
   /** Deprecated: the workspace name is set at creation (signUpInNewWorkspace) and this field is ignored during activation. Kept for backward compatibility. */
   displayName?: InputMaybe<Scalars['String']['input']>;
@@ -2656,7 +2669,12 @@ export enum FieldDisplayMode {
   CARD = 'CARD',
   EDITOR = 'EDITOR',
   FIELD = 'FIELD',
+  LINK = 'LINK',
+  OPTIONS = 'OPTIONS',
+  ROW = 'ROW',
+  STEPPER = 'STEPPER',
   TABLE = 'TABLE',
+  TILES = 'TILES',
   VIEW = 'VIEW'
 }
 
@@ -3149,6 +3167,15 @@ export type JobStatus = {
   progress?: Maybe<Scalars['Int']['output']>;
   startedAt?: Maybe<Scalars['Float']['output']>;
   state: JobState;
+};
+
+export type KpiNumberConfiguration = {
+  __typename?: 'KpiNumberConfiguration';
+  configurationType: WidgetConfigurationType;
+  kpiFieldMetadataId?: Maybe<Scalars['String']['output']>;
+  kpiOperation?: Maybe<Scalars['String']['output']>;
+  objectMetadataId?: Maybe<Scalars['String']['output']>;
+  period?: Maybe<Scalars['String']['output']>;
 };
 
 export type LineChartConfiguration = {
@@ -3786,6 +3813,7 @@ export type Mutation = {
   destroyViewSort: Scalars['Boolean']['output'];
   detachRecordFromInboxThread: Scalars['Boolean']['output'];
   disconnectConnectedAccount: ConnectedAccountPublicDto;
+  disconnectWhatsapp: Scalars['Boolean']['output'];
   duplicateDashboard: DuplicatedDashboard;
   duplicateMessageList: DuplicatedMessageList;
   editSSOIdentityProvider: EditSso;
@@ -3803,6 +3831,8 @@ export type Mutation = {
   generateTransientToken: TransientToken;
   generateTwoFactorAuthenticationBackupCodes: TwoFactorAuthenticationBackupCodes;
   generateTwoFactorAuthenticationRecoveryCode: TwoFactorAuthenticationRecoveryCode;
+  generateWhatsappLoginQrCode: WhatsappLoginQrCode;
+  generateWhatsappPairingCode: WhatsappPairingCode;
   getAuthTokensFromLoginToken: AuthTokens;
   getAuthTokensFromOTP: AuthTokens;
   getAuthTokensFromSSOExchangeToken: AuthTokens;
@@ -3858,6 +3888,7 @@ export type Mutation = {
   sendInvitations: SendInvitations;
   sendMessageCampaign: SendMessageCampaignOutputDto;
   sendMessageCampaignTest: SendEmailViaDomainOutput;
+  sendWhatsappMessage: Scalars['Boolean']['output'];
   setAppKeyValue: AppKeyValue;
   setBillingPartnerCode: BillingPartnerCode;
   setEnterpriseKey: EnterpriseLicenseInfoDto;
@@ -4033,6 +4064,7 @@ export type MutationAuthorizeAppArgs = {
   codeChallenge?: InputMaybe<Scalars['String']['input']>;
   issuer?: InputMaybe<Scalars['String']['input']>;
   redirectUrl: Scalars['String']['input'];
+  resource?: InputMaybe<Scalars['String']['input']>;
   scope?: InputMaybe<Scalars['String']['input']>;
   state?: InputMaybe<Scalars['String']['input']>;
 };
@@ -4622,6 +4654,11 @@ export type MutationDisconnectConnectedAccountArgs = {
 };
 
 
+export type MutationDisconnectWhatsappArgs = {
+  deviceId?: InputMaybe<Scalars['String']['input']>;
+};
+
+
 export type MutationDuplicateDashboardArgs = {
   id: Scalars['UUID']['input'];
 };
@@ -4683,6 +4720,17 @@ export type MutationGenerateTwoFactorAuthenticationBackupCodesArgs = {
 export type MutationGenerateTwoFactorAuthenticationRecoveryCodeArgs = {
   otp?: InputMaybe<Scalars['String']['input']>;
   userId: Scalars['UUID']['input'];
+};
+
+
+export type MutationGenerateWhatsappLoginQrCodeArgs = {
+  deviceId?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type MutationGenerateWhatsappPairingCodeArgs = {
+  deviceId?: InputMaybe<Scalars['String']['input']>;
+  phoneNumber: Scalars['String']['input'];
 };
 
 
@@ -4959,6 +5007,12 @@ export type MutationSendMessageCampaignArgs = {
 
 export type MutationSendMessageCampaignTestArgs = {
   input: SendMessageCampaignTestInput;
+};
+
+
+export type MutationSendWhatsappMessageArgs = {
+  message: Scalars['String']['input'];
+  phoneNumber: Scalars['String']['input'];
 };
 
 
@@ -5565,6 +5619,11 @@ export enum NavigationMenuItemType {
   WORKFLOW = 'WORKFLOW'
 }
 
+export type NextActionsConfiguration = {
+  __typename?: 'NextActionsConfiguration';
+  configurationType: WidgetConfigurationType;
+};
+
 export type NotesConfiguration = {
   __typename?: 'NotesConfiguration';
   configurationType: WidgetConfigurationType;
@@ -5663,6 +5722,14 @@ export type ObjectIndexMetadatasConnection = {
   edges: Array<IndexEdge>;
   /** Paging information */
   pageInfo: PageInfo;
+};
+
+export type ObjectListConfiguration = {
+  __typename?: 'ObjectListConfiguration';
+  configurationType: WidgetConfigurationType;
+  displayMode?: Maybe<Scalars['String']['output']>;
+  fieldMetadataIds?: Maybe<Array<Scalars['String']['output']>>;
+  objectMetadataId?: Maybe<Scalars['String']['output']>;
 };
 
 export type ObjectMetadataCommandMenuItemPayload = {
@@ -5998,6 +6065,18 @@ export type PieChartDataItem = {
   value: Scalars['Float']['output'];
 };
 
+export type PixCharge = {
+  __typename?: 'PixCharge';
+  brCode?: Maybe<Scalars['String']['output']>;
+  isConfigured: Scalars['Boolean']['output'];
+  merchantName?: Maybe<Scalars['String']['output']>;
+};
+
+export type PixChargeConfiguration = {
+  __typename?: 'PixChargeConfiguration';
+  configurationType: WidgetConfigurationType;
+};
+
 export type PlaceDetailsResult = {
   __typename?: 'PlaceDetailsResult';
   city?: Maybe<Scalars['String']['output']>;
@@ -6027,6 +6106,8 @@ export type PreviewMessageCampaignSendOutputDto = {
 export type PublicApplicationRegistration = {
   __typename?: 'PublicApplicationRegistration';
   id: Scalars['UUID']['output'];
+  isClaimingVerifiedClientName: Scalars['Boolean']['output'];
+  isVerified: Scalars['Boolean']['output'];
   logoUrl?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   oAuthScopes: Array<Scalars['String']['output']>;
@@ -6090,6 +6171,7 @@ export type PublicWorkspaceDataSummary = {
 
 export type Query = {
   __typename?: 'Query';
+  accessGroupPropagationProgress: AccessGroupPropagationProgress;
   agentChatChannelRoles: Array<AgentChatChannelRole>;
   agentChatChannelSummaries: Array<AgentChatChannelSummary>;
   agentChatChannelThreadIds: AgentChatChannelThreadIds;
@@ -6226,6 +6308,7 @@ export type Query = {
   objectRecordCounts: Array<ObjectRecordCount>;
   objects: ObjectConnection;
   pieChartData: PieChartData;
+  pixCharge: PixCharge;
   previewMessageCampaignAudience: CampaignAudiencePreviewDto;
   previewMessageCampaignSend: PreviewMessageCampaignSendOutputDto;
   publicMarketplaceAppDetail: MarketplaceAppDetail;
@@ -6248,6 +6331,9 @@ export type Query = {
   validationRulesReadingField: Array<ValidationRule>;
   webhook?: Maybe<Webhook>;
   webhooks: Array<Webhook>;
+  whatsappChats: Array<WhatsappChat>;
+  whatsappConnectionStatus: WhatsappConnectionStatus;
+  whatsappMessages: Array<WhatsappMessage>;
 };
 
 
@@ -6738,6 +6824,13 @@ export type QueryPieChartDataArgs = {
 };
 
 
+export type QueryPixChargeArgs = {
+  amount: Scalars['Float']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  txid?: InputMaybe<Scalars['String']['input']>;
+};
+
+
 export type QueryPreviewMessageCampaignAudienceArgs = {
   input: PreviewMessageCampaignAudienceInput;
 };
@@ -6795,6 +6888,22 @@ export type QueryValidationRulesReadingFieldArgs = {
 
 export type QueryWebhookArgs = {
   id: Scalars['UUID']['input'];
+};
+
+
+export type QueryWhatsappChatsArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryWhatsappConnectionStatusArgs = {
+  deviceId?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryWhatsappMessagesArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  phoneNumber: Scalars['String']['input'];
 };
 
 export type RatioAggregateConfig = {
@@ -8864,9 +8973,70 @@ export type Webhook = {
   updatedAt: Scalars['DateTime']['output'];
 };
 
-export type WidgetConfiguration = AggregateChartConfiguration | BarChartConfiguration | CalendarConfiguration | CallRecordingSummaryConfiguration | CallRecordingTranscriptConfiguration | ChatConfiguration | ChatThreadsConfiguration | EmailThreadConfiguration | EmailsConfiguration | FieldConfiguration | FieldRichTextConfiguration | FieldsConfiguration | FilesConfiguration | FormFieldConfiguration | FrontComponentConfiguration | IframeConfiguration | LineChartConfiguration | MessageCampaignBodyConfiguration | MessageCampaignDetailsConfiguration | NotesConfiguration | PieChartConfiguration | RecordTableConfiguration | StandaloneRichTextConfiguration | TasksConfiguration | TimelineConfiguration | ViewConfiguration | WorkflowConfiguration | WorkflowRunConfiguration | WorkflowVersionConfiguration;
+export type WhatsappChat = {
+  __typename?: 'WhatsappChat';
+  jid: Scalars['String']['output'];
+  lastMessageAt?: Maybe<Scalars['String']['output']>;
+  lastMessageContent?: Maybe<Scalars['String']['output']>;
+  lastMessageIsFromMe: Scalars['Boolean']['output'];
+  lastMessageMediaType?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  phoneNumber: Scalars['String']['output'];
+};
+
+export type WhatsappChatsConfiguration = {
+  __typename?: 'WhatsappChatsConfiguration';
+  configurationType: WidgetConfigurationType;
+};
+
+export type WhatsappConnectedDevice = {
+  __typename?: 'WhatsappConnectedDevice';
+  jid: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+};
+
+export type WhatsappConnectionConfiguration = {
+  __typename?: 'WhatsappConnectionConfiguration';
+  configurationType: WidgetConfigurationType;
+};
+
+export type WhatsappConnectionStatus = {
+  __typename?: 'WhatsappConnectionStatus';
+  devices: Array<WhatsappConnectedDevice>;
+  isConfigured: Scalars['Boolean']['output'];
+  isConnected: Scalars['Boolean']['output'];
+};
+
+export type WhatsappConversationConfiguration = {
+  __typename?: 'WhatsappConversationConfiguration';
+  configurationType: WidgetConfigurationType;
+};
+
+export type WhatsappLoginQrCode = {
+  __typename?: 'WhatsappLoginQrCode';
+  expiresInSeconds: Scalars['Int']['output'];
+  qrCodeDataUrl: Scalars['String']['output'];
+};
+
+export type WhatsappMessage = {
+  __typename?: 'WhatsappMessage';
+  content: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  isFromMe: Scalars['Boolean']['output'];
+  mediaType?: Maybe<Scalars['String']['output']>;
+  timestamp: Scalars['String']['output'];
+};
+
+export type WhatsappPairingCode = {
+  __typename?: 'WhatsappPairingCode';
+  expiresInSeconds: Scalars['Int']['output'];
+  pairingCode: Scalars['String']['output'];
+};
+
+export type WidgetConfiguration = ActionButtonsConfiguration | AggregateChartConfiguration | BarChartConfiguration | CalendarConfiguration | CallRecordingSummaryConfiguration | CallRecordingTranscriptConfiguration | ChatConfiguration | ChatThreadsConfiguration | EmailThreadConfiguration | EmailsConfiguration | FieldConfiguration | FieldRichTextConfiguration | FieldsConfiguration | FilesConfiguration | FormFieldConfiguration | FrontComponentConfiguration | IframeConfiguration | KpiNumberConfiguration | LineChartConfiguration | MessageCampaignBodyConfiguration | MessageCampaignDetailsConfiguration | NextActionsConfiguration | NotesConfiguration | ObjectListConfiguration | PieChartConfiguration | PixChargeConfiguration | RecordTableConfiguration | StandaloneRichTextConfiguration | TasksConfiguration | TimelineConfiguration | ViewConfiguration | WhatsappChatsConfiguration | WhatsappConnectionConfiguration | WhatsappConversationConfiguration | WorkflowConfiguration | WorkflowRunConfiguration | WorkflowVersionConfiguration;
 
 export enum WidgetConfigurationType {
+  ACTION_BUTTONS = 'ACTION_BUTTONS',
   AGGREGATE_CHART = 'AGGREGATE_CHART',
   BAR_CHART = 'BAR_CHART',
   CALENDAR = 'CALENDAR',
@@ -8883,22 +9053,30 @@ export enum WidgetConfigurationType {
   FORM_FIELD = 'FORM_FIELD',
   FRONT_COMPONENT = 'FRONT_COMPONENT',
   IFRAME = 'IFRAME',
+  KPI_NUMBER = 'KPI_NUMBER',
   LINE_CHART = 'LINE_CHART',
   MESSAGE_CAMPAIGN_BODY = 'MESSAGE_CAMPAIGN_BODY',
   MESSAGE_CAMPAIGN_DETAILS = 'MESSAGE_CAMPAIGN_DETAILS',
+  NEXT_ACTIONS = 'NEXT_ACTIONS',
   NOTES = 'NOTES',
+  OBJECT_LIST = 'OBJECT_LIST',
   PIE_CHART = 'PIE_CHART',
+  PIX_CHARGE = 'PIX_CHARGE',
   RECORD_TABLE = 'RECORD_TABLE',
   STANDALONE_RICH_TEXT = 'STANDALONE_RICH_TEXT',
   TASKS = 'TASKS',
   TIMELINE = 'TIMELINE',
   VIEW = 'VIEW',
+  WHATSAPP_CHATS = 'WHATSAPP_CHATS',
+  WHATSAPP_CONNECTION = 'WHATSAPP_CONNECTION',
+  WHATSAPP_CONVERSATION = 'WHATSAPP_CONVERSATION',
   WORKFLOW = 'WORKFLOW',
   WORKFLOW_RUN = 'WORKFLOW_RUN',
   WORKFLOW_VERSION = 'WORKFLOW_VERSION'
 }
 
 export enum WidgetType {
+  ACTION_BUTTONS = 'ACTION_BUTTONS',
   CALENDAR = 'CALENDAR',
   CALL_RECORDING_SUMMARY = 'CALL_RECORDING_SUMMARY',
   CALL_RECORDING_TRANSCRIPT = 'CALL_RECORDING_TRANSCRIPT',
@@ -8914,14 +9092,21 @@ export enum WidgetType {
   FRONT_COMPONENT = 'FRONT_COMPONENT',
   GRAPH = 'GRAPH',
   IFRAME = 'IFRAME',
+  KPI_NUMBER = 'KPI_NUMBER',
   MESSAGE_CAMPAIGN_BODY = 'MESSAGE_CAMPAIGN_BODY',
   MESSAGE_CAMPAIGN_DETAILS = 'MESSAGE_CAMPAIGN_DETAILS',
+  NEXT_ACTIONS = 'NEXT_ACTIONS',
   NOTES = 'NOTES',
+  OBJECT_LIST = 'OBJECT_LIST',
+  PIX_CHARGE = 'PIX_CHARGE',
   RECORD_TABLE = 'RECORD_TABLE',
   STANDALONE_RICH_TEXT = 'STANDALONE_RICH_TEXT',
   TASKS = 'TASKS',
   TIMELINE = 'TIMELINE',
   VIEW = 'VIEW',
+  WHATSAPP_CHATS = 'WHATSAPP_CHATS',
+  WHATSAPP_CONNECTION = 'WHATSAPP_CONNECTION',
+  WHATSAPP_CONVERSATION = 'WHATSAPP_CONVERSATION',
   WORKFLOW = 'WORKFLOW',
   WORKFLOW_RUN = 'WORKFLOW_RUN',
   WORKFLOW_VERSION = 'WORKFLOW_VERSION'

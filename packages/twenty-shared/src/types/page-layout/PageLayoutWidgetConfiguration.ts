@@ -100,7 +100,17 @@ export type RecordTableConfiguration = {
 export type FieldConfiguration = {
   configurationType: 'FIELD';
   fieldMetadataId: string;
-  fieldDisplayMode: 'CARD' | 'EDITOR' | 'FIELD' | 'VIEW' | 'TABLE';
+  fieldDisplayMode:
+    | 'CARD'
+    | 'EDITOR'
+    | 'FIELD'
+    | 'OPTIONS'
+    | 'STEPPER'
+    | 'TILES'
+    | 'ROW'
+    | 'LINK'
+    | 'VIEW'
+    | 'TABLE';
   viewId?: string;
   // One-to-many relation field on the target object, for records two hops away (e.g. Company -> People -> Owned opportunities).
   nestedRelationFieldMetadataId?: string | null;
@@ -207,6 +217,52 @@ export type ChatConfiguration = {
   configurationType: 'CHAT';
 };
 
+export type WhatsappConnectionConfiguration = {
+  configurationType: 'WHATSAPP_CONNECTION';
+};
+
+export type WhatsappConversationConfiguration = {
+  configurationType: 'WHATSAPP_CONVERSATION';
+};
+
+export type PixChargeConfiguration = {
+  configurationType: 'PIX_CHARGE';
+};
+
+export type WhatsappChatsConfiguration = {
+  configurationType: 'WHATSAPP_CHATS';
+};
+
+export type ObjectListDisplayMode = 'LIST' | 'TABLE';
+
+export type ObjectListConfiguration = {
+  configurationType: 'OBJECT_LIST';
+  objectMetadataId?: string | null;
+  fieldMetadataIds?: string[] | null;
+  displayMode?: ObjectListDisplayMode | null;
+};
+
+export type KpiNumberAggregateOperation = 'COUNT' | 'SUM' | 'AVG';
+
+export type KpiNumberPeriod = 'WEEK' | 'MONTH' | 'QUARTER' | 'YEAR';
+
+export type KpiNumberConfiguration = {
+  configurationType: 'KPI_NUMBER';
+  objectMetadataId?: string | null;
+  kpiOperation?: KpiNumberAggregateOperation | null;
+  kpiFieldMetadataId?: string | null;
+  period?: KpiNumberPeriod | null;
+};
+
+export type ActionButtonsConfiguration = {
+  configurationType: 'ACTION_BUTTONS';
+  commandMenuItemIds?: string[] | null;
+};
+
+export type NextActionsConfiguration = {
+  configurationType: 'NEXT_ACTIONS';
+};
+
 export type PageLayoutWidgetConfiguration =
   | AggregateChartConfiguration
   | PieChartConfiguration
@@ -236,4 +292,12 @@ export type PageLayoutWidgetConfiguration =
   | CallRecordingSummaryConfiguration
   | CallRecordingTranscriptConfiguration
   | ChatThreadsConfiguration
-  | ChatConfiguration;
+  | ChatConfiguration
+  | WhatsappConnectionConfiguration
+  | WhatsappConversationConfiguration
+  | PixChargeConfiguration
+  | WhatsappChatsConfiguration
+  | ObjectListConfiguration
+  | KpiNumberConfiguration
+  | ActionButtonsConfiguration
+  | NextActionsConfiguration;

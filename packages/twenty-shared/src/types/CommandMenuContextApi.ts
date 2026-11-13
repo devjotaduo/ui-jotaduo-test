@@ -11,6 +11,8 @@ export type CommandMenuCurrentView = {
 export type CommandMenuContextApi = {
   pageType: ContextStorePageType;
   isInSidePanel: boolean;
+  // On AppPath.RecordStandaloneShowPage: a record page detached from its object's list
+  isStandaloneRecordPage: boolean;
   isDashboardPageLayoutInEditMode: boolean;
   isLayoutCustomizationModeEnabled: boolean;
   favoriteRecordIds: string[];

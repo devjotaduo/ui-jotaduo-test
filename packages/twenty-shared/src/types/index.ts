@@ -250,6 +250,17 @@ export type {
   WorkflowRunConfiguration,
   ChatThreadsConfiguration,
   ChatConfiguration,
+  WhatsappConnectionConfiguration,
+  WhatsappConversationConfiguration,
+  PixChargeConfiguration,
+  WhatsappChatsConfiguration,
+  ObjectListDisplayMode,
+  ObjectListConfiguration,
+  KpiNumberAggregateOperation,
+  KpiNumberPeriod,
+  KpiNumberConfiguration,
+  ActionButtonsConfiguration,
+  NextActionsConfiguration,
   PageLayoutWidgetConfiguration,
 } from './page-layout/PageLayoutWidgetConfiguration';
 export type {
@@ -304,6 +315,7 @@ export type {
   OrObjectRecordFilter,
   NotObjectRecordFilter,
   LeafObjectRecordFilter,
+  RelationObjectRecordFilter,
   RecordGqlOperationFilter,
 } from './RecordGqlOperationFilter';
 export type { RecordGqlOperationOrderBy } from './RecordGqlOperationOrderBy';

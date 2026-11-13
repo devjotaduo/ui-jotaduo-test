@@ -5,6 +5,7 @@ import { type NavigationMenuItem } from '~/generated-metadata/graphql';
 
 import { NavigationMenuItemDroppableIds } from '@/navigation-menu-item/common/constants/NavigationMenuItemDroppableIds';
 import { useDeleteManyNavigationMenuItems } from '@/navigation-menu-item/common/hooks/useDeleteManyNavigationMenuItems';
+import { getNavigationMenuItemBehavior } from '@/navigation-menu-item/common/utils/getNavigationMenuItemBehavior';
 import { NavigationMenuItemIcon } from '@/navigation-menu-item/display/components/NavigationMenuItemIcon';
 import { NavigationMenuItemSortableItem } from '@/navigation-menu-item/display/dnd/components/NavigationMenuItemSortableItem';
 import { getNavigationMenuItemObjectNameSingular } from '@/navigation-menu-item/display/object/utils/getNavigationMenuItemObjectNameSingular';
@@ -70,7 +71,10 @@ export const NavigationMenuItemFolderContent = ({
           >
             <NavigationDrawerItem
               secondaryLabel={
-                navigationMenuItem.type === NavigationMenuItemType.NATIVE_PAGE
+                navigationMenuItem.type ===
+                  NavigationMenuItemType.NATIVE_PAGE ||
+                !getNavigationMenuItemBehavior(navigationMenuItem)
+                  .showsObjectLabel
                   ? undefined
                   : getObjectNavigationMenuItemSecondaryLabel({
                       isView:
@@ -87,16 +91,19 @@ export const NavigationMenuItemFolderContent = ({
                 />
               )}
               rightOptions={
-                <LightIconButton
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deleteManyNavigationMenuItems([navigationMenuItem.id]);
-                  }}
-                  emphasis="subtle"
-                  aria-label={t`Remove from favorites`}
-                >
-                  <IconHeartOff />
-                </LightIconButton>
+                !getNavigationMenuItemBehavior(navigationMenuItem)
+                  .canQuickUnpin ? undefined : (
+                  <LightIconButton
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteManyNavigationMenuItems([navigationMenuItem.id]);
+                    }}
+                    emphasis="subtle"
+                    aria-label={t`Remove from favorites`}
+                  >
+                    <IconHeartOff />
+                  </LightIconButton>
+                )
               }
               triggerEvent="CLICK"
               to={computedLink}

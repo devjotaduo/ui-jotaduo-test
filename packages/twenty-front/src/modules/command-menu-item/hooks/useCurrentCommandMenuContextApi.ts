@@ -1,5 +1,5 @@
 import { agentChatThreadParticipantsState } from '@/ai/states/agentChatThreadParticipantsState';
-import { agentChatShownChannelViewSelector } from '@/ai/states/selectors/agentChatShownChannelViewSelector';
+import { agentChatSelectedChannelViewSelector } from '@/ai/states/selectors/agentChatSelectedChannelViewSelector';
 import { agentChatThreadInboxStatusByThreadIdFamilySelector } from '@/ai/states/selectors/agentChatThreadInboxStatusByThreadIdFamilySelector';
 import { currentUserState } from '@/auth/states/currentUserState';
 import { currentWorkspaceState } from '@/auth/states/currentWorkspaceState';
@@ -7,6 +7,7 @@ import { EMPTY_COMMAND_MENU_CONTEXT_API } from '@/command-menu-item/constants/Em
 import { commandMenuTargetObjectPermissionsSelector } from '@/command-menu-item/states/commandMenuTargetObjectPermissionsSelector';
 import { getCommandMenuContextApiObjectPermissions } from '@/command-menu-item/utils/getCommandMenuContextApiObjectPermissions';
 import { contextStoreCurrentCoreObjectNameComponentState } from '@/context-store/states/contextStoreCurrentCoreObjectNameComponentState';
+import { contextStoreIsStandaloneRecordPageComponentState } from '@/context-store/states/contextStoreIsStandaloneRecordPageComponentState';
 import { contextStoreCurrentObjectMetadataItemIdComponentState } from '@/context-store/states/contextStoreCurrentObjectMetadataItemIdComponentState';
 import { MAIN_CONTEXT_STORE_INSTANCE_ID } from '@/context-store/constants/MainContextStoreInstanceId';
 import { useContextStoreInstanceId } from '@/context-store/hooks/useContextStoreInstanceId';
@@ -53,6 +54,10 @@ export const useCurrentCommandMenuContextApi = (): CommandMenuContextApi => {
 
   const contextStoreCurrentObjectMetadataItemId = useAtomComponentStateValue(
     contextStoreCurrentObjectMetadataItemIdComponentState,
+  );
+
+  const contextStoreIsStandaloneRecordPage = useAtomComponentStateValue(
+    contextStoreIsStandaloneRecordPageComponentState,
   );
 
   const contextStoreCurrentCoreObjectName = useAtomComponentStateValue(
@@ -116,8 +121,8 @@ export const useCurrentCommandMenuContextApi = (): CommandMenuContextApi => {
     isDefined(agentChatThreadParticipants)
       ? (recordIds ?? [])
       : [];
-  const agentChatShownChannelView = useAtomStateValue(
-    agentChatShownChannelViewSelector,
+  const agentChatSelectedChannelView = useAtomStateValue(
+    agentChatSelectedChannelViewSelector,
   );
   const agentChatThreadInboxStatusByThreadId = useAtomFamilySelectorValue(
     agentChatThreadInboxStatusByThreadIdFamilySelector,
@@ -126,7 +131,7 @@ export const useCurrentCommandMenuContextApi = (): CommandMenuContextApi => {
       // Every menu on the inbox page, the open chat's included, files the
       // chats of the channel on screen for the channel
       channelId: isAiChatInboxPath(location.pathname)
-        ? (agentChatShownChannelView?.channelId ?? null)
+        ? (agentChatSelectedChannelView?.channelId ?? null)
         : null,
     },
   );
@@ -226,6 +231,7 @@ export const useCurrentCommandMenuContextApi = (): CommandMenuContextApi => {
   return {
     pageType,
     isInSidePanel,
+    isStandaloneRecordPage: contextStoreIsStandaloneRecordPage,
     isDashboardPageLayoutInEditMode: isDashboardInEditMode,
     isLayoutCustomizationModeEnabled,
     favoriteRecordIds,

@@ -50,6 +50,7 @@ export const StandalonePageCommandMenu = () => {
     return {
       pageType: ContextStorePageType.Standalone,
       isInSidePanel: false,
+      isStandaloneRecordPage: false,
       isDashboardPageLayoutInEditMode: false,
       isLayoutCustomizationModeEnabled,
       favoriteRecordIds: [],

@@ -2,6 +2,14 @@ import { AggregateChartConfigurationDTO } from 'src/engine/metadata-modules/page
 import { CallRecordingSummaryConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/call-recording-summary-configuration.dto';
 import { CallRecordingTranscriptConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/call-recording-transcript-configuration.dto';
 import { ChatConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/chat-configuration.dto';
+import { WhatsappConnectionConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/whatsapp-connection-configuration.dto';
+import { WhatsappConversationConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/whatsapp-conversation-configuration.dto';
+import { PixChargeConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/pix-charge-configuration.dto';
+import { WhatsappChatsConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/whatsapp-chats-configuration.dto';
+import { ObjectListConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/object-list-configuration.dto';
+import { KpiNumberConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/kpi-number-configuration.dto';
+import { ActionButtonsConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/action-buttons-configuration.dto';
+import { NextActionsConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/next-actions-configuration.dto';
 import { ChatThreadsConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/chat-threads-configuration.dto';
 import { EmailThreadConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/email-thread-configuration.dto';
 import { MessageCampaignBodyConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/message-campaign-body-configuration.dto';
@@ -46,6 +54,14 @@ export const ALL_WIDGET_CONFIGURATION_TYPE_VALIDATOR_BY_WIDGET_CONFIGURATION_TYP
     CALL_RECORDING_TRANSCRIPT: CallRecordingTranscriptConfigurationDTO,
     CHAT_THREADS: ChatThreadsConfigurationDTO,
     CHAT: ChatConfigurationDTO,
+    WHATSAPP_CONNECTION: WhatsappConnectionConfigurationDTO,
+    WHATSAPP_CONVERSATION: WhatsappConversationConfigurationDTO,
+    PIX_CHARGE: PixChargeConfigurationDTO,
+    WHATSAPP_CHATS: WhatsappChatsConfigurationDTO,
+    OBJECT_LIST: ObjectListConfigurationDTO,
+    KPI_NUMBER: KpiNumberConfigurationDTO,
+    ACTION_BUTTONS: ActionButtonsConfigurationDTO,
+    NEXT_ACTIONS: NextActionsConfigurationDTO,
     MESSAGE_CAMPAIGN_BODY: MessageCampaignBodyConfigurationDTO,
     MESSAGE_CAMPAIGN_DETAILS: MessageCampaignDetailsConfigurationDTO,
     FIELD: FieldConfigurationDTO,

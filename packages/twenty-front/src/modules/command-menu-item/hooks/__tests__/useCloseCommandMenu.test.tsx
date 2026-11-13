@@ -46,6 +46,7 @@ const getWrapper =
         commandMenuContextApi: {
           pageType: ContextStorePageType.Index,
           isInSidePanel,
+          isStandaloneRecordPage: false,
           isDashboardPageLayoutInEditMode: false,
           isLayoutCustomizationModeEnabled: false,
           favoriteRecordIds: [],

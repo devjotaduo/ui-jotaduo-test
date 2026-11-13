@@ -5,6 +5,14 @@ import { BarChartConfigurationDTO } from 'src/engine/metadata-modules/page-layou
 import { CallRecordingSummaryConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/call-recording-summary-configuration.dto';
 import { CallRecordingTranscriptConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/call-recording-transcript-configuration.dto';
 import { ChatConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/chat-configuration.dto';
+import { WhatsappConnectionConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/whatsapp-connection-configuration.dto';
+import { WhatsappConversationConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/whatsapp-conversation-configuration.dto';
+import { PixChargeConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/pix-charge-configuration.dto';
+import { WhatsappChatsConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/whatsapp-chats-configuration.dto';
+import { ObjectListConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/object-list-configuration.dto';
+import { KpiNumberConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/kpi-number-configuration.dto';
+import { ActionButtonsConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/action-buttons-configuration.dto';
+import { NextActionsConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/next-actions-configuration.dto';
 import { ChatThreadsConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/chat-threads-configuration.dto';
 import { EmailThreadConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/email-thread-configuration.dto';
 import { FormFieldConfigurationDTO } from 'src/engine/metadata-modules/page-layout-widget/dtos/form-field-configuration.dto';
@@ -156,6 +164,54 @@ export const validateWidgetConfigurationInput = ({
     case WidgetConfigurationType.CHAT:
       errors = validateWidgetConfigurationByDto(
         ChatConfigurationDTO,
+        configuration,
+      );
+      break;
+    case WidgetConfigurationType.WHATSAPP_CONNECTION:
+      errors = validateWidgetConfigurationByDto(
+        WhatsappConnectionConfigurationDTO,
+        configuration,
+      );
+      break;
+    case WidgetConfigurationType.WHATSAPP_CONVERSATION:
+      errors = validateWidgetConfigurationByDto(
+        WhatsappConversationConfigurationDTO,
+        configuration,
+      );
+      break;
+    case WidgetConfigurationType.PIX_CHARGE:
+      errors = validateWidgetConfigurationByDto(
+        PixChargeConfigurationDTO,
+        configuration,
+      );
+      break;
+    case WidgetConfigurationType.WHATSAPP_CHATS:
+      errors = validateWidgetConfigurationByDto(
+        WhatsappChatsConfigurationDTO,
+        configuration,
+      );
+      break;
+    case WidgetConfigurationType.OBJECT_LIST:
+      errors = validateWidgetConfigurationByDto(
+        ObjectListConfigurationDTO,
+        configuration,
+      );
+      break;
+    case WidgetConfigurationType.KPI_NUMBER:
+      errors = validateWidgetConfigurationByDto(
+        KpiNumberConfigurationDTO,
+        configuration,
+      );
+      break;
+    case WidgetConfigurationType.ACTION_BUTTONS:
+      errors = validateWidgetConfigurationByDto(
+        ActionButtonsConfigurationDTO,
+        configuration,
+      );
+      break;
+    case WidgetConfigurationType.NEXT_ACTIONS:
+      errors = validateWidgetConfigurationByDto(
+        NextActionsConfigurationDTO,
         configuration,
       );
       break;
