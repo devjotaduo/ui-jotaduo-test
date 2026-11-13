@@ -1,4 +1,6 @@
 import { type FieldMetadataItem } from '@/object-metadata/types/FieldMetadataItem';
+import { getLabelIdentifierFieldValue } from '@/object-metadata/utils/getLabelIdentifierFieldValue';
+import { type ObjectRecord } from '@/object-record/types/ObjectRecord';
 import { isNonEmptyString, isNumber, isObject, isString } from '@sniptt/guards';
 import { FieldMetadataType } from 'twenty-shared/types';
 import {
@@ -54,11 +56,13 @@ export const formatObjectListFieldValue = ({
   value,
   locale,
   booleanLabels,
+  relationLabelField,
 }: {
   field: Pick<FieldMetadataItem, 'type' | 'options'>;
   value: unknown;
   locale: string;
   booleanLabels: { yes: string; no: string };
+  relationLabelField?: FieldMetadataItem;
 }): ObjectListFieldDisplay => {
   if (!isDefined(value) || value === '') {
     return EMPTY;
@@ -167,8 +171,17 @@ export const formatObjectListFieldValue = ({
     }
     case FieldMetadataType.ACTOR:
       return text(readString(value, 'name'));
-    case FieldMetadataType.RELATION:
-      return text(getRelationLabel(value));
+    case FieldMetadataType.RELATION: {
+      const label =
+        isDefined(relationLabelField) && isObject(value)
+          ? getLabelIdentifierFieldValue(
+              value as ObjectRecord,
+              relationLabelField,
+            ).trim()
+          : '';
+
+      return text(isNonEmptyString(label) ? label : getRelationLabel(value));
+    }
     case FieldMetadataType.ARRAY:
       return text(Array.isArray(value) ? value.join(', ') : '');
     default:

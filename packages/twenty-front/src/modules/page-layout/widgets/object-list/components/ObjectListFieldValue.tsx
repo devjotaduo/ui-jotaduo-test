@@ -1,4 +1,6 @@
+import { useObjectMetadataItems } from '@/object-metadata/hooks/useObjectMetadataItems';
 import { type FieldMetadataItem } from '@/object-metadata/types/FieldMetadataItem';
+import { getObjectListRelationLabelField } from '@/page-layout/widgets/object-list/utils/getObjectListRelationLabelField';
 import { formatObjectListFieldValue } from '@/page-layout/widgets/object-list/utils/formatObjectListFieldValue';
 import { styled } from '@linaria/react';
 import { useLingui } from '@lingui/react/macro';
@@ -14,7 +16,7 @@ const StyledTags = styled.span`
 `;
 
 type ObjectListFieldValueProps = {
-  field: Pick<FieldMetadataItem, 'type' | 'options'>;
+  field: Pick<FieldMetadataItem, 'type' | 'options' | 'relation'>;
   value: unknown;
 };
 
@@ -23,12 +25,17 @@ export const ObjectListFieldValue = ({
   value,
 }: ObjectListFieldValueProps) => {
   const { t, i18n } = useLingui();
+  const { objectMetadataItems } = useObjectMetadataItems();
 
   const display = formatObjectListFieldValue({
     field,
     value,
     locale: i18n.locale,
     booleanLabels: { yes: t`Yes`, no: t`No` },
+    relationLabelField: getObjectListRelationLabelField({
+      field,
+      objectMetadataItems,
+    }),
   });
 
   if (display.kind === 'tags') {

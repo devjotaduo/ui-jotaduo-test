@@ -1,3 +1,5 @@
+import { useObjectMetadataItems } from '@/object-metadata/hooks/useObjectMetadataItems';
+import { getObjectListRelationLabelField } from '@/page-layout/widgets/object-list/utils/getObjectListRelationLabelField';
 import { type FieldMetadataItem } from '@/object-metadata/types/FieldMetadataItem';
 import { type ObjectRecord } from '@/object-record/types/ObjectRecord';
 import { ObjectListFieldValue } from '@/page-layout/widgets/object-list/components/ObjectListFieldValue';
@@ -81,6 +83,11 @@ export const ObjectListItems = ({
   onOpenRecord,
 }: ObjectListItemsProps) => {
   const { t, i18n } = useLingui();
+  const { objectMetadataItems } = useObjectMetadataItems();
+  const titleRelationLabelField = getObjectListRelationLabelField({
+    field: titleField,
+    objectMetadataItems,
+  });
 
   return (
     <StyledList>
@@ -90,6 +97,7 @@ export const ObjectListItems = ({
           value: record[titleField.name],
           locale: i18n.locale,
           booleanLabels: { yes: t`Yes`, no: t`No` },
+          relationLabelField: titleRelationLabelField,
         });
         const title =
           titleDisplay.kind === 'text' && titleDisplay.text.length > 0

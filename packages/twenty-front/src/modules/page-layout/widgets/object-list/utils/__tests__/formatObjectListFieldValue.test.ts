@@ -1,3 +1,4 @@
+import { type FieldMetadataItem } from '@/object-metadata/types/FieldMetadataItem';
 import { formatObjectListFieldValue } from '@/page-layout/widgets/object-list/utils/formatObjectListFieldValue';
 import { FieldMetadataType } from 'twenty-shared/types';
 
@@ -67,5 +68,20 @@ describe('formatObjectListFieldValue', () => {
       kind: 'text',
       text: 'Nov 13, 2026',
     });
+  });
+
+  it('should label a related record with the label field of its object', () => {
+    expect(
+      formatObjectListFieldValue({
+        field: { type: FieldMetadataType.RELATION, options: [] },
+        value: { id: 'invoice-1', invoiceNumber: 'INV-123' },
+        locale: 'en-US',
+        booleanLabels: { yes: 'Yes', no: 'No' },
+        relationLabelField: {
+          name: 'invoiceNumber',
+          type: FieldMetadataType.TEXT,
+        } as FieldMetadataItem,
+      }),
+    ).toEqual({ kind: 'text', text: 'INV-123' });
   });
 });
