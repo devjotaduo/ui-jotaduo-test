@@ -61,4 +61,11 @@ describe('formatObjectListFieldValue', () => {
       text: '',
     });
   });
+
+  it('should keep the calendar day of a date-only value', () => {
+    expect(format(FieldMetadataType.DATE, '2026-11-13')).toEqual({
+      kind: 'text',
+      text: 'Nov 13, 2026',
+    });
+  });
 });

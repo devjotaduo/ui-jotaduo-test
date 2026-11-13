@@ -123,9 +123,10 @@ export const formatObjectListFieldValue = ({
         : text(
             new Intl.DateTimeFormat(locale, {
               dateStyle: 'medium',
+              // A date-only value parses as UTC midnight; reading it in UTC keeps its calendar day
               ...(field.type === FieldMetadataType.DATE_TIME
                 ? { timeStyle: 'short' }
-                : {}),
+                : { timeZone: 'UTC' }),
             }).format(date),
           );
     }
