@@ -9,12 +9,15 @@ import { createEmptyFlatEntityMaps } from 'src/engine/metadata-modules/flat-enti
 import { type FlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/flat-entity-maps.type';
 import { getFlatFieldMetadataMock } from 'src/engine/metadata-modules/flat-field-metadata/__mocks__/get-flat-field-metadata.mock';
 import { type FlatFieldMetadata } from 'src/engine/metadata-modules/flat-field-metadata/types/flat-field-metadata.type';
+import { getFlatObjectMetadataMock } from 'src/engine/metadata-modules/flat-object-metadata/__mocks__/get-flat-object-metadata.mock';
 import { type FlatFrontComponent } from 'src/engine/metadata-modules/flat-front-component/types/flat-front-component.type';
 import { FieldDisplayMode } from 'src/engine/metadata-modules/page-layout-widget/enums/field-display-mode.enum';
 import { WidgetConfigurationType } from 'src/engine/metadata-modules/page-layout-widget/enums/widget-configuration-type.type';
 import { fromUniversalConfigurationToFlatPageLayoutWidgetConfiguration } from 'src/engine/workspace-manager/workspace-migration/workspace-migration-runner/action-handlers/page-layout-widget/services/utils/from-universal-configuration-to-flat-page-layout-widget-configuration.util';
 
 const OBJECT_METADATA_ID = '00000000-0000-4000-8000-000000000000';
+const OBJECT_METADATA_UNIVERSAL_IDENTIFIER =
+  '20202020-0000-4000-8000-000000000000';
 const RELATION_FIELD_ID = '11111111-1111-4111-8111-000000000001';
 const RELATION_FIELD_UNIVERSAL_IDENTIFIER =
   '20202020-1111-4111-8111-000000000001';
@@ -200,6 +203,33 @@ describe('fromUniversalConfigurationToFlatPageLayoutWidgetConfiguration', () => 
       objectMetadataId: 'unknown-object',
       kpiFieldMetadataId: AGGREGATE_FIELD_ID,
     });
+  });
+
+  it('should resolve the object of a key number widget', () => {
+    const flatObjectMetadata = getFlatObjectMetadataMock({
+      id: OBJECT_METADATA_ID,
+      universalIdentifier: OBJECT_METADATA_UNIVERSAL_IDENTIFIER,
+    });
+
+    expect(
+      fromUniversalConfigurationToFlatPageLayoutWidgetConfiguration({
+        universalConfiguration: {
+          configurationType: WidgetConfigurationType.KPI_NUMBER,
+          objectMetadataId: OBJECT_METADATA_UNIVERSAL_IDENTIFIER,
+        },
+        flatFieldMetadataMaps,
+        flatFrontComponentMaps: createEmptyFlatEntityMaps(),
+        flatViewMaps: createEmptyFlatEntityMaps(),
+        flatViewFieldGroupMaps: createEmptyFlatEntityMaps(),
+        flatObjectMetadataMaps: {
+          ...createEmptyFlatEntityMaps(),
+          byUniversalIdentifier: {
+            [OBJECT_METADATA_UNIVERSAL_IDENTIFIER]: flatObjectMetadata,
+          },
+        },
+        flatCommandMenuItemMaps: createEmptyFlatEntityMaps(),
+      }),
+    ).toMatchObject({ objectMetadataId: OBJECT_METADATA_ID });
   });
 
   it('should resolve the fields of a records list widget', () => {
